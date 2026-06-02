@@ -31,17 +31,17 @@ export function MessagesPage() {
 
   return (
     <PageShell description="送信内容はローカルstateにのみ追加されます。" eyebrow="Message" title={`${user.name}さんとのDM`}>
-      <Card className="flex min-h-[56vh] flex-col gap-3">
-        <div className="flex-1 space-y-3">
+      <Card className="flex min-h-[56vh] flex-col gap-2.5">
+        <div className="flex-1 space-y-2.5">
           {messages.map((message) => (
             <div className={`flex ${message.from === 'me' ? 'justify-end' : 'justify-start'}`} key={message.id}>
-              <p className={`max-w-[78%] rounded-3xl px-4 py-3 text-sm leading-6 ${message.from === 'me' ? 'bg-theme-main text-white' : 'bg-theme-accent-soft text-theme-text'}`}>{message.body}</p>
+              <p className={`max-w-[78%] rounded-[1.15rem] px-3.5 py-2.5 text-[13px] leading-5 ${message.from === 'me' ? 'bg-theme-main text-white' : 'bg-theme-accent-soft text-theme-text'}`}>{message.body}</p>
             </div>
           ))}
         </div>
         <div className="flex items-end gap-2 border-t border-theme-main/10 pt-3">
-          <Input className="min-h-11" name="message" onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') sendMessage(); }} placeholder="メッセージを書く" value={draft} />
-          <Button className="min-h-11 px-4" onClick={sendMessage}><Send size={17} /></Button>
+          <Input className="min-h-10" name="message" onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') sendMessage(); }} placeholder="メッセージを書く" value={draft} />
+          <Button className="min-h-10 px-4" onClick={sendMessage}><Send size={17} /></Button>
         </div>
       </Card>
     </PageShell>

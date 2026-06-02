@@ -18,11 +18,11 @@ export function LikesPage() {
 
 function LikeSection({ title, users }: { title: string; users: typeof mockUsers }) {
   return (
-    <Card className="space-y-3">
+    <Card className="space-y-2.5">
       <h2 className="font-black">{title}</h2>
       {users.map((user) => (
-        <div className="flex items-center gap-3 rounded-3xl bg-theme-accent-soft/45 p-3" key={user.id}>
-          <span className={`flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br ${user.gradient} font-black text-theme-main-dark`}>{user.name.slice(0, 1)}</span>
+        <div className="flex items-center gap-2.5 rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5" key={user.id}>
+          <span className={`flex size-10 items-center justify-center rounded-xl bg-gradient-to-br ${user.gradient} font-black text-theme-main-dark`}>{user.name.slice(0, 1)}</span>
           <span className="min-w-0 flex-1"><span className="block font-bold">{user.name}</span><span className="block text-xs text-theme-muted">{user.location}</span></span>
           <Badge><Heart size={12} />Demo</Badge>
         </div>
