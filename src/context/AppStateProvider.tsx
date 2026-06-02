@@ -58,6 +58,7 @@ type AppStateContextValue = AppState & {
   reportUser: (userId: string) => void;
   sendMessage: (matchId: string, body: string) => void;
   ensureMatchMessages: (matchId: string) => void;
+  resetDemoState: () => void;
   isLiked: (userId: string) => boolean;
   isMatched: (userId: string) => boolean;
   isBlocked: (userId: string) => boolean;
@@ -93,6 +94,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         onboardingCompleted: true,
         themePreference: profile.themePreference,
       }));
+    }
+
+    function resetDemoState() {
+      const nextState = createDefaultAppState();
+      setAppState(nextState);
+      saveToStorage(APP_STATE_STORAGE_KEY, nextState);
     }
 
     function setThemePreference(themeId: ThemeId) {
@@ -172,6 +179,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       reportUser,
       sendMessage,
       ensureMatchMessages,
+      resetDemoState,
       isLiked: (userId: string) => appState.likedUserIds.includes(userId),
       isMatched: (userId: string) => appState.matchedUserIds.includes(userId),
       isBlocked: (userId: string) => appState.blockedUserIds.includes(userId),
