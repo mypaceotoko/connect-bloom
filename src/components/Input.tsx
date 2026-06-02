@@ -13,7 +13,7 @@ export function Input({ className, label, id, ...props }: InputProps) {
       {label ? <span>{label}</span> : null}
       <input
         className={cn(
-          'min-h-12 w-full rounded-2xl border border-theme-main/20 bg-white/70 px-4 text-theme-text outline-none transition placeholder:text-theme-muted focus:border-theme-main focus:ring-4 focus:ring-theme-main/15',
+          'theme-input min-h-12 w-full rounded-2xl border px-4 outline-none transition',
           className,
         )}
         id={inputId}
