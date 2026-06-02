@@ -22,6 +22,12 @@
   --color-card: #ffffff;
   --color-text: #2f3a34;
   --color-muted: #7a8a80;
+  --color-input-bg: rgb(255 255 255 / 0.78);
+  --color-input-text: var(--color-text);
+  --color-input-placeholder: color-mix(in srgb, var(--color-muted) 88%, var(--color-text));
+  --color-input-border: color-mix(in srgb, var(--color-main) 24%, transparent);
+  --color-input-focus: var(--color-main);
+  --color-input-focus-ring: color-mix(in srgb, var(--color-main) 18%, transparent);
 }
 
 [data-theme='sakura'] {
@@ -66,6 +72,12 @@
   --color-card: #213128;
   --color-text: #f4fff8;
   --color-muted: #afc8b7;
+  --color-input-bg: rgb(255 255 255 / 0.1);
+  --color-input-text: #fafffc;
+  --color-input-placeholder: rgb(244 255 248 / 0.72);
+  --color-input-border: rgb(244 255 248 / 0.24);
+  --color-input-focus: var(--color-accent);
+  --color-input-focus-ring: rgb(244 140 168 / 0.22);
 }
 
 * {
@@ -97,6 +109,22 @@ textarea {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+.theme-input {
+  color: var(--color-input-text);
+  background: var(--color-input-bg);
+  border-color: var(--color-input-border);
+}
+
+.theme-input::placeholder {
+  color: var(--color-input-placeholder);
+  opacity: 1;
+}
+
+.theme-input:focus {
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 0 4px var(--color-input-focus-ring);
 }
 
 .soft-shadow {
