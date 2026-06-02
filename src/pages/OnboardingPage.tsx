@@ -10,6 +10,8 @@ import { PageShell } from '../components/PageShell';
 import { ThemeSwitcher } from '../components/ThemeSwitcher';
 import { useTheme } from '../context/ThemeProvider';
 import { useAppState } from '../hooks/useAppState';
+import { useAuth } from '../hooks/useAuth';
+import { upsertMyProfile } from '../lib/profileApi';
 import type { CurrentUserProfile } from '../types/user';
 
 const tags = ['読書', '映画', '散歩', '料理', '花', 'カフェ', '旅行', '音楽'];
@@ -18,6 +20,7 @@ const steps = ['基本情報', '温度感', 'テーマ'];
 export function OnboardingPage() {
   const navigate = useNavigate();
   const { currentUser, completeOnboarding } = useAppState();
+  const { isAuthenticated, isSupabaseMode, user } = useAuth();
   const { themeId } = useTheme();
   const [form, setForm] = useState({
     name: currentUser.name,
@@ -28,6 +31,7 @@ export function OnboardingPage() {
     interests: currentUser.interests,
   });
   const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
   function updateField(field: keyof typeof form, value: string | string[]) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -40,7 +44,7 @@ export function OnboardingPage() {
     }));
   }
 
-  function handleComplete() {
+  async function handleComplete() {
     const age = Number(form.age);
     if (!form.name.trim() || !form.location.trim() || !form.datingTemperature || form.interests.length === 0 || Number.isNaN(age) || age < 18) {
       setError('表示名・年齢（18歳以上）・地域・温度感・趣味タグを入力してください。');
@@ -58,12 +62,38 @@ export function OnboardingPage() {
       themePreference: themeId,
     };
 
-    completeOnboarding(profile);
-    navigate('/home');
+    setSaving(true);
+    setError('');
+
+    try {
+      if (isSupabaseMode && isAuthenticated && user) {
+        await upsertMyProfile({
+          id: user.id,
+          display_name: profile.name,
+          age: profile.age,
+          location: profile.location,
+          occupation: profile.occupation,
+          bio: profile.bio,
+          interests: profile.interests,
+          relationship_goal: profile.relationshipGoal,
+          dating_temperature: profile.datingTemperature,
+          onboarding_completed: true,
+          visibility: 'public',
+          role: 'user',
+        });
+      }
+
+      completeOnboarding(profile);
+      navigate('/home');
+    } catch (caughtError) {
+      setError(caughtError instanceof Error ? caughtError.message : 'プロフィール保存に失敗しました。時間をおいて再度お試しください。');
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
-    <PageShell description="入力内容はlocalStorageへ保存され、自分のプロフィールに反映されます。" eyebrow="First Bloom" title="はじめてのプロフィール">
+    <PageShell description={isSupabaseMode && isAuthenticated ? '入力内容はSupabase profilesへ保存し、移行期間中の表示安定のためlocalStorageにも反映します。' : '入力内容はlocalStorageへ保存され、自分のプロフィールに反映されます。'} eyebrow="First Bloom" title="はじめてのプロフィール">
       <Card className="flower-gradient border-0 p-1">
         <div className="rounded-[1.25rem] bg-theme-card/78 p-3.5 backdrop-blur">
           <div className="flex items-center gap-1.5 text-sm font-black text-theme-main-dark"><Flower2 size={18} />3ステップで、あなたらしい出会いの準備</div>
@@ -120,9 +150,9 @@ export function OnboardingPage() {
       </Card>
 
       <div className="sticky bottom-24 z-10 rounded-[1.25rem] border border-white/60 bg-theme-card/90 p-2.5 shadow-2xl shadow-theme-main/15 backdrop-blur">
-        <Button className="w-full" onClick={handleComplete}>
+        <Button className="w-full" disabled={saving} onClick={handleComplete}>
           <CheckCircle2 size={16} />
-          今日のご縁へ進む
+          {saving ? '保存中...' : '今日のご縁へ進む'}
           <ArrowRight size={16} />
         </Button>
       </div>

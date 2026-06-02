@@ -1,12 +1,43 @@
 import type { ReactNode } from 'react';
-import { Bell, Languages, Palette, ShieldCheck, UserRoundCheck } from 'lucide-react';
+import { Bell, Languages, LogOut, Palette, ShieldCheck, UserRoundCheck } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
 import { ThemeSwitcher } from '../components/ThemeSwitcher';
 import { useTheme } from '../context/ThemeProvider';
+import { useAppState } from '../hooks/useAppState';
+import { useAuth } from '../hooks/useAuth';
 
 export function SettingsPage() {
+  const navigate = useNavigate();
   const { currentTheme } = useTheme();
+  const { resetDemoState } = useAppState();
+  const { isAuthenticated, isSupabaseMode, signOut } = useAuth();
+  const [notice, setNotice] = useState('');
+  const [signingOut, setSigningOut] = useState(false);
+
+  async function handleSignOut() {
+    const confirmed = window.confirm('EnBloomからログアウトしますか？');
+    if (!confirmed) return;
+
+    setSigningOut(true);
+    setNotice('');
+
+    try {
+      if (isSupabaseMode && isAuthenticated) {
+        await signOut();
+      } else {
+        resetDemoState();
+      }
+      navigate('/login');
+    } catch (caughtError) {
+      setNotice(caughtError instanceof Error ? `ログアウトに失敗しました: ${caughtError.message}` : 'ログアウトに失敗しました。');
+    } finally {
+      setSigningOut(false);
+    }
+  }
 
   return (
     <PageShell description="テーマ設定のみlocalStorageへ保存します。他は将来実装のプレースホルダーです。" eyebrow="Settings" title="設定">
@@ -23,9 +54,30 @@ export function SettingsPage() {
         </div>
       </Card>
 
+      {!isSupabaseMode || !isAuthenticated ? (
+        <div className="rounded-full border border-theme-main/15 bg-theme-card/80 px-3 py-1.5 text-center text-[11px] font-black text-theme-main-dark shadow-sm">
+          ローカルデモ / Supabase未接続
+        </div>
+      ) : null}
+
+      {notice ? <div className="rounded-[1.15rem] bg-red-50 p-3 text-sm font-bold text-red-600">{notice}</div> : null}
+
       <Card className="space-y-3">
         <h2 className="text-sm font-black">テーマカラー</h2>
         <ThemeSwitcher />
+      </Card>
+
+      <Card className="space-y-3 bg-theme-card/86 py-3">
+        <div className="flex gap-2.5">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark"><LogOut size={18} /></span>
+          <span>
+            <span className="block text-sm font-black">ログアウト</span>
+            <span className="mt-0.5 block text-xs leading-5 text-theme-muted">Supabaseログイン時はセッションを終了し、デモ時はlocalStorageのデモ状態を初期化します。</span>
+          </span>
+        </div>
+        <Button className="w-full" disabled={signingOut} onClick={handleSignOut} variant="secondary">
+          {signingOut ? 'ログアウト中...' : 'ログアウト'}
+        </Button>
       </Card>
 
       <Placeholder icon={<Languages size={18} />} title="言語設定" body="日本語 / 英語切り替えは将来実装予定です。" />

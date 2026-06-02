@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { AdminPage } from './pages/AdminPage';
+import { AuthCallbackPage } from './pages/AuthCallbackPage';
 import { DiscoverPage } from './pages/DiscoverPage';
 import { HomePage } from './pages/HomePage';
 import { LandingPage } from './pages/LandingPage';
@@ -21,6 +22,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route element={<LandingPage />} index />
         <Route element={<LoginPage />} path="login" />
+        <Route element={<AuthCallbackPage />} path="auth/callback" />
         <Route element={<OnboardingPage />} path="onboarding" />
         <Route element={<HomePage />} path="home" />
         <Route element={<DiscoverPage />} path="discover" />

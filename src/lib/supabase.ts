@@ -1,13 +1,10 @@
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+
 type SupabaseEnvironment = {
   url: string;
   anonKey: string;
   isConfigured: boolean;
   missingKeys: string[];
-};
-
-type SupabaseClientPlaceholder = {
-  status: 'not-initialized';
-  reason: 'missing-env' | 'client-dependency-not-installed';
 };
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() ?? '';
@@ -27,6 +24,9 @@ export const supabaseConfig: SupabaseEnvironment = {
   missingKeys,
 };
 
+export const isSupabaseConfigured = supabaseConfig.isConfigured;
+export const supabaseConfigured = supabaseConfig.isConfigured;
+
 if (!supabaseConfig.isConfigured) {
   console.warn(
     `[EnBloom] Supabase is not configured yet. Missing: ${supabaseConfig.missingKeys.join(
@@ -35,14 +35,14 @@ if (!supabaseConfig.isConfigured) {
   );
 }
 
-// Phase 3 前半では本接続を開始せず、localStorageデモ体験を維持します。
-// 次フェーズで @supabase/supabase-js を導入できたら、ここで createClient を呼び出し、
-// アプリ全体の Supabase client export に差し替えます。
-export const supabase: SupabaseClientPlaceholder | null = supabaseConfig.isConfigured
-  ? {
-      status: 'not-initialized',
-      reason: 'client-dependency-not-installed',
-    }
+export const supabase: SupabaseClient | null = supabaseConfig.isConfigured
+  ? createClient(supabaseConfig.url, supabaseConfig.anonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    })
   : null;
 
 export function assertSupabaseConfigured(): boolean {
@@ -55,4 +55,14 @@ export function assertSupabaseConfigured(): boolean {
   );
 
   return false;
+}
+
+export function requireSupabaseClient(): SupabaseClient {
+  if (!supabase) {
+    throw new Error(
+      `Supabase is not configured. Missing environment variables: ${supabaseConfig.missingKeys.join(', ')}`,
+    );
+  }
+
+  return supabase;
 }
