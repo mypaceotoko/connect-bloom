@@ -1,20 +1,39 @@
 import { Heart, Leaf, MapPin, MessageCircleHeart, Sparkles, Sprout, Tags, UserRoundCheck } from 'lucide-react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { MockUser } from '../data/mockUsers';
+import { useAppState } from '../hooks/useAppState';
+import type { UserProfile } from '../types/user';
 import { Badge } from './Badge';
 import { Button } from './Button';
 import { Card } from './Card';
 
-type ProfileCardProps = {
-  user: MockUser;
+export type ProfileCardProps = {
+  user: UserProfile;
   compact?: boolean;
 };
 
 export function ProfileCard({ user, compact = false }: ProfileCardProps) {
+  const { isLiked, isMatched, toggleLike } = useAppState();
+  const [showMatch, setShowMatch] = useState(false);
   const previewBio = compact && user.bio.length > 58 ? `${user.bio.slice(0, 58)}...` : user.bio;
+  const liked = isLiked(user.id);
+  const matched = isMatched(user.id);
+
+  function handleLike() {
+    const becameMatched = toggleLike(user.id);
+    if (becameMatched) {
+      setShowMatch(true);
+    }
+  }
 
   return (
     <Card className="group overflow-hidden p-0 transition duration-300 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-theme-main/10">
+      {showMatch ? (
+        <div className="m-3 rounded-[1.15rem] border border-theme-accent/30 bg-theme-accent-soft/80 p-3 text-center shadow-sm">
+          <p className="text-sm font-black text-theme-text">ご縁が咲きました</p>
+          <p className="mt-1 text-xs font-bold text-theme-muted">{user.name}さんとマッチしました。まずはゆっくり話してみましょう。</p>
+        </div>
+      ) : null}
       <Link aria-label={`${user.name}さんの詳細を見る`} className="block" to={`/profile/${user.id}`}>
         <div className={`relative h-48 overflow-hidden bg-gradient-to-br ${user.gradient}`}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.85),transparent_28%),radial-gradient(circle_at_80%_74%,rgba(255,255,255,0.44),transparent_26%)]" />
@@ -24,7 +43,7 @@ export function ProfileCard({ user, compact = false }: ProfileCardProps) {
           </div>
           <Badge className="absolute right-3.5 top-3.5 border border-white/70 bg-white/78 text-theme-text backdrop-blur">
             <UserRoundCheck size={13} />
-            紹介経由
+            {matched ? 'マッチ済み' : '紹介経由'}
           </Badge>
           <div className="absolute bottom-3.5 left-3.5 flex items-end gap-2.5">
             <div className="flex size-20 items-center justify-center rounded-[1.45rem] border border-white/70 bg-white/78 text-3xl font-black text-theme-main-dark shadow-xl backdrop-blur">
@@ -78,9 +97,9 @@ export function ProfileCard({ user, compact = false }: ProfileCardProps) {
         </div>
 
         <div className="flex gap-2 pt-0.5">
-          <Button className="flex-1 bg-theme-accent text-white shadow-lg shadow-theme-accent/25 hover:bg-theme-accent/90" variant="secondary">
-            <Heart size={16} />
-            いいね
+          <Button className={`flex-1 shadow-lg ${liked ? 'bg-theme-accent text-white shadow-theme-accent/25 hover:bg-theme-accent/90' : 'bg-theme-accent-soft text-theme-text'}`} onClick={handleLike} variant="secondary">
+            <Heart fill={liked ? 'currentColor' : 'none'} size={16} />
+            {liked ? 'いいね済み' : 'いいね'}
           </Button>
           <Link className="flex-1" to={`/profile/${user.id}`}>
             <Button className="w-full">詳細を見る</Button>

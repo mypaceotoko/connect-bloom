@@ -1,19 +1,6 @@
-export type MockUser = {
-  id: string;
-  name: string;
-  age: number;
-  location: string;
-  occupation: string;
-  bio: string;
-  interests: string[];
-  datingTemperature: string;
-  relationshipGoal: string;
-  introducedBy: string;
-  photoUrl?: string;
-  gradient: string;
-};
+import type { CurrentUserProfile, UserProfile } from '../types/user';
 
-export const mockUsers: MockUser[] = [
+export const mockUsers: UserProfile[] = [
   {
     id: 'mio',
     name: '美桜',
@@ -81,7 +68,7 @@ export const mockUsers: MockUser[] = [
   },
 ];
 
-export const currentUser = {
+export const currentUser: CurrentUserProfile = {
   name: 'あなた',
   age: 30,
   location: '東京都',
@@ -90,4 +77,6 @@ export const currentUser = {
   interests: ['散歩', '映画', '料理', '植物'],
   datingTemperature: 'ゆっくり会話から始めたい',
   relationshipGoal: '日常を大切にできる関係',
+  id: 'current-user',
+  themePreference: 'natural',
 };
