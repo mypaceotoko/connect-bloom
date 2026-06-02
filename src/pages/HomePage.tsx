@@ -4,9 +4,11 @@ import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
 import { ProfileCard } from '../components/ProfileCard';
 import { mockUsers } from '../data/mockUsers';
+import { useAppState } from '../hooks/useAppState';
 
 export function HomePage() {
-  const todaysUsers = mockUsers.slice(0, 3);
+  const { blockedUserIds } = useAppState();
+  const todaysUsers = mockUsers.filter((user) => !blockedUserIds.includes(user.id)).slice(0, 3);
 
   return (
     <PageShell description="ログイン後のホームでは、大量に選ぶのではなく、今日向き合いやすい少人数のご縁だけを丁寧に紹介します。" eyebrow="Home" title="今日のご縁">
@@ -15,7 +17,7 @@ export function HomePage() {
         <div className="absolute -bottom-10 left-8 size-24 rounded-full bg-theme-accent-soft/50 blur-2xl" />
         <div className="relative rounded-[1.25rem] bg-theme-card/78 p-4 backdrop-blur">
           <div className="flex flex-wrap gap-2">
-            <Badge className="bg-theme-main text-white"><Sparkles size={13} />Phase 1.5 UI Demo</Badge>
+            <Badge className="bg-theme-main text-white"><Sparkles size={13} />Phase 2 Local Demo</Badge>
             <Badge className="bg-theme-card/80"><ShieldCheck size={13} />ログイン後ホーム</Badge>
           </div>
           <h2 className="mt-3 text-[1.35rem] font-black leading-tight tracking-[-0.03em]">1日数人だけ。<br />花束のように届く、今日の出会い。</h2>
