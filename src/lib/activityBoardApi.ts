@@ -1,9 +1,13 @@
-import type { ActivityPost, ActivityPostFilters, ActivityPostInput, ActivityPostInterest, ActivityPostWithAuthor } from '../types/activityBoard';
+import type { ActivityInterestStatus, ActivityPost, ActivityPostFilters, ActivityPostInput, ActivityPostInterest, ActivityPostInterestWithProfile, ActivityPostWithAuthor } from '../types/activityBoard';
 import { profileRowToUserProfile, type ProfileRow } from './profileApi';
 import { requireSupabaseClient } from './supabase';
 
 type ActivityPostRow = ActivityPost & {
   author?: ProfileRow | ProfileRow[] | null;
+};
+
+type ActivityInterestRow = ActivityPostInterest & {
+  profile?: ProfileRow | ProfileRow[] | null;
 };
 
 type InterestCountRpcRow = {
@@ -34,10 +38,29 @@ const activityPostWithAuthorColumns = [
 ].join(',');
 
 const activityInterestColumns = 'id,post_id,user_id,message,status,created_at,updated_at';
+const activityInterestWithProfileColumns = [
+  activityInterestColumns,
+  'profile:profiles!activity_post_interests_user_id_fkey(id,display_name,age,location,occupation,bio,interests,relationship_goal,dating_temperature,onboarding_completed,visibility,role,invited_by,invite_code_used)',
+].join(',');
 
 function firstProfile(profile: ProfileRow | ProfileRow[] | null | undefined): ProfileRow | null {
   if (Array.isArray(profile)) return profile[0] ?? null;
   return profile ?? null;
+}
+
+function mapInterest(row: ActivityInterestRow): ActivityPostInterestWithProfile {
+  const profile = firstProfile(row.profile);
+
+  return {
+    id: row.id,
+    post_id: row.post_id,
+    user_id: row.user_id,
+    message: row.message,
+    status: row.status,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+    profile: profile ? profileRowToUserProfile(profile) : null,
+  };
 }
 
 function mapPost(row: ActivityPostRow, interestCount = 0): ActivityPostWithAuthor {
@@ -174,16 +197,23 @@ export async function expressInterest(postId: string, message?: string): Promise
   return data;
 }
 
-export async function cancelInterest(postId: string): Promise<void> {
+export async function cancelActivityPostInterest(postId: string): Promise<ActivityPostInterest> {
   const userId = await getCurrentUserId();
-  const { error } = await requireSupabaseClient()
+  const { data, error } = await requireSupabaseClient()
     .from('activity_post_interests')
-    .delete()
+    .update({ status: 'cancelled' })
     .eq('post_id', postId)
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .select(activityInterestColumns)
+    .single<ActivityPostInterest>();
 
   if (error) throw error;
   console.info('[EnBloom] activity post interest cancelled', { success: true });
+  return data;
+}
+
+export async function cancelInterest(postId: string): Promise<void> {
+  await cancelActivityPostInterest(postId);
 }
 
 export async function getMyInterestedPostIds(userId: string): Promise<string[]> {
@@ -191,7 +221,7 @@ export async function getMyInterestedPostIds(userId: string): Promise<string[]> 
     .from('activity_post_interests')
     .select('post_id')
     .eq('user_id', userId)
-    .eq('status', 'interested');
+    .in('status', ['interested', 'accepted']);
 
   if (error) throw error;
   return (data ?? []).map((row) => row.post_id as string);
@@ -202,13 +232,34 @@ export async function getPostInterestCount(postId: string): Promise<number> {
   return counts.get(postId) ?? 0;
 }
 
-export async function getActivityPostInterestsForOwner(postId: string): Promise<ActivityPostInterest[]> {
+export async function getActivityPostInterestsForOwner(postId: string): Promise<ActivityPostInterestWithProfile[]> {
   const { data, error } = await requireSupabaseClient()
     .from('activity_post_interests')
-    .select(activityInterestColumns)
+    .select(activityInterestWithProfileColumns)
     .eq('post_id', postId)
     .order('created_at', { ascending: false });
 
   if (error) throw error;
-  return (data ?? []) as ActivityPostInterest[];
+  return ((data ?? []) as unknown as ActivityInterestRow[]).map(mapInterest);
+}
+
+export async function updateActivityPostInterestStatus(interestId: string, status: ActivityInterestStatus): Promise<ActivityPostInterest> {
+  const { data, error } = await requireSupabaseClient()
+    .from('activity_post_interests')
+    .update({ status })
+    .eq('id', interestId)
+    .select(activityInterestColumns)
+    .single<ActivityPostInterest>();
+
+  if (error) throw error;
+  console.info('[EnBloom] activity post interest status updated', { success: true, status });
+  return data;
+}
+
+export async function acceptActivityPostInterest(interestId: string): Promise<ActivityPostInterest> {
+  return updateActivityPostInterestStatus(interestId, 'accepted');
+}
+
+export async function declineActivityPostInterest(interestId: string): Promise<ActivityPostInterest> {
+  return updateActivityPostInterestStatus(interestId, 'declined');
 }
