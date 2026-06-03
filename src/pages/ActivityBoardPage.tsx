@@ -22,7 +22,7 @@ function getStatusLabel(status: string) {
 }
 
 export function ActivityBoardPage() {
-  const { isAuthenticated, isSupabaseMode } = useAuth();
+  const { isAuthenticated, isSupabaseMode, user } = useAuth();
   const [posts, setPosts] = useState<ActivityPostWithAuthor[]>(mockActivityPosts);
   const [category, setCategory] = useState('');
   const [tag, setTag] = useState('');
@@ -65,6 +65,10 @@ export function ActivityBoardPage() {
   const visiblePosts = useSupabaseBoard
     ? posts
     : posts.filter((post) => (!category || post.category === category) && (!tag || post.tags.includes(tag)));
+
+  function isOwnPost(post: ActivityPostWithAuthor) {
+    return Boolean(useSupabaseBoard && user?.id && post.created_by === user.id);
+  }
 
   return (
     <PageShell description="一緒にやりたいこと、話したいテーマ、探している仲間を投稿できます。" eyebrow="Activity Board" title="募集ボード">
@@ -125,8 +129,15 @@ export function ActivityBoardPage() {
             <div className="flex flex-wrap gap-2 text-xs font-bold text-theme-muted">
               <span className="inline-flex items-center gap-1"><MapPin size={14} />{post.area || '活動エリア未設定'}</span>
               <span className="inline-flex items-center gap-1"><CalendarDays size={14} />作成 {formatDate(post.created_at)}</span>
-              <span className="inline-flex items-center gap-1"><UsersRound size={14} />参加したい {post.interest_count}件</span>
+              <span className="inline-flex items-center gap-1"><UsersRound size={14} />参加希望 {post.interest_count}件</span>
             </div>
+            {isOwnPost(post) ? (
+              <div className="flex flex-wrap items-center gap-2 rounded-xl bg-theme-accent-soft/60 p-3 text-xs font-black text-theme-main-dark">
+                <Badge className="bg-theme-main text-white">自分の募集</Badge>
+                <span>参加希望 {post.interest_count}件</span>
+                <Link className="underline decoration-2 underline-offset-4" to={`/board/${post.id}`}>管理する</Link>
+              </div>
+            ) : null}
             <div className="flex flex-wrap gap-1.5">{post.tags.map((item) => <Badge key={item}>#{item}</Badge>)}</div>
             <div className="flex items-center justify-between gap-3 border-t border-white/60 pt-3">
               <span className="text-xs font-bold text-theme-muted">投稿者: {post.author?.name ?? 'EnBloomユーザー'}</span>
