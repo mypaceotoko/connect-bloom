@@ -100,7 +100,7 @@ export function ProfileDetailPage() {
 
     if (!useSupabaseProfile) {
       const becameMatched = toggleLike(profileUser.id);
-      setNotice(becameMatched ? 'ご縁が咲きました。メッセージを送ってみましょう。' : liked ? 'いいねを取り消しました。' : 'いいねを送りました。');
+      setNotice(becameMatched ? 'ご縁がつながりました。会話を始めてみましょう。' : liked ? '話してみたいを取り消しました。' : '話してみたいを送りました。');
       return;
     }
 
@@ -108,7 +108,7 @@ export function ProfileDetailPage() {
       if (liked) {
         await deleteLike(profileUser.id);
         setSupabaseLiked(false);
-        setNotice('いいねを取り消しました。');
+        setNotice('話してみたいを取り消しました。');
         return;
       }
 
@@ -116,9 +116,9 @@ export function ProfileDetailPage() {
       setSupabaseLiked(true);
       if (likeResult.matched) {
         setSupabaseMatchId(likeResult.matchId ?? supabaseMatchId);
-        setNotice('ご縁が咲きました。メッセージを送ってみましょう。');
+        setNotice('ご縁がつながりました。会話を始めてみましょう。');
       } else {
-        setNotice(likeResult.matchCheckError ?? 'いいねを送りました。');
+        setNotice(likeResult.matchCheckError ?? '話してみたいを送りました。');
       }
     } catch (caughtError) {
       setErrorNotice(caughtError instanceof Error ? caughtError.message : '通信に失敗しました。少し時間を置いてもう一度お試しください。');
@@ -127,7 +127,7 @@ export function ProfileDetailPage() {
 
   async function handleBlock() {
     if (!profileUser) return;
-    const confirmed = window.confirm(`${profileUser.name}さんをブロックしますか？一覧やDM導線から非表示になります。`);
+    const confirmed = window.confirm(`${profileUser.name}さんをブロックしますか？一覧や会話導線から非表示になります。`);
     if (!confirmed) return;
 
     setNotice('');
@@ -140,7 +140,7 @@ export function ProfileDetailPage() {
       } else {
         blockUser(profileUser.id);
       }
-      setNotice(`${profileUser.name}さんをブロックしました。今日のご縁や一覧には表示されません。`);
+      setNotice(`${profileUser.name}さんをブロックしました。今日のつながりや一覧には表示されません。`);
     } catch (caughtError) {
       setErrorNotice(caughtError instanceof Error ? `ブロックに失敗しました: ${caughtError.message}` : 'ブロックに失敗しました。通信に失敗しました。少し時間を置いてもう一度お試しください。');
     } finally {
@@ -195,7 +195,7 @@ export function ProfileDetailPage() {
       <Card className="overflow-hidden p-0">
         <div className={`relative h-72 overflow-hidden bg-gradient-to-br ${profileUser.gradient}`}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.86),transparent_28%),radial-gradient(circle_at_78%_76%,rgba(255,255,255,0.45),transparent_25%)]" />
-          <Badge className="absolute left-4 top-4 border border-white/70 bg-white/75 backdrop-blur"><Sparkles size={13} />今日のご縁</Badge>
+          <Badge className="absolute left-4 top-4 border border-white/70 bg-white/75 backdrop-blur"><Sparkles size={13} />今日のつながり</Badge>
           <div className="absolute bottom-4 left-4 right-4 rounded-[1.45rem] bg-theme-card/78 p-3.5 shadow-xl shadow-theme-main/10 backdrop-blur">
             <div className="flex items-end gap-3">
               <ProfileAvatar className="size-20 shrink-0 rounded-[1.45rem] border border-white/80 shadow-lg" fallbackClassName="bg-white/70 text-2xl font-black" user={profileUser} />
@@ -215,24 +215,24 @@ export function ProfileDetailPage() {
           <div className="flex flex-wrap gap-1.5">
             <Badge><UserRoundCheck size={13} />{profileUser.introducedBy} からの紹介</Badge>
             <Badge className="bg-theme-background"><ShieldCheck size={13} />安心して進める</Badge>
-            {matched ? <Badge className="bg-theme-accent text-white">マッチ済み</Badge> : null}
+            {matched ? <Badge className="bg-theme-accent text-white">コネクト済み</Badge> : null}
           </div>
 
           <p className="rounded-[1.15rem] bg-theme-background/70 p-3.5 text-[13px] leading-6 text-theme-text">{profileUser.bio}</p>
 
           <div className="space-y-2">
-            <p className="text-sm font-black">趣味・共通点のきっかけ</p>
+            <p className="text-sm font-black">興味・共通点のきっかけ</p>
             <div className="flex flex-wrap gap-1.5">{profileUser.interests.map((interest) => <Badge className="bg-theme-accent-soft/80" key={interest}>{interest}</Badge>)}</div>
           </div>
 
-          <InfoBlock icon={<MessageCircleHeart size={17} />} title="出会いの温度感" body={profileUser.datingTemperature} />
-          <InfoBlock icon={<Heart size={17} />} title="関係性の希望" body={profileUser.relationshipGoal} />
+          <InfoBlock icon={<MessageCircleHeart size={17} />} title="つながり方のスタンス" body={profileUser.datingTemperature} />
+          <InfoBlock icon={<Heart size={17} />} title="一緒にやりたいこと" body={profileUser.relationshipGoal} />
 
           <div className="sticky bottom-24 z-10 space-y-2 rounded-[1.25rem] border border-white/60 bg-theme-card/88 p-2.5 shadow-2xl shadow-theme-main/15 backdrop-blur">
             <Button className={`w-full ${liked ? 'bg-theme-accent text-white shadow-theme-accent/25 hover:bg-theme-accent/90' : 'bg-theme-accent-soft text-theme-text'}`} onClick={() => { void handleLike(); }} variant="secondary">
-              <Heart fill={liked ? 'currentColor' : 'none'} size={16} />{liked ? 'いいね済み' : 'いいねを送る'}
+              <Heart fill={liked ? 'currentColor' : 'none'} size={16} />{liked ? '話してみたい済み' : '話してみたいを送る'}
             </Button>
-            {matched ? <Link to={`/messages/${useSupabaseProfile ? supabaseMatchId : profileUser.id}`}><Button className="w-full"><MessageCircle size={16} />メッセージを送る</Button></Link> : null}
+            {matched ? <Link to={`/messages/${useSupabaseProfile ? supabaseMatchId : profileUser.id}`}><Button className="w-full"><MessageCircle size={16} />会話へ</Button></Link> : null}
             <p className="text-center text-xs font-bold text-theme-muted">{useSupabaseProfile ? 'Supabase likes / blocks / reports 保存中です。' : 'ローカルstate / localStorageのみで動くデモです。'}</p>
           </div>
 

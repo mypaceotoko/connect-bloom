@@ -11,7 +11,7 @@ const guides = [
 
 export function SafetyPage() {
   return (
-    <PageShell description="安心感のある出会い体験を支える安全ガイドです。" eyebrow="Safety" title="安全ガイド">
+    <PageShell description="安心感のあるつながり体験を支える安全ガイドです。" eyebrow="Safety" title="安全ガイド">
       {guides.map((guide) => {
         const Icon = guide.icon;
         return <Card className="flex gap-4" key={guide.title}><span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-theme-accent-soft text-theme-main-dark"><Icon size={22} /></span><span><span className="block font-black">{guide.title}</span><span className="mt-1 block text-sm leading-6 text-theme-muted">{guide.body}</span></span></Card>;

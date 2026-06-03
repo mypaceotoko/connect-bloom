@@ -2,24 +2,24 @@ import type { ThemeId } from '../context/ThemeProvider';
 
 export type { ThemeId };
 
-export const DEFAULT_DATING_TEMPERATURE = 'ゆっくり会話から始めたい';
+export const DEFAULT_DATING_TEMPERATURE = 'まずはゆっくり話したい';
 
 export type DatingTemperature =
   | typeof DEFAULT_DATING_TEMPERATURE
-  | '安心感があれば会ってみたい'
-  | '価値観が合えば前向きに進めたい'
-  | 'まずは友達の紹介のように、ゆっくり話したい'
-  | 'メッセージで安心感が持てたら会いたい'
+  | '共通の趣味でつながりたい'
+  | '一緒に企画・制作したい'
+  | 'イベントや活動で会って話したい'
+  | '相談・情報交換から始めたい'
   | 'まずはオンラインで気軽に話したい'
-  | '紹介者の話も聞きながら丁寧に進めたい';
+  | '紹介者の話も聞きながら丁寧につながりたい';
 
 export type RelationshipGoal =
-  | '自然体で長く付き合える関係'
-  | '一緒に日常を育てられる関係'
-  | '信頼を重ねられる恋人'
-  | 'お互いを応援できる関係'
-  | '家族や友人も大切にできる関係'
-  | '日常を大切にできる関係';
+  | '一緒に楽しめる活動仲間'
+  | '興味関心で話せる人'
+  | '企画や制作を共創できる人'
+  | '相談・情報交換できる人'
+  | '地域やイベントでつながれる人'
+  | '自然体で応援し合える関係';
 
 export type UserProfile = {
   id: string;

@@ -150,13 +150,13 @@ export async function hasMatched(userAId: string, userBId: string): Promise<bool
 
 export async function createMatch(userAId: string, userBId: string): Promise<MatchCreateResult> {
   if (userAId === userBId) {
-    return { success: false, matched: false, message: '自分自身とはマッチできません。' };
+    return { success: false, matched: false, message: '自分自身とはコネクトできません。' };
   }
 
   const mutualLikeExists = await hasReciprocalLikes(userAId, userBId);
   console.info('[EnBloom] mutual like exists', { exists: mutualLikeExists });
   if (!mutualLikeExists) {
-    return { success: true, matched: false, message: '相互いいねはまだ成立していません。' };
+    return { success: true, matched: false, message: '相互の「話してみたい」はまだ成立していません。' };
   }
 
   const existingMatch = await hasMatched(userAId, userBId);
@@ -169,7 +169,7 @@ export async function createMatch(userAId: string, userBId: string): Promise<Mat
       .single<{ id: string }>();
 
     if (error) throw error;
-    return { success: true, matched: true, matchId: data.id, alreadyExists: true, message: 'すでにご縁が咲いています。' };
+    return { success: true, matched: true, matchId: data.id, alreadyExists: true, message: 'すでにご縁がつながっています。' };
   }
 
   const { data, error } = await requireSupabaseClient()
@@ -182,7 +182,7 @@ export async function createMatch(userAId: string, userBId: string): Promise<Mat
   console.info('[EnBloom] match create success', { success });
   if (error) throw error;
 
-  return { success: true, matched: true, matchId: data.id, alreadyExists: false, message: 'ご縁が咲きました。' };
+  return { success: true, matched: true, matchId: data.id, alreadyExists: false, message: 'ご縁がつながりました。' };
 }
 
 export async function createMatchIfMutualLike(targetUserId: string): Promise<MatchCreateResult> {
@@ -190,7 +190,7 @@ export async function createMatchIfMutualLike(targetUserId: string): Promise<Mat
   console.info('[EnBloom] match check started', { targetUserIdExists: Boolean(targetUserId) });
 
   if (currentUserId === targetUserId) {
-    return { success: false, matched: false, message: '自分自身とはマッチできません。' };
+    return { success: false, matched: false, message: '自分自身とはコネクトできません。' };
   }
 
   const targetExists = await hasProfile(targetUserId);
@@ -220,7 +220,7 @@ export async function createMatchIfMutualLike(targetUserId: string): Promise<Mat
   console.info('[EnBloom] mutual like exists', { exists: mutualLikeExists });
 
   if (!mutualLikeExists) {
-    return { success: true, matched: false, message: '相互いいねはまだ成立していません。' };
+    return { success: true, matched: false, message: '相互の「話してみたい」はまだ成立していません。' };
   }
 
   return createMatch(currentUserId, targetUserId);

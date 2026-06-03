@@ -24,11 +24,11 @@ export const themes: ThemeDefinition[] = [
     name: 'EnBloom Natural',
     description: 'やさしい信頼感を軸にした標準テーマ',
     colors: {
-      main: '#6DBE8A',
-      mainDark: '#3E7C59',
-      accent: '#F48CA8',
-      accentSoft: '#FDE7EE',
-      background: '#FFFDF9',
+      main: '#58B878',
+      mainDark: '#2F7A50',
+      accent: '#F08AA4',
+      accentSoft: '#FDEBF0',
+      background: '#FBFFF9',
       card: '#FFFFFF',
       text: '#2F3A34',
       muted: '#7A8A80',
@@ -37,7 +37,7 @@ export const themes: ThemeDefinition[] = [
   {
     id: 'sakura',
     name: 'Sakura Bloom',
-    description: '桜のような温かさと恋のアクセント',
+    description: '桜のような温かさをアクセントにしたテーマ',
     colors: {
       main: '#F48CA8',
       mainDark: '#C85F7D',

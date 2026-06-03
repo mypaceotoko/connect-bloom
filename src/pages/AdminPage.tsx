@@ -497,7 +497,7 @@ export function AdminPage() {
         {reportNotice ? <p className="rounded-[1.15rem] bg-theme-accent-soft/55 p-3 text-sm font-bold text-theme-main-dark">{reportNotice}</p> : null}
         {isSupabaseMode && isAuthenticated ? (
           <>
-            {supabaseReports.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">まだ通報はありません。プロフィールまたはDM画面の通報ボタンから reports テーブルへ保存されます。</p> : null}
+            {supabaseReports.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">まだ通報はありません。プロフィールまたは会話画面の通報ボタンから reports テーブルへ保存されます。</p> : null}
             {supabaseReports.map((report) => {
               const isUpdatingStatus = updatingReportStatusId === report.id;
               const isSavingNote = savingReportNoteId === report.id;
@@ -600,7 +600,7 @@ export function AdminPage() {
         ) : (
           <>
             <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm font-bold leading-6 text-theme-muted">ローカルデモでは通報済みユーザーの仮表示を維持します。ステータス更新・管理メモ保存・アーカイブはSupabase接続時に管理できます。</p>
-            {reportedUsers.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">まだ通報はありません。プロフィールまたはDM画面の通報ボタンから反映されます。</p> : null}
+            {reportedUsers.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">まだ通報はありません。プロフィールまたは会話画面の通報ボタンから反映されます。</p> : null}
             {reportedUsers.map((reportedUser) => (
               <div className="flex items-center gap-2.5 rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5" key={reportedUser.id}>
                 <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="font-black" user={reportedUser} />

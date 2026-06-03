@@ -52,7 +52,7 @@ export function MessagesPage() {
       }
 
       if (!matchId) {
-        setFetchError('マッチ済みの相手とのみメッセージできます。');
+        setFetchError('コネクト済みの相手とのみ会話できます。');
         return;
       }
 
@@ -67,7 +67,7 @@ export function MessagesPage() {
         if (!nextMatch) {
           setMessageMatch(null);
           setSupabaseMessages([]);
-          setFetchError('マッチ済みの相手とのみメッセージできます。');
+          setFetchError('コネクト済みの相手とのみ会話できます。');
           return;
         }
 
@@ -83,7 +83,7 @@ export function MessagesPage() {
         setMessageMatch(null);
         setBlockedConversation(false);
         setSupabaseMessages([]);
-        setFetchError(caughtError instanceof Error ? `メッセージの取得に失敗しました: ${caughtError.message}` : 'メッセージの取得に失敗しました。');
+        setFetchError(caughtError instanceof Error ? `会話の取得に失敗しました: ${caughtError.message}` : '会話の取得に失敗しました。');
       } finally {
         if (mounted) setLoading(false);
       }
@@ -102,12 +102,12 @@ export function MessagesPage() {
   const safetyTargetUserId = useSupabaseMessages ? messageMatch?.otherUserId : activeMatchId;
   const titleName = useSupabaseMessages ? messageMatch?.otherProfile?.name : demoUser?.name;
   const headerDescription = useSupabaseMessages
-    ? 'ご縁が咲いた相手とだけ話せます。焦らず、丁寧にやり取りしましょう。'
+    ? 'ご縁がつながった相手とだけ話せます。焦らず、丁寧にやり取りしましょう。'
     : '送信内容はlocalStorageに保存され、リロード後も残るデモです。';
   const emptyText = useMemo(() => (
     useSupabaseMessages
-      ? 'まだメッセージはありません。まずはゆっくり、安心できるひと言から始めましょう。'
-      : 'まだメッセージはありません。デモの会話を送ってみましょう。'
+      ? 'まだ会話はありません。まずはゆっくり、安心できるひと言から始めましょう。'
+      : 'まだ会話はありません。デモの会話を送ってみましょう。'
   ), [useSupabaseMessages]);
 
   if (!useSupabaseMessages) {
@@ -125,7 +125,7 @@ export function MessagesPage() {
 
     const trimmedDraft = draft.trim();
     if (!trimmedDraft) {
-      setSendError('メッセージを入力してください。');
+      setSendError('会話内容を入力してください。');
       return;
     }
 
@@ -133,7 +133,7 @@ export function MessagesPage() {
 
     if (!useSupabaseMessages) {
       if (blockedConversation) {
-        setSendError('ブロック済みの相手にはメッセージを送れません。');
+        setSendError('ブロック済みの相手には会話を送れません。');
         return;
       }
       sendDemoMessage(activeMatchId, trimmedDraft);
@@ -146,14 +146,14 @@ export function MessagesPage() {
     try {
       const result = await sendSupabaseMessage(activeMatchId, trimmedDraft);
       if (!result.success || !result.message) {
-        setSendError(result.errorMessage ?? 'メッセージの送信に失敗しました。');
+        setSendError(result.errorMessage ?? '会話の送信に失敗しました。');
         return;
       }
 
       setSupabaseMessages((currentMessages) => [...currentMessages, result.message as Message]);
       setDraft('');
     } catch (caughtError) {
-      setSendError(caughtError instanceof Error ? `メッセージの送信に失敗しました: ${caughtError.message}` : '通信に失敗しました。少し時間を置いてもう一度お試しください。');
+      setSendError(caughtError instanceof Error ? `会話の送信に失敗しました: ${caughtError.message}` : '通信に失敗しました。少し時間を置いてもう一度お試しください。');
     } finally {
       setSending(false);
     }
@@ -163,7 +163,7 @@ export function MessagesPage() {
 
   async function handleBlock() {
     if (!safetyTargetUserId || savingSafety) return;
-    const confirmed = window.confirm('この相手をブロックしますか？マッチ一覧へ戻り、DM送信も停止します。');
+    const confirmed = window.confirm('この相手をブロックしますか？コネクト一覧へ戻り、会話送信も停止します。');
     if (!confirmed) return;
 
     setNotice('');
@@ -177,7 +177,7 @@ export function MessagesPage() {
         blockUser(safetyTargetUserId);
       }
       setBlockedConversation(true);
-      setNotice('ブロックしました。一覧や今日のご縁から非表示になります。');
+      setNotice('ブロックしました。一覧や今日のつながりから非表示になります。');
       navigate('/matches', { replace: true });
     } catch (caughtError) {
       setSendError(caughtError instanceof Error ? `ブロックに失敗しました: ${caughtError.message}` : 'ブロックに失敗しました。通信に失敗しました。少し時間を置いてもう一度お試しください。');
@@ -225,7 +225,7 @@ export function MessagesPage() {
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0">
             <p className="text-sm font-black text-theme-text">{useSupabaseMessages ? 'Supabase messages 保存中' : 'ローカルデモ'}</p>
-            <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">DMは軽い連絡先交換ではなく、ご縁が咲いた相手とゆっくり会話を始める場所です。</p>
+            <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">会話は軽い連絡先交換ではなく、ご縁がつながった相手とゆっくり会話を始める場所です。</p>
           </div>
           <Badge>{loading ? '取得中' : <><Sparkles size={12} />ご縁</>}</Badge>
         </div>
@@ -246,14 +246,14 @@ export function MessagesPage() {
       {fetchError ? (
         <Card className="space-y-3 bg-theme-accent-soft/55 text-center shadow-sm">
           <p className="text-sm font-bold leading-6 text-theme-text">{fetchError}</p>
-          <Link to="/matches"><Button variant="secondary">マッチ一覧へ戻る</Button></Link>
+          <Link to="/matches"><Button variant="secondary">コネクト一覧へ戻る</Button></Link>
         </Card>
       ) : null}
 
       {!fetchError ? (
         <Card className="flex min-h-[56vh] flex-col gap-2.5 pb-[calc(1rem+env(safe-area-inset-bottom))]">
           <div className="flex-1 space-y-2.5">
-            {loading ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm font-bold text-theme-muted">メッセージを読み込んでいます。</p> : null}
+            {loading ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm font-bold text-theme-muted">会話を読み込んでいます。</p> : null}
             {!loading && messages.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">{emptyText}</p> : null}
             {messages.map((message) => {
               const isMine = useSupabaseMessages ? message.senderId === authUser?.id : message.senderId === 'current-user';

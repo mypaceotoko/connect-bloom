@@ -48,7 +48,7 @@ export function MatchesPage() {
         if (!mounted) return;
         setSupabaseMatches([]);
         setHiddenUserIds([]);
-        setNotice(caughtError instanceof Error ? `マッチ一覧の取得に失敗しました: ${caughtError.message}` : 'マッチ一覧の取得に失敗しました。');
+        setNotice(caughtError instanceof Error ? `コネクト一覧の取得に失敗しました: ${caughtError.message}` : 'コネクト一覧の取得に失敗しました。');
       } finally {
         if (mounted) setLoading(false);
       }
@@ -62,14 +62,14 @@ export function MatchesPage() {
   }, [useSupabaseMatches, user]);
 
   return (
-    <PageShell description={useSupabaseMatches ? 'Supabase matches テーブルから、相互いいねで咲いたご縁を表示します。' : '相互いいねで咲いたご縁を表示し、DMデモへ進めます。'} eyebrow="Matches" title="マッチ">
+    <PageShell description={useSupabaseMatches ? 'Supabase matches テーブルから、相互の「話してみたい」でつながったご縁を表示します。' : '相互の「話してみたい」でつながったご縁を表示し、会話デモへ進めます。'} eyebrow="Matches" title="コネクト一覧">
       <Card className="space-y-2.5 bg-theme-accent-soft/45 shadow-sm">
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-black text-theme-text">{useSupabaseMatches ? 'Supabase保存中' : 'ローカルデモ'}</p>
           <Badge>{loading ? '取得中' : <><Sparkles size={12} />ご縁</>}</Badge>
         </div>
         <p className="text-xs font-bold leading-5 text-theme-muted">
-          マッチは軽いスワイプの結果ではなく、お互いの「また話したい」が重なってご縁が咲いた状態として扱います。
+          コネクトは軽いスワイプの結果ではなく、お互いの「話してみたい」が重なってご縁がつながった状態として扱います。
         </p>
       </Card>
 
@@ -93,7 +93,7 @@ export function MatchesPage() {
 function EmptyMatches() {
   return (
     <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">
-      まだマッチはありません。もらったいいねの相手にいいねすると「ご縁が咲きました」の控えめな演出が表示されます。
+      まだコネクトはありません。届いた「話してみたい」の相手に話してみたいを送ると「ご縁がつながりました」の控えめな演出が表示されます。
     </p>
   );
 }
@@ -106,7 +106,7 @@ function MatchRow({ createdAt, messagePath, user }: { createdAt?: string; messag
         <span className="min-w-0 flex-1">
           <span className="block font-black">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
           <span className="block text-xs leading-5 text-theme-muted">{user.location}・{user.datingTemperature}</span>
-          {createdAt ? <span className="block text-[11px] font-bold text-theme-muted">{new Date(createdAt).toLocaleDateString('ja-JP')}にご縁が咲きました</span> : <span className="block text-[11px] font-bold text-theme-muted">紹介のご縁からマッチしました</span>}
+          {createdAt ? <span className="block text-[11px] font-bold text-theme-muted">{new Date(createdAt).toLocaleDateString('ja-JP')}にご縁がつながりました</span> : <span className="block text-[11px] font-bold text-theme-muted">紹介のご縁からコネクトしました</span>}
         </span>
         <Badge className="bg-theme-accent text-white"><Sparkles size={12} />ご縁</Badge>
       </div>

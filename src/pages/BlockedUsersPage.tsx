@@ -18,7 +18,7 @@ type BlockedUserListItem = {
   profile: UserProfile | null;
 };
 
-const unblockConfirmMessage = 'このユーザーのブロックを解除しますか？解除すると、再び一覧やマッチ関連画面に表示される可能性があります。';
+const unblockConfirmMessage = 'このユーザーのブロックを解除しますか？解除すると、再び一覧やコネクト関連画面に表示される可能性があります。';
 const unblockSuccessMessage = 'ブロックを解除しました。';
 const unblockErrorMessage = 'ブロック解除に失敗しました。少し時間を置いてもう一度お試しください。';
 
@@ -125,7 +125,7 @@ export function BlockedUsersPage() {
 
   return (
     <PageShell
-      description="ブロックした相手は、ホーム・探す・いいね・マッチ一覧に表示されません。必要があれば、いつでもブロックを解除できます。"
+      description="ブロックした相手は、ホーム・探す・話してみたい・コネクト一覧に表示されません。必要があれば、いつでもブロックを解除できます。"
       eyebrow="Safety"
       title="ブロック中のユーザー"
     >
@@ -195,7 +195,7 @@ function BlockedUserCard({
 }) {
   const profile = item.profile;
   const displayName = profile?.name || 'EnBloomユーザー';
-  const profileSummary = [profile?.age ? `${profile.age}歳` : null, profile?.location || '地域未設定']
+  const profileSummary = [profile?.age ? `${profile.age}歳` : null, profile?.location || '活動エリア未設定']
     .filter(Boolean)
     .join(' / ');
 

@@ -27,7 +27,7 @@ export function HomePage() {
   const location = useLocation();
   const homeState = location.state as { profileSaved?: boolean; message?: string } | null;
   const profileSaved = Boolean(homeState?.profileSaved);
-  const profileSavedMessage = homeState?.message ?? 'プロフィールを保存しました。今日のご縁を見てみましょう。';
+  const profileSavedMessage = homeState?.message ?? 'プロフィールを保存しました。今日のつながりを見てみましょう。';
   const useSupabaseLikes = isSupabaseMode && isAuthenticated && Boolean(user);
   const sourceUsers = useSupabaseLikes ? supabaseUsers : mockUsers;
   const safetyHiddenIds = useSupabaseLikes ? hiddenUserIds : blockedUserIds;
@@ -71,7 +71,7 @@ export function HomePage() {
         setLikedUserIds([]);
         setMatchedUserIds([]);
         setHiddenUserIds([]);
-        setNotice(caughtError instanceof Error ? `いいね状態の取得に失敗しました: ${caughtError.message}` : 'いいね状態の取得に失敗しました。');
+        setNotice(caughtError instanceof Error ? `話してみたい状態の取得に失敗しました: ${caughtError.message}` : '話してみたい状態の取得に失敗しました。');
       } finally {
         if (mounted) setLoadingLikes(false);
       }
@@ -104,12 +104,12 @@ export function HomePage() {
       setLikedUserIds((current) => current.filter((id) => id !== profileId));
       return false;
     } catch (caughtError) {
-      throw new Error(nextLiked ? 'いいねの保存に失敗しました。' : 'いいねの取り消しに失敗しました。', { cause: caughtError });
+      throw new Error(nextLiked ? '話してみたいの保存に失敗しました。' : '話してみたいの取り消しに失敗しました。', { cause: caughtError });
     }
   }
 
   return (
-    <PageShell description="ログイン後のホームでは、大量に選ぶのではなく、今日向き合いやすい少人数のご縁だけを丁寧に紹介します。" eyebrow="Home" title="今日のご縁">
+    <PageShell description="共通の興味や紹介から、話してみたい人を見つけましょう。今日は3人だけ、丁寧につながる設計です。" eyebrow="Home" title="今日のつながり">
       {profileSaved ? (
         <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">
           <span className="flex items-center gap-1.5"><CheckCircle2 size={16} />{profileSavedMessage}</span>
@@ -126,13 +126,13 @@ export function HomePage() {
             <Badge className="bg-theme-main text-white"><Sparkles size={13} />{useSupabaseLikes ? 'Supabase Likes' : 'Phase 2 Local Demo'}</Badge>
             <Badge className="bg-theme-card/80"><ShieldCheck size={13} />ログイン後ホーム</Badge>
           </div>
-          <h2 className="mt-3 text-[1.35rem] font-black leading-tight tracking-[-0.03em]">1日数人だけ。<br />花束のように届く、今日の出会い。</h2>
+          <h2 className="mt-3 text-[1.35rem] font-black leading-tight tracking-[-0.03em]">1日数人だけ。<br />花束のように届く、今日のつながり。</h2>
           <p className="mt-2.5 text-[13px] leading-6 text-theme-muted">
-            紹介経由の安心感、共通点、出会いの温度感が伝わるように、プロフィールをゆっくり読める体験にしています。
+            紹介経由の安心感、共通点、つながり方のスタンスが伝わるように、プロフィールをゆっくり読める体験にしています。
           </p>
           <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs font-bold text-theme-text">
             <span className="rounded-xl bg-theme-background/80 p-2.5"><Flower2 className="mx-auto mb-1 text-theme-main" size={16} />自然体</span>
-            <span className="rounded-xl bg-theme-background/80 p-2.5"><HeartHandshake className="mx-auto mb-1 text-theme-main" size={16} />温度感</span>
+            <span className="rounded-xl bg-theme-background/80 p-2.5"><HeartHandshake className="mx-auto mb-1 text-theme-main" size={16} />スタンス</span>
             <span className="rounded-xl bg-theme-background/80 p-2.5"><UsersRound className="mx-auto mb-1 text-theme-main" size={16} />紹介経由</span>
           </div>
         </div>
@@ -143,7 +143,7 @@ export function HomePage() {
           <CalendarHeart size={16} />
           今日の紹介 {todaysUsers.length}人
         </span>
-        <span className="text-xs font-bold text-theme-muted">{loadingLikes ? 'いいね取得中' : '毎朝 7:00 更新'}</span>
+        <span className="text-xs font-bold text-theme-muted">{loadingLikes ? '話してみたい取得中' : '毎朝 7:00 更新'}</span>
       </div>
 
       <div className="space-y-4">

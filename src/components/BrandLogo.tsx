@@ -34,7 +34,7 @@ export function BrandLogo({ variant = 'default', showText = true, className = ''
       {showText ? (
         <span>
           <span className="block text-base font-black leading-none text-theme-text">EnBloom</span>
-          <span className="text-[11px] font-semibold text-theme-muted">縁が、恋に咲く。</span>
+          <span className="text-[11px] font-semibold text-theme-muted">紹介から、共創がひらく。</span>
         </span>
       ) : null}
     </span>
