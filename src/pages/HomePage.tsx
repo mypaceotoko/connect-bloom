@@ -11,6 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { getSafetyHiddenUserIds } from '../lib/blockApi';
 import { createLike, deleteLike, getLikedUserIds } from '../lib/likeApi';
 import { getMatchedUserIds } from '../lib/matchApi';
+import { attachPrimaryPhotoUrls, getPrimaryProfilePhotos } from '../lib/profilePhotoApi';
 import { getPublicProfiles, profileRowToUserProfile } from '../lib/profileApi';
 import type { UserProfile } from '../types/user';
 
@@ -56,8 +57,11 @@ export function HomePage() {
           getSafetyHiddenUserIds(user.id),
         ]);
 
+        const usersWithFallbacks = profiles.map((profile) => profileRowToUserProfile(profile));
+        const photosByUserId = await getPrimaryProfilePhotos(usersWithFallbacks.map((profile) => profile.id));
+
         if (!mounted) return;
-        setSupabaseUsers(profiles.map(profileRowToUserProfile));
+        setSupabaseUsers(attachPrimaryPhotoUrls(usersWithFallbacks, photosByUserId));
         setLikedUserIds(likedIds);
         setMatchedUserIds(matchedIds);
         setHiddenUserIds(nextHiddenUserIds);

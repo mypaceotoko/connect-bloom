@@ -4,6 +4,7 @@ import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
+import { ProfileAvatar } from '../components/ProfileAvatar';
 import { mockUsers } from '../data/mockUsers';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
@@ -201,9 +202,11 @@ function BlockedUserCard({
   return (
     <Card className="space-y-3 border-white/40 bg-theme-card/88 py-3 shadow-sm">
       <div className="flex items-start gap-3">
-        <div className={`flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${profile?.gradient ?? 'from-pink-100 via-rose-50 to-emerald-100'} text-theme-main-dark shadow-inner`}>
-          <UserRoundX size={24} />
-        </div>
+        {profile ? <ProfileAvatar className="size-14 shrink-0 rounded-2xl shadow-inner" fallbackClassName="text-xl font-black" user={profile} /> : (
+          <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-100 via-rose-50 to-emerald-100 text-theme-main-dark shadow-inner">
+            <UserRoundX size={24} />
+          </div>
+        )}
         <div className="min-w-0 flex-1 space-y-2">
           <div className="min-w-0">
             <p className="truncate text-base font-black text-theme-text">{displayName}</p>

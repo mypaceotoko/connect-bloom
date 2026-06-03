@@ -1,4 +1,5 @@
 import type { Match, MatchCreateResult, MatchStatus, MatchWithProfile } from '../types/match';
+import { attachPrimaryPhotoUrls, getPrimaryProfilePhotos } from './profilePhotoApi';
 import { profileRowToUserProfile, type ProfileRow } from './profileApi';
 import { requireSupabaseClient } from './supabase';
 
@@ -123,7 +124,12 @@ export async function getMyMatches(userId: string): Promise<MatchWithProfile[]> 
 
   if (error) throw error;
   console.info('[EnBloom] my matches count', { count: data?.length ?? 0 });
-  return (data ?? []).map((row) => mapMatchWithProfile(row as unknown as MatchRowWithProfiles, userId));
+  const matches = (data ?? []).map((row) => mapMatchWithProfile(row as unknown as MatchRowWithProfiles, userId));
+  const profiles = matches.map((match) => match.profile).filter((profile): profile is NonNullable<typeof profile> => Boolean(profile));
+  const photosByUserId = await getPrimaryProfilePhotos(profiles.map((profile) => profile.id));
+  const profilesWithPhotos = attachPrimaryPhotoUrls(profiles, photosByUserId);
+  const profileById = new Map(profilesWithPhotos.map((profile) => [profile.id, profile]));
+  return matches.map((match) => ({ ...match, profile: match.profile ? profileById.get(match.profile.id) ?? match.profile : null }));
 }
 
 export async function hasMatched(userAId: string, userBId: string): Promise<boolean> {

@@ -6,12 +6,14 @@ import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
+import { ProfileAvatar } from '../components/ProfileAvatar';
 import { mockUsers } from '../data/mockUsers';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
 import { blockUser as blockSupabaseUser } from '../lib/blockApi';
 import { createLike, deleteLike, getLikedUserIds } from '../lib/likeApi';
 import { getMyMatches } from '../lib/matchApi';
+import { getPrimaryProfilePhoto } from '../lib/profilePhotoApi';
 import { getPublicProfileById, profileRowToUserProfile } from '../lib/profileApi';
 import { reportUser as reportSupabaseUser } from '../lib/reportApi';
 import type { UserProfile } from '../types/user';
@@ -47,13 +49,14 @@ export function ProfileDetailPage() {
       setErrorNotice('');
 
       try {
-        const [profile, likedIds, matches] = await Promise.all([
+        const [profile, likedIds, matches, primaryPhoto] = await Promise.all([
           getPublicProfileById(id),
           getLikedUserIds(authUser.id),
           getMyMatches(authUser.id),
+          getPrimaryProfilePhoto(id).catch(() => null),
         ]);
         if (!mounted) return;
-        setSupabaseUser(profile ? profileRowToUserProfile(profile) : null);
+        setSupabaseUser(profile ? profileRowToUserProfile(profile, primaryPhoto?.publicUrl) : null);
         setSupabaseLiked(likedIds.includes(id));
         setSupabaseMatchId(matches.find((match) => match.otherUserId === id)?.id ?? null);
       } catch (caughtError) {
@@ -195,9 +198,7 @@ export function ProfileDetailPage() {
           <Badge className="absolute left-4 top-4 border border-white/70 bg-white/75 backdrop-blur"><Sparkles size={13} />今日のご縁</Badge>
           <div className="absolute bottom-4 left-4 right-4 rounded-[1.45rem] bg-theme-card/78 p-3.5 shadow-xl shadow-theme-main/10 backdrop-blur">
             <div className="flex items-end gap-3">
-              <div className="flex size-20 shrink-0 items-center justify-center rounded-[1.45rem] border border-white/80 bg-white/70 text-2xl font-black text-theme-main-dark shadow-lg">
-                {profileUser.name.slice(0, 1)}
-              </div>
+              <ProfileAvatar className="size-20 shrink-0 rounded-[1.45rem] border border-white/80 shadow-lg" fallbackClassName="bg-white/70 text-2xl font-black" user={profileUser} />
               <div className="min-w-0 pb-1">
                 <h1 className="text-2xl font-black leading-none text-theme-text">{profileUser.name} <span className="text-sm text-theme-muted">{profileUser.age}</span></h1>
                 <p className="mt-1.5 flex items-center gap-1 text-[13px] font-bold text-theme-muted"><MapPin size={14} />{profileUser.location}</p>

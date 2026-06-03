@@ -5,6 +5,7 @@ import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
+import { ProfileAvatar } from '../components/ProfileAvatar';
 import { mockUsers } from '../data/mockUsers';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
@@ -101,7 +102,7 @@ function MatchRow({ createdAt, messagePath, user }: { createdAt?: string; messag
   return (
     <div className="rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5">
       <div className="flex items-center gap-2.5">
-        <span className={`flex size-11 items-center justify-center rounded-xl bg-gradient-to-br ${user.gradient} text-xl font-black text-theme-main-dark`}>{user.name.slice(0, 1)}</span>
+        <ProfileAvatar className="size-11 rounded-xl" fallbackClassName="text-xl font-black" user={user} />
         <span className="min-w-0 flex-1">
           <span className="block font-black">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
           <span className="block text-xs leading-5 text-theme-muted">{user.location}・{user.datingTemperature}</span>

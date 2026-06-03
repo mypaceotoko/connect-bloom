@@ -1,5 +1,6 @@
 import type { Like, LikeWithProfile } from '../types/like';
 import { createMatchIfMutualLike } from './matchApi';
+import { attachPrimaryPhotoUrls, getPrimaryProfilePhotos } from './profilePhotoApi';
 import { profileRowToUserProfile, type ProfileRow } from './profileApi';
 import { requireSupabaseClient } from './supabase';
 
@@ -53,6 +54,14 @@ async function getCurrentUserId() {
   return data.user.id;
 }
 
+async function attachPhotosToLikes(likes: LikeWithProfile[]): Promise<LikeWithProfile[]> {
+  const profiles = likes.map((like) => like.profile).filter((profile): profile is NonNullable<typeof profile> => Boolean(profile));
+  const photosByUserId = await getPrimaryProfilePhotos(profiles.map((profile) => profile.id));
+  const profilesWithPhotos = attachPrimaryPhotoUrls(profiles, photosByUserId);
+  const profileById = new Map(profilesWithPhotos.map((profile) => [profile.id, profile]));
+  return likes.map((like) => ({ ...like, profile: like.profile ? profileById.get(like.profile.id) ?? like.profile : null }));
+}
+
 export async function getSentLikes(userId: string): Promise<LikeWithProfile[]> {
   const { data, error } = await requireSupabaseClient()
     .from('likes')
@@ -62,7 +71,7 @@ export async function getSentLikes(userId: string): Promise<LikeWithProfile[]> {
 
   if (error) throw error;
   console.info('[EnBloom] sent likes count', { count: data?.length ?? 0 });
-  return (data ?? []).map((row) => mapLikeWithProfile(row as unknown as LikeRowWithProfiles, 'sent'));
+  return attachPhotosToLikes((data ?? []).map((row) => mapLikeWithProfile(row as unknown as LikeRowWithProfiles, 'sent')));
 }
 
 export async function getReceivedLikes(userId: string): Promise<LikeWithProfile[]> {
@@ -74,7 +83,7 @@ export async function getReceivedLikes(userId: string): Promise<LikeWithProfile[
 
   if (error) throw error;
   console.info('[EnBloom] received likes count', { count: data?.length ?? 0 });
-  return (data ?? []).map((row) => mapLikeWithProfile(row as unknown as LikeRowWithProfiles, 'received'));
+  return attachPhotosToLikes((data ?? []).map((row) => mapLikeWithProfile(row as unknown as LikeRowWithProfiles, 'received')));
 }
 
 export async function hasLiked(senderId: string, receiverId: string): Promise<boolean> {
