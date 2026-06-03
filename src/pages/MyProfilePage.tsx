@@ -128,7 +128,7 @@ export function MyProfilePage() {
   async function handleSave() {
     const age = Number(form.age);
     if (!form.name.trim() || Number.isNaN(age) || age < 18 || !form.location.trim()) {
-      setNotice('表示名・18歳以上の年齢・地域を入力してください。');
+      setNotice('表示名・18歳以上の年齢・活動エリアを入力してください。');
       return;
     }
 
@@ -200,15 +200,15 @@ export function MyProfilePage() {
           </div>
         </div>
         <Input helperText="アプリ内で表示される名前です。" label="表示名" name="myName" onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))} placeholder="マイペース男" value={form.name} />
-        <div className="grid grid-cols-2 gap-3"><Input helperText="18歳未満は利用できません。" label="年齢" name="myAge" onChange={(event) => setForm((current) => ({ ...current, age: event.target.value }))} placeholder="39" type="number" value={form.age} /><Input helperText="大まかな地域でOKです。" label="地域" name="myLocation" onChange={(event) => setForm((current) => ({ ...current, location: event.target.value }))} placeholder="東京都・世田谷区" value={form.location} /></div>
-        <Input helperText="未入力でも保存できます。あなたらしい一言として編集できます。" label="職業" name="myOccupation" onChange={(event) => setForm((current) => ({ ...current, occupation: event.target.value }))} placeholder="例：会社員 / 休日はカフェ巡り" value={form.occupation} />
+        <div className="grid grid-cols-2 gap-3"><Input helperText="18歳未満は利用できません。" label="年齢" name="myAge" onChange={(event) => setForm((current) => ({ ...current, age: event.target.value }))} placeholder="39" type="number" value={form.age} /><Input helperText="大まかな活動エリアでOKです。" label="活動エリア" name="myLocation" onChange={(event) => setForm((current) => ({ ...current, location: event.target.value }))} placeholder="東京都・世田谷区 / オンライン" value={form.location} /></div>
+        <Input helperText="未入力でも保存できます。あなたらしい一言として編集できます。" label="できること" name="myOccupation" onChange={(event) => setForm((current) => ({ ...current, occupation: event.target.value }))} placeholder="例：AIアプリ制作 / ブログ作業 / 音声配信" value={form.occupation} />
         <label className="block space-y-2 text-sm font-semibold text-theme-text">
           <span>自己紹介</span>
-          <textarea className="min-h-24 w-full rounded-xl border border-theme-main/20 bg-theme-card px-3.5 py-3 text-sm text-theme-text outline-none focus:border-theme-main focus:ring-4 focus:ring-theme-main/15" onChange={(event) => setForm((current) => ({ ...current, bio: event.target.value }))} placeholder="例：休日は散歩やカフェでゆっくり過ごすのが好きです。" value={form.bio} />
-          <span className="block text-xs font-medium leading-5 text-theme-muted">自己紹介はあとから何度でも編集できます。</span>
+          <textarea className="min-h-24 w-full rounded-xl border border-theme-main/20 bg-theme-card px-3.5 py-3 text-sm text-theme-text outline-none focus:border-theme-main focus:ring-4 focus:ring-theme-main/15" onChange={(event) => setForm((current) => ({ ...current, bio: event.target.value }))} placeholder="例：一緒にやりたいこと、話したいテーマ、探している活動仲間を書いてください。" value={form.bio} />
+          <span className="block text-xs font-medium leading-5 text-theme-muted">自己紹介には「一緒にやりたいこと」「話したいテーマ」「探している仲間」を書けます。</span>
         </label>
-        <Input helperText="今の出会い方の希望です。例：ゆっくり会話から始めたい" label="出会いの温度感" name="myDatingTemperature" onChange={(event) => setForm((current) => ({ ...current, datingTemperature: event.target.value }))} placeholder="ゆっくり会話から始めたい" value={form.datingTemperature} />
-        <Input helperText="読点（、）やカンマで区切って入力します。あとから編集できます。" label="趣味タグ（読点区切り）" name="myInterests" onChange={(event) => setForm((current) => ({ ...current, interestsText: event.target.value }))} placeholder="読書、映画、カフェ" value={form.interestsText} />
+        <Input helperText="つながり方のスタンスです。例：まずはゆっくり話したい / 一緒に企画・制作したい" label="つながり方のスタンス" name="myDatingTemperature" onChange={(event) => setForm((current) => ({ ...current, datingTemperature: event.target.value }))} placeholder="まずはゆっくり話したい" value={form.datingTemperature} />
+        <Input helperText="活動ジャンル・興味のあること・話したいテーマを読点（、）やカンマで区切って入力します。" label="活動ジャンル / 興味タグ（読点区切り）" name="myInterests" onChange={(event) => setForm((current) => ({ ...current, interestsText: event.target.value }))} placeholder="AI、ブログ、音声配信、ゲーム制作、作業仲間" value={form.interestsText} />
         <div className="flex flex-wrap gap-1.5">{form.interestsText.split(/[、,]/).map((interest) => interest.trim()).filter(Boolean).map((interest) => <Badge key={interest}>{interest}</Badge>)}</div>
         <p className="text-xs font-medium leading-5 text-theme-muted">変更内容は保存できます。保存後もこの画面で確認・編集できます。</p>
         <Button className="w-full" disabled={saving} onClick={handleSave}>{saving ? '保存中...' : '編集内容を保存'}</Button>

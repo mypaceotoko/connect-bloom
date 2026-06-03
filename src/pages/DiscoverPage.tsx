@@ -67,7 +67,7 @@ export function DiscoverPage() {
         setLikedUserIds([]);
         setMatchedUserIds([]);
         setHiddenUserIds([]);
-        setNotice(caughtError instanceof Error ? `いいね状態の取得に失敗しました: ${caughtError.message}` : 'いいね状態の取得に失敗しました。');
+        setNotice(caughtError instanceof Error ? `話してみたい状態の取得に失敗しました: ${caughtError.message}` : '話してみたい状態の取得に失敗しました。');
       }
     }
 
@@ -98,19 +98,19 @@ export function DiscoverPage() {
       setLikedUserIds((current) => current.filter((id) => id !== profileId));
       return false;
     } catch (caughtError) {
-      throw new Error(nextLiked ? 'いいねの保存に失敗しました。' : 'いいねの取り消しに失敗しました。', { cause: caughtError });
+      throw new Error(nextLiked ? '話してみたいの保存に失敗しました。' : '話してみたいの取り消しに失敗しました。', { cause: caughtError });
     }
   }
 
   return (
-    <PageShell description="検索条件はまだダミーです。タグで探せる雰囲気を先に実装しています。" eyebrow="Discover" title="ご縁を探す">
+    <PageShell description="活動ジャンルや興味から、話してみたい人を探せます。検索条件はまだダミーです。" eyebrow="Discover" title="つながりを探す">
       {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">{notice}</div> : null}
       <Card className="space-y-2.5">
         <div className="flex items-center justify-between gap-2">
           <Badge className="w-fit">{useSupabaseLikes ? 'Supabase likes' : 'ローカルデモ'}</Badge>
-          {useSupabaseLikes ? <span className="text-xs font-bold text-theme-muted">いいね済み {likedUserIds.length}件</span> : null}
+          {useSupabaseLikes ? <span className="text-xs font-bold text-theme-muted">話してみたい済み {likedUserIds.length}件</span> : null}
         </div>
-        <Input label="キーワード" name="search" placeholder="趣味・地域で探す" />
+        <Input label="キーワード" name="search" placeholder="興味・活動エリアで探す" />
         <div className="flex flex-wrap gap-1.5">
           {filters.map((filter) => <Badge key={filter}><Search size={12} />{filter}</Badge>)}
         </div>

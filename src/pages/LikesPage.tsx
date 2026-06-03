@@ -65,7 +65,7 @@ export function LikesPage() {
         setHiddenUserIds(nextHiddenUserIds);
       } catch (caughtError) {
         if (!mounted) return;
-        setNotice(caughtError instanceof Error ? `いいね一覧の取得に失敗しました: ${caughtError.message}` : 'いいね一覧の取得に失敗しました。');
+        setNotice(caughtError instanceof Error ? `話してみたい一覧の取得に失敗しました: ${caughtError.message}` : '話してみたい一覧の取得に失敗しました。');
       } finally {
         if (mounted) setLoading(false);
       }
@@ -79,14 +79,14 @@ export function LikesPage() {
   }, [useSupabaseLikes, user]);
 
   return (
-    <PageShell description={useSupabaseLikes ? 'Supabase likes テーブルから、送ったいいねともらったいいねを表示します。' : '送ったいいねと、相手から届いている風のダミーいいねをlocalStorage状態で表示します。'} eyebrow="Likes" title="いいね">
+    <PageShell description={useSupabaseLikes ? 'Supabase likes テーブルから、送った「話してみたい」と届いた「話してみたい」を表示します。' : '送った「話してみたい」と、相手から届いている風のダミー話してみたいをlocalStorage状態で表示します。'} eyebrow="Talk" title="話してみたい">
       <Card className="space-y-2.5 bg-theme-accent-soft/45 shadow-sm">
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-black text-theme-text">{useSupabaseLikes ? 'Supabase保存中' : 'ローカルデモ'}</p>
-          {loading ? <Badge>取得中</Badge> : <Badge><Heart size={12} />Likes</Badge>}
+          {loading ? <Badge>取得中</Badge> : <Badge><Heart size={12} />送信</Badge>}
         </div>
         <p className="text-xs font-bold leading-5 text-theme-muted">
-          {useSupabaseLikes ? '送受信したいいねはログイン中のアカウントに紐づいて保存され、リロード後も残ります。マッチ済みのご縁は会話へ進めます。' : 'Supabase未接続・未ログインの場合は従来通りlocalStorageデモを表示します。'}
+          {useSupabaseLikes ? '送受信した話してみたいはログイン中のアカウントに紐づいて保存され、リロード後も残ります。コネクト済みのご縁は会話へ進めます。' : 'Supabase未接続・未ログインの場合は従来通りlocalStorageデモを表示します。'}
         </p>
       </Card>
 
@@ -94,13 +94,13 @@ export function LikesPage() {
 
       {useSupabaseLikes ? (
         <>
-          <LikeSection emptyText="まだもらったいいねはありません。プロフィールを整えて、ゆっくりご縁を待ちましょう。" likes={visibleReceivedLikes} matchIdByUserId={matchIdByUserId} matchedUserIds={matchedUserIds} title="もらったいいね" />
-          <LikeSection emptyText="まだ送ったいいねはありません。今日のご縁から気になる人に送ってみましょう。" likes={visibleSentLikes} matchIdByUserId={matchIdByUserId} matchedUserIds={matchedUserIds} title="送ったいいね" />
+          <LikeSection emptyText="まだ届いた「話してみたい」はありません。プロフィールを整えて、ゆっくりご縁を待ちましょう。" likes={visibleReceivedLikes} matchIdByUserId={matchIdByUserId} matchedUserIds={matchedUserIds} title="届いた「話してみたい」" />
+          <LikeSection emptyText="まだ送った「話してみたい」はありません。今日のつながりから気になる人に送ってみましょう。" likes={visibleSentLikes} matchIdByUserId={matchIdByUserId} matchedUserIds={matchedUserIds} title="送った「話してみたい」" />
         </>
       ) : (
         <>
-          <DemoLikeSection matchedUserIds={demoMatchedUserIds} title="もらったいいね" users={demoReceived} />
-          <DemoLikeSection emptyText="まだ送ったいいねはありません。今日のご縁から気になる人に送ってみましょう。" matchedUserIds={demoMatchedUserIds} title="送ったいいね" users={demoSent} />
+          <DemoLikeSection matchedUserIds={demoMatchedUserIds} title="届いた「話してみたい」" users={demoReceived} />
+          <DemoLikeSection emptyText="まだ送った「話してみたい」はありません。今日のつながりから気になる人に送ってみましょう。" matchedUserIds={demoMatchedUserIds} title="送った「話してみたい」" users={demoSent} />
         </>
       )}
     </PageShell>
@@ -120,7 +120,7 @@ function LikeSection({ emptyText, likes, matchedUserIds, matchIdByUserId, title 
   );
 }
 
-function DemoLikeSection({ emptyText = '相互いいね候補です。いいねするとマッチ演出が出ます。', matchedUserIds, title, users }: { emptyText?: string; matchedUserIds: string[]; title: string; users: UserProfile[] }) {
+function DemoLikeSection({ emptyText = '相互の「話してみたい」候補です。話してみたいを送るとコネクト演出が出ます。', matchedUserIds, title, users }: { emptyText?: string; matchedUserIds: string[]; title: string; users: UserProfile[] }) {
   return (
     <Card className="space-y-2.5">
       <h2 className="font-black">{title}</h2>
@@ -141,7 +141,7 @@ function LikeRow({ createdAt, matched = false, messagePath, user }: { createdAt?
           {createdAt ? <span className="block text-[11px] font-bold text-theme-muted">{new Date(createdAt).toLocaleDateString('ja-JP')}に届いたご縁</span> : null}
         </span>
         <Badge><Heart size={12} />Like</Badge>
-        {matched ? <Badge className="bg-theme-accent text-white"><Sparkles size={12} />マッチ済み</Badge> : <Badge className="bg-theme-accent text-white"><Sparkles size={12} />相互候補</Badge>}
+        {matched ? <Badge className="bg-theme-accent text-white"><Sparkles size={12} />コネクト済み</Badge> : <Badge className="bg-theme-accent text-white"><Sparkles size={12} />相互候補</Badge>}
       </Link>
       {matched && messagePath ? (
         <div className="mt-2 flex justify-end">

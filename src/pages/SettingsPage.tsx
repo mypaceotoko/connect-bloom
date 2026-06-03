@@ -94,7 +94,7 @@ export function SettingsPage() {
       </Card>
 
       <Placeholder icon={<Languages size={18} />} title="言語設定" body="日本語 / 英語切り替えは将来実装予定です。" />
-      <Placeholder icon={<Bell size={18} />} title="通知設定" body="マッチ・メッセージ通知の設定を次フェーズ以降に追加します。" />
+      <Placeholder icon={<Bell size={18} />} title="通知設定" body="コネクト・会話通知の設定を次フェーズ以降に追加します。" />
       <Placeholder icon={<UserRoundCheck size={18} />} title="紹介者表示設定" body="紹介者名の表示範囲をユーザー設定として保存できるようにします。" />
       <Placeholder icon={<ShieldCheck size={18} />} title="安全設定" body="本人確認・年齢確認は次フェーズ以降の検討項目です。今回はUIのみです。" />
 

@@ -116,7 +116,7 @@ export async function sendMessage(matchId: string, body: string): Promise<SendMe
   console.info('[EnBloom] send message started', { matchIdExists: Boolean(matchId), bodyExists: Boolean(trimmedBody) });
 
   if (!trimmedBody) {
-    return { success: false, errorMessage: 'メッセージを入力してください。' };
+    return { success: false, errorMessage: '会話内容を入力してください。' };
   }
 
   const currentUserId = await getCurrentUserId();
@@ -129,7 +129,7 @@ export async function sendMessage(matchId: string, body: string): Promise<SendMe
     console.info('[EnBloom] send message success', { success });
 
     if (!success) {
-      return { success: false, errorMessage: rpcRow?.message ?? 'メッセージの送信に失敗しました。' };
+      return { success: false, errorMessage: rpcRow?.message ?? '会話の送信に失敗しました。' };
     }
 
     const sentMessage: Message = {

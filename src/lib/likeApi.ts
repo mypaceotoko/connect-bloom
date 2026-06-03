@@ -103,7 +103,7 @@ export async function createLike(receiverId: string): Promise<Like & { matched: 
   console.info('[EnBloom] like create started', { receiverIdExists: Boolean(receiverId) });
 
   if (senderId === receiverId) {
-    throw new Error('自分自身にはいいねできません。');
+    throw new Error('自分自身には「話してみたい」を送れません。');
   }
 
   const alreadyLiked = await hasLiked(senderId, receiverId);
@@ -141,10 +141,10 @@ export async function createLike(receiverId: string): Promise<Like & { matched: 
       matchId: matchResult.matchId,
     };
   } catch (caughtError) {
-    const message = caughtError instanceof Error ? caughtError.message : 'マッチ確認に失敗しました。';
+    const message = caughtError instanceof Error ? caughtError.message : 'コネクト確認に失敗しました。';
     console.info('[EnBloom] match create success', { success: false });
     console.warn('[EnBloom] Like was saved, but match check failed.', message);
-    return { ...mapLikeRow(data), matched: false, matchCheckError: 'いいねは保存しましたが、マッチ確認に失敗しました。' };
+    return { ...mapLikeRow(data), matched: false, matchCheckError: '話してみたいは保存しましたが、コネクト確認に失敗しました。' };
   }
 }
 
@@ -165,7 +165,7 @@ export async function deleteLike(receiverId: string): Promise<boolean> {
 export async function toggleLike(receiverId: string): Promise<{ liked: boolean; matched: boolean; matchId?: string; matchCheckError?: string; like: Like | null }> {
   const senderId = await getCurrentUserId();
   if (senderId === receiverId) {
-    throw new Error('自分自身にはいいねできません。');
+    throw new Error('自分自身には「話してみたい」を送れません。');
   }
 
   const alreadyLiked = await hasLiked(senderId, receiverId);

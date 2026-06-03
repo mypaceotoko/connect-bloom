@@ -5,8 +5,8 @@ import { cn } from '../lib/utils';
 const navItems = [
   { to: '/home', label: 'ホーム', icon: Home },
   { to: '/discover', label: '探す', icon: Compass },
-  { to: '/likes', label: 'いいね', icon: Heart },
-  { to: '/matches', label: 'マッチ', icon: MessageCircle },
+  { to: '/likes', label: '話したい', icon: Heart },
+  { to: '/matches', label: 'コネクト', icon: MessageCircle },
   { to: '/settings', label: '設定', icon: Settings },
 ];
 

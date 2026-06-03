@@ -169,7 +169,7 @@ export function profileRowToUserProfile(profile: ProfileRow, primaryPhotoUrl?: s
     id: profile.id,
     name: profile.display_name || 'EnBloomユーザー',
     age: profile.age ?? 18,
-    location: profile.location || '地域未設定',
+    location: profile.location || '活動エリア未設定',
     occupation: profile.occupation || '自然体のプロフィール',
     bio: profile.bio || 'プロフィールを準備中です。ゆっくりご縁を育てていきたいです。',
     interests: profile.interests?.length ? profile.interests : ['紹介経由'],

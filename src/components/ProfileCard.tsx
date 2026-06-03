@@ -58,8 +58,8 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
     <Card className="group overflow-hidden p-0 transition duration-300 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-theme-main/10">
       {showMatch ? (
         <div className="m-3 rounded-[1.15rem] border border-theme-accent/30 bg-theme-accent-soft/80 p-3 text-center shadow-sm">
-          <p className="text-sm font-black text-theme-text">ご縁が咲きました</p>
-          <p className="mt-1 text-xs font-bold text-theme-muted">{user.name}さんとマッチしました。まずはゆっくり話してみましょう。</p>
+          <p className="text-sm font-black text-theme-text">ご縁がつながりました</p>
+          <p className="mt-1 text-xs font-bold text-theme-muted">{user.name}さんとコネクトしました。まずはゆっくり話してみましょう。</p>
         </div>
       ) : null}
       <Link aria-label={`${user.name}さんの詳細を見る`} className="block" to={`/profile/${user.id}`}>
@@ -67,11 +67,11 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.85),transparent_28%),radial-gradient(circle_at_80%_74%,rgba(255,255,255,0.44),transparent_26%)]" />
           <div className="absolute left-3.5 top-3.5 flex items-center gap-1.5 rounded-full bg-white/70 px-2.5 py-1 text-[11px] font-black text-theme-main-dark shadow-lg shadow-theme-main/10 backdrop-blur">
             <Sparkles size={13} />
-            今日のご縁
+            今日のつながり
           </div>
           <Badge className="absolute right-3.5 top-3.5 border border-white/70 bg-white/78 text-theme-text backdrop-blur">
             <UserRoundCheck size={13} />
-            {matched ? 'マッチ済み' : '紹介経由'}
+            {matched ? 'コネクト済み' : '紹介経由'}
           </Badge>
           <div className="absolute bottom-3.5 left-3.5 flex items-end gap-2.5">
             <ProfileAvatar className="size-20 rounded-[1.45rem] border border-white/70 shadow-xl backdrop-blur" fallbackClassName="bg-white/78 text-3xl font-black" user={user} />
@@ -103,7 +103,7 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
         <div className="space-y-2">
           <p className="flex items-center gap-1 text-xs font-black uppercase tracking-[0.14em] text-theme-main-dark">
             <Tags size={13} />
-            共通点
+            活動ジャンル / 共通点
           </p>
           <div className="flex flex-wrap gap-1.5">
             {user.interests.slice(0, compact ? 3 : user.interests.length).map((interest) => (
@@ -114,11 +114,11 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
 
         <div className="grid gap-2.5 rounded-[1.15rem] border border-theme-main/10 bg-theme-background/70 p-3 text-[13px] leading-5">
           <div>
-            <p className="flex items-center gap-1 font-black text-theme-text"><MessageCircleHeart size={14} />出会いの温度感</p>
+            <p className="flex items-center gap-1 font-black text-theme-text"><MessageCircleHeart size={14} />つながり方</p>
             <p className="mt-1 text-theme-muted">{user.datingTemperature}</p>
           </div>
           <div className="rounded-xl bg-theme-accent-soft/75 px-2.5 py-1.5 text-[11px] font-bold text-theme-text">
-            {user.introducedBy} からの紹介で安心
+            紹介ルート: {user.introducedBy}
           </div>
         </div>
 
@@ -128,7 +128,7 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
           {isCurrentUser ? null : (
             <Button className={`flex-1 shadow-lg ${liked ? 'bg-theme-accent text-white shadow-theme-accent/25 hover:bg-theme-accent/90' : 'bg-theme-accent-soft text-theme-text'}`} disabled={likeSaving} onClick={handleLike} variant="secondary">
               <Heart fill={liked ? 'currentColor' : 'none'} size={16} />
-              {liked ? 'いいね済み' : 'いいね'}
+              {liked ? '話してみたい済み' : '話してみたい'}
             </Button>
           )}
           <Link className="flex-1" to={`/profile/${user.id}`}>
