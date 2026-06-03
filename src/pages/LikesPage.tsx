@@ -5,6 +5,7 @@ import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
+import { ProfileAvatar } from '../components/ProfileAvatar';
 import { mockUsers } from '../data/mockUsers';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
@@ -133,7 +134,7 @@ function LikeRow({ createdAt, matched = false, messagePath, user }: { createdAt?
   return (
     <div className="rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5 transition hover:bg-theme-accent-soft/70">
       <Link className="flex items-center gap-2.5" to={`/profile/${user.id}`}>
-        <span className={`flex size-10 items-center justify-center rounded-xl bg-gradient-to-br ${user.gradient} font-black text-theme-main-dark`}>{user.name.slice(0, 1)}</span>
+        <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="font-black" user={user} />
         <span className="min-w-0 flex-1">
           <span className="block font-bold">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
           <span className="block text-xs text-theme-muted">{user.location}</span>

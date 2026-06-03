@@ -1,4 +1,5 @@
 import type { Block, BlockInsertResult, BlockedUserWithProfile } from '../types/block';
+import { attachPrimaryPhotoUrls, getPrimaryProfilePhotos } from './profilePhotoApi';
 import { profileRowToUserProfile, type ProfileRow } from './profileApi';
 import { isSupabaseConfigured, requireSupabaseClient, supabase } from './supabase';
 
@@ -116,8 +117,12 @@ export async function getBlockedUsersWithProfiles(userId?: string): Promise<Bloc
   if (error) throw error;
 
   const blockedUsers = ((data ?? []) as unknown as BlockedUserProfileJoinRow[]).map(blockRowToBlockedUser);
+  const profiles = blockedUsers.map((item) => item.profile).filter((profile): profile is NonNullable<typeof profile> => Boolean(profile));
+  const photosByUserId = await getPrimaryProfilePhotos(profiles.map((profile) => profile.id));
+  const profilesWithPhotos = attachPrimaryPhotoUrls(profiles, photosByUserId);
+  const profileById = new Map(profilesWithPhotos.map((profile) => [profile.id, profile]));
   console.info('[EnBloom] blocked users count', { count: blockedUsers.length });
-  return blockedUsers;
+  return blockedUsers.map((item) => ({ ...item, profile: item.profile ? profileById.get(item.profile.id) ?? item.profile : null }));
 }
 
 export async function getSafetyHiddenUserIds(userId?: string): Promise<string[]> {

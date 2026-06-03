@@ -164,7 +164,7 @@ export async function getPublicProfileById(profileId: string): Promise<ProfileRo
   return data ?? null;
 }
 
-export function profileRowToUserProfile(profile: ProfileRow): UserProfile {
+export function profileRowToUserProfile(profile: ProfileRow, primaryPhotoUrl?: string): UserProfile {
   return {
     id: profile.id,
     name: profile.display_name || 'EnBloomユーザー',
@@ -176,6 +176,9 @@ export function profileRowToUserProfile(profile: ProfileRow): UserProfile {
     datingTemperature: profile.dating_temperature || DEFAULT_DATING_TEMPERATURE,
     relationshipGoal: profile.relationship_goal || '自然体で長く付き合える関係',
     introducedBy: profile.invited_by ? '紹介者' : 'EnBloom',
+    photoUrl: primaryPhotoUrl,
+    avatarUrl: primaryPhotoUrl,
+    primaryPhotoUrl,
     gradient: getProfileGradient(profile.id),
   };
 }

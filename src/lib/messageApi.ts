@@ -1,4 +1,5 @@
 import type { Message, MessageMatch, SendMessageResult } from '../types/message';
+import { getPrimaryProfilePhoto } from './profilePhotoApi';
 import { profileRowToUserProfile, type ProfileRow } from './profileApi';
 import { requireSupabaseClient } from './supabase';
 
@@ -86,7 +87,7 @@ export async function getMessageMatchById(matchId: string): Promise<MessageMatch
     user1Id: data.user1_id,
     user2Id: data.user2_id,
     otherUserId: data.user1_id === currentUserId ? data.user2_id : data.user1_id,
-    otherProfile: otherProfile ? profileRowToUserProfile(otherProfile) : null,
+    otherProfile: otherProfile ? profileRowToUserProfile(otherProfile, (await getPrimaryProfilePhoto(data.user1_id === currentUserId ? data.user2_id : data.user1_id).catch(() => null))?.publicUrl) : null,
     createdAt: data.created_at,
     lastMessageAt: data.last_message_at,
   };

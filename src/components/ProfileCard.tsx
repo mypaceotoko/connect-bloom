@@ -6,6 +6,7 @@ import type { UserProfile } from '../types/user';
 import { Badge } from './Badge';
 import { Button } from './Button';
 import { Card } from './Card';
+import { ProfileAvatar } from './ProfileAvatar';
 
 export type ProfileCardProps = {
   user: UserProfile;
@@ -73,9 +74,7 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
             {matched ? 'マッチ済み' : '紹介経由'}
           </Badge>
           <div className="absolute bottom-3.5 left-3.5 flex items-end gap-2.5">
-            <div className="flex size-20 items-center justify-center rounded-[1.45rem] border border-white/70 bg-white/78 text-3xl font-black text-theme-main-dark shadow-xl backdrop-blur">
-              {user.name.slice(0, 1)}
-            </div>
+            <ProfileAvatar className="size-20 rounded-[1.45rem] border border-white/70 shadow-xl backdrop-blur" fallbackClassName="bg-white/78 text-3xl font-black" user={user} />
             <div className="mb-0.5 rounded-[1.25rem] bg-white/72 px-3.5 py-2.5 shadow-lg shadow-theme-main/10 backdrop-blur">
               <p className="text-base font-black leading-none text-theme-text">
                 {user.name} <span className="text-xs font-bold text-theme-muted">{user.age}</span>

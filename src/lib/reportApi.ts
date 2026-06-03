@@ -1,3 +1,4 @@
+import { attachPrimaryPhotoUrls, getPrimaryProfilePhotos } from './profilePhotoApi';
 import type { ProfileRow } from './profileApi';
 import { profileRowToUserProfile } from './profileApi';
 import { isSupabaseConfigured, requireSupabaseClient, supabase } from './supabase';
@@ -168,7 +169,16 @@ export async function getAdminReports(options: GetAdminReportsOptions = {}): Pro
 
   if (error) throw error;
   console.info('[EnBloom] reports count', { count: data?.length ?? 0 });
-  return (data ?? []).map((row) => mapReportWithProfiles(row as unknown as ReportRowWithProfiles));
+  const reports = (data ?? []).map((row) => mapReportWithProfiles(row as unknown as ReportRowWithProfiles));
+  const profiles = reports.flatMap((report) => [report.reporter, report.reportedUser]).filter((profile): profile is NonNullable<typeof profile> => Boolean(profile));
+  const photosByUserId = await getPrimaryProfilePhotos(profiles.map((profile) => profile.id));
+  const profilesWithPhotos = attachPrimaryPhotoUrls(profiles, photosByUserId);
+  const profileById = new Map(profilesWithPhotos.map((profile) => [profile.id, profile]));
+  return reports.map((report) => ({
+    ...report,
+    reporter: report.reporter ? profileById.get(report.reporter.id) ?? report.reporter : null,
+    reportedUser: report.reportedUser ? profileById.get(report.reportedUser.id) ?? report.reportedUser : null,
+  }));
 }
 
 export async function updateReportReview(reportId: string, review: UpdateReportReviewParams): Promise<UpdateReportReviewResult> {

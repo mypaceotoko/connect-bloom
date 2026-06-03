@@ -33,9 +33,11 @@ export type UserProfile = {
   relationshipGoal: RelationshipGoal | string;
   introducedBy: string;
   photoUrl?: string;
+  avatarUrl?: string;
+  primaryPhotoUrl?: string;
   gradient: string;
 };
 
-export type CurrentUserProfile = Omit<UserProfile, 'introducedBy' | 'gradient' | 'photoUrl'> & {
+export type CurrentUserProfile = Omit<UserProfile, 'introducedBy' | 'gradient'> & {
   themePreference: ThemeId;
 };

@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 import { PageShell } from '../components/PageShell';
+import { ProfileAvatar } from '../components/ProfileAvatar';
 import { mockUsers } from '../data/mockUsers';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
@@ -232,7 +233,7 @@ export function MessagesPage() {
 
       {messageMatch?.otherProfile ? (
         <Card className="flex items-center gap-3 bg-theme-background/75 shadow-sm">
-          <span className={`flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br ${messageMatch.otherProfile.gradient} text-xl font-black text-theme-main-dark`}>{messageMatch.otherProfile.name.slice(0, 1)}</span>
+          <ProfileAvatar className="size-12 rounded-2xl" fallbackClassName="text-xl font-black" user={messageMatch.otherProfile} />
           <span className="min-w-0 flex-1">
             <span className="block font-black">{messageMatch.otherProfile.name}<span className="ml-1 text-xs text-theme-muted">{messageMatch.otherProfile.age}</span></span>
             <span className="block text-xs leading-5 text-theme-muted">{messageMatch.otherProfile.location}・{messageMatch.otherProfile.datingTemperature}</span>

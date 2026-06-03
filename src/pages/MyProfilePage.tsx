@@ -7,6 +7,8 @@ import { PageShell } from '../components/PageShell';
 import { useTheme } from '../context/ThemeProvider';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
+import { ProfileAvatar } from '../components/ProfileAvatar';
+import { getMyPrimaryProfilePhoto, uploadProfilePhoto } from '../lib/profilePhotoApi';
 import { getMyProfile, profileRowToCurrentUser, updateMyProfile } from '../lib/profileApi';
 import { DEFAULT_DATING_TEMPERATURE } from '../types/user';
 
@@ -24,6 +26,11 @@ export function MyProfilePage() {
     interestsText: currentUser.interests.join('、'),
   });
   const [notice, setNotice] = useState('');
+  const [photoNotice, setPhotoNotice] = useState('');
+  const [photoUrl, setPhotoUrl] = useState(currentUser.photoUrl ?? currentUser.primaryPhotoUrl ?? currentUser.avatarUrl ?? '');
+  const [selectedPhotoFile, setSelectedPhotoFile] = useState<File | null>(null);
+  const [selectedPhotoPreview, setSelectedPhotoPreview] = useState('');
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -33,9 +40,12 @@ export function MyProfilePage() {
       if (!isSupabaseMode || !isAuthenticated || !user) return;
 
       try {
-        const profile = await getMyProfile(user.id);
+        const [profile, primaryPhoto] = await Promise.all([getMyProfile(user.id), getMyPrimaryProfilePhoto().catch(() => null)]);
         if (!mounted || !profile) return;
         const syncedProfile = profileRowToCurrentUser(profile, themeId);
+        if (primaryPhoto?.publicUrl) {
+          setPhotoUrl(primaryPhoto.publicUrl);
+        }
         setForm({
           name: syncedProfile.name,
           age: String(syncedProfile.age),
@@ -57,6 +67,63 @@ export function MyProfilePage() {
       mounted = false;
     };
   }, [isAuthenticated, isSupabaseMode, themeId, user]);
+
+  function validateSelectedPhoto(file: File | null) {
+    console.info('[EnBloom] file exists', { exists: Boolean(file) });
+    if (!file) return '画像ファイルを選択してください';
+    console.info('[EnBloom] file size', { size: file.size });
+    console.info('[EnBloom] file type', { type: file.type });
+    if (!file.type.startsWith('image/')) return '画像ファイルを選択してください';
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) return 'JPG / PNG / WebP の画像を選択してください';
+    if (file.size > 5 * 1024 * 1024) return '画像サイズは5MB以下にしてください';
+    return '';
+  }
+
+  function handlePhotoSelect(file: File | null) {
+    setPhotoNotice('');
+    if (selectedPhotoPreview) URL.revokeObjectURL(selectedPhotoPreview);
+
+    const validationError = validateSelectedPhoto(file);
+    if (validationError) {
+      setSelectedPhotoFile(null);
+      setSelectedPhotoPreview('');
+      setPhotoNotice(validationError);
+      return;
+    }
+
+    setSelectedPhotoFile(file);
+    setSelectedPhotoPreview(file ? URL.createObjectURL(file) : '');
+  }
+
+  async function handlePhotoUpload() {
+    if (!isSupabaseMode || !isAuthenticated) {
+      setPhotoNotice('プロフィール画像アップロードはSupabase接続時に利用できます。');
+      return;
+    }
+
+    const validationError = validateSelectedPhoto(selectedPhotoFile);
+    if (validationError || !selectedPhotoFile) {
+      setPhotoNotice(validationError || '画像ファイルを選択してください');
+      return;
+    }
+
+    setUploadingPhoto(true);
+    setPhotoNotice('');
+
+    try {
+      const result = await uploadProfilePhoto(selectedPhotoFile);
+      setPhotoUrl(result.photo.publicUrl);
+      saveCurrentUserProfile({ ...currentUser, photoUrl: result.photo.publicUrl, avatarUrl: result.photo.publicUrl, primaryPhotoUrl: result.photo.publicUrl });
+      setSelectedPhotoFile(null);
+      if (selectedPhotoPreview) URL.revokeObjectURL(selectedPhotoPreview);
+      setSelectedPhotoPreview('');
+      setPhotoNotice('プロフィール画像を保存しました');
+    } catch (caughtError) {
+      setPhotoNotice(caughtError instanceof Error ? `画像の保存に失敗しました: ${caughtError.message}` : 'アップロードに失敗しました。少し時間を置いてもう一度お試しください');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  }
 
   async function handleSave() {
     const age = Number(form.age);
@@ -96,7 +163,7 @@ export function MyProfilePage() {
         });
       }
 
-      saveCurrentUserProfile(nextProfile);
+      saveCurrentUserProfile({ ...nextProfile, photoUrl: photoUrl || currentUser.photoUrl });
       setNotice(isSupabaseMode && isAuthenticated ? '編集内容をSupabase profilesとlocalStorageに保存しました。' : '編集内容をlocalStorageに保存しました。');
     } catch (caughtError) {
       setNotice(caughtError instanceof Error ? `保存に失敗しました: ${caughtError.message}` : '保存に失敗しました。時間をおいて再度お試しください。');
@@ -110,8 +177,27 @@ export function MyProfilePage() {
       <Card className="space-y-3.5">
         {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">{notice}</div> : null}
         {!isSupabaseMode || !isAuthenticated ? <Badge className="w-fit">ローカルデモ</Badge> : null}
-        <div className="flower-gradient flex h-36 items-center justify-center rounded-[1.15rem]">
-          <span className="flex size-20 items-center justify-center rounded-[1.45rem] bg-white/80 text-3xl font-black text-theme-main-dark">{form.name.slice(0, 1) || '自'}</span>
+        <div className="flower-gradient rounded-[1.15rem] p-3">
+          <div className="rounded-[1rem] bg-white/66 p-3 shadow-sm backdrop-blur">
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center">
+              <ProfileAvatar className="size-24 rounded-[1.65rem] border border-white/80 shadow-xl" fallbackClassName="text-3xl font-black" user={{ name: form.name || '自分', gradient: 'from-pink-100 via-rose-50 to-emerald-100', photoUrl: selectedPhotoPreview || photoUrl }} />
+              <div className="min-w-0 flex-1 space-y-2 text-center sm:text-left">
+                <div>
+                  <p className="text-sm font-black text-theme-text">プロフィール画像</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">安心して雰囲気が伝わる、上品で自然な1枚を登録できます。</p>
+                </div>
+                {!isSupabaseMode || !isAuthenticated ? <Badge className="w-fit">Supabase接続時に利用できます</Badge> : null}
+                {photoNotice ? <p className="rounded-xl bg-theme-accent-soft/70 px-3 py-2 text-xs font-bold text-theme-text">{photoNotice}</p> : null}
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <label className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-full border border-theme-main/20 bg-theme-card px-4 py-2 text-sm font-black text-theme-main-dark shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                    画像を選ぶ
+                    <input accept="image/jpeg,image/png,image/webp" className="sr-only" disabled={!isSupabaseMode || !isAuthenticated || uploadingPhoto} onChange={(event) => handlePhotoSelect(event.target.files?.[0] ?? null)} type="file" />
+                  </label>
+                  <Button className="min-h-11" disabled={!selectedPhotoFile || uploadingPhoto || !isSupabaseMode || !isAuthenticated} onClick={handlePhotoUpload} variant="secondary">{uploadingPhoto ? 'アップロード中...' : 'プロフィール画像を保存'}</Button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <Input helperText="アプリ内で表示される名前です。" label="表示名" name="myName" onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))} placeholder="マイペース男" value={form.name} />
         <div className="grid grid-cols-2 gap-3"><Input helperText="18歳未満は利用できません。" label="年齢" name="myAge" onChange={(event) => setForm((current) => ({ ...current, age: event.target.value }))} placeholder="39" type="number" value={form.age} /><Input helperText="大まかな地域でOKです。" label="地域" name="myLocation" onChange={(event) => setForm((current) => ({ ...current, location: event.target.value }))} placeholder="東京都・世田谷区" value={form.location} /></div>

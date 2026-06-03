@@ -5,6 +5,7 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 import { PageShell } from '../components/PageShell';
+import { ProfileAvatar } from '../components/ProfileAvatar';
 import { mockUsers } from '../data/mockUsers';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
@@ -515,9 +516,12 @@ export function AdminPage() {
                     type="button"
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0 space-y-1">
-                        <p className="text-xs font-bold text-theme-muted">通報された相手</p>
-                        <p className="break-all font-black text-theme-main-dark">{report.reportedUser?.name ?? report.reported_user_id}</p>
+                      <div className="flex min-w-0 items-center gap-2.5">
+                        {report.reportedUser ? <ProfileAvatar className="size-10 shrink-0 rounded-xl" fallbackClassName="font-black" user={report.reportedUser} /> : null}
+                        <div className="min-w-0 space-y-1">
+                          <p className="text-xs font-bold text-theme-muted">通報された相手</p>
+                          <p className="break-all font-black text-theme-main-dark">{report.reportedUser?.name ?? report.reported_user_id}</p>
+                        </div>
                       </div>
                       <div className="flex shrink-0 items-center gap-1.5">
                         {isArchived ? <Badge className="bg-slate-100 text-slate-600">アーカイブ済み</Badge> : null}
@@ -599,7 +603,7 @@ export function AdminPage() {
             {reportedUsers.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">まだ通報はありません。プロフィールまたはDM画面の通報ボタンから反映されます。</p> : null}
             {reportedUsers.map((reportedUser) => (
               <div className="flex items-center gap-2.5 rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5" key={reportedUser.id}>
-                <span className={`flex size-10 items-center justify-center rounded-xl bg-gradient-to-br ${reportedUser.gradient} font-black text-theme-main-dark`}>{reportedUser.name.slice(0, 1)}</span>
+                <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="font-black" user={reportedUser} />
                 <span className="min-w-0 flex-1"><span className="block font-bold">{reportedUser.name}</span><span className="block text-xs text-theme-muted">{reportedUser.location}</span></span>
                 <Badge className="bg-red-50 text-red-600">通報済み</Badge>
               </div>
