@@ -1,4 +1,4 @@
-import { ArrowLeft, ClipboardList, MessageCircle, Send, ShieldAlert, Trash2, UsersRound } from 'lucide-react';
+import { ArrowLeft, ClipboardList, Send, ShieldAlert, Trash2, UsersRound } from 'lucide-react';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../components/Badge';
@@ -8,6 +8,7 @@ import { PageShell } from '../components/PageShell';
 import { demoChatRooms, demoRoomMessages, roomTags } from '../data/mockChatRooms';
 import { useAuth } from '../hooks/useAuth';
 import { getShortErrorMessage } from '../lib/errorMessage';
+import { getRoomVisual } from '../lib/roomVisual';
 import { deleteChatRoomMessage, getChatRoomBySlug, getChatRoomMessages, sendChatRoomMessage } from '../lib/chatRoomApi';
 import type { ChatRoom, ChatRoomMessageWithProfile } from '../types/chatRoom';
 
@@ -153,6 +154,7 @@ export function RoomDetailPage() {
   }
 
   const roomDescription = getRoomDetailDescription(room);
+  const { Icon: RoomIcon, className: roomIconClassName } = getRoomVisual(room);
 
   return (
     <PageShell description={<SentenceLines text={roomDescription} />} eyebrow="Room" title={room.name}>
@@ -161,7 +163,7 @@ export function RoomDetailPage() {
       <Card className="flower-gradient border-0 p-1">
         <div className="space-y-3 rounded-[1.3rem] bg-theme-card/84 p-4 backdrop-blur">
           <div className="flex items-start gap-3">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-theme-yellow/80 via-theme-sky/25 to-theme-cyan/30 text-theme-main-dark shadow-sm shadow-theme-sky/15"><MessageCircle size={21} /></div>
+            <div className={`flex size-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br shadow-sm ${roomIconClassName}`}><RoomIcon size={21} /></div>
             <div className="min-w-0 flex-1 space-y-2">
               <div className="flex flex-wrap items-center gap-2">
                 <h2 className="text-lg font-black text-theme-text">{room.name}</h2>

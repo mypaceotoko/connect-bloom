@@ -1,6 +1,6 @@
 import { Heart, Leaf, MapPin, MessageCircleHeart, Sparkles, Sprout, Tags, UserRoundCheck } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAppState } from '../hooks/useAppState';
 import { cn } from '../lib/utils';
 import type { UserProfile } from '../types/user';
@@ -20,6 +20,8 @@ export type ProfileCardProps = {
 
 export function ProfileCard({ user, compact = false, liked: likedOverride, matched: matchedOverride, isCurrentUser = false, onToggleLike }: ProfileCardProps) {
   const { isLiked, isMatched, toggleLike } = useAppState();
+  const location = useLocation();
+  const profileDetailState = { from: location.pathname, profilePreview: user };
   const [showMatch, setShowMatch] = useState(false);
   const [likeError, setLikeError] = useState('');
   const [likeSaving, setLikeSaving] = useState(false);
@@ -63,7 +65,7 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
           <p className="mt-1 text-xs font-bold text-theme-muted">{user.name}さんとコネクトしました。まずはゆっくり話してみましょう。</p>
         </div>
       ) : null}
-      <Link aria-label={`${user.name}さんの詳細を見る`} className="block" to={`/profile/${user.id}`}>
+      <Link aria-label={`${user.name}さんの詳細を見る`} className="block" state={profileDetailState} to={`/profile/${user.id}`}>
         <div className={cn('relative overflow-hidden bg-gradient-to-br', compact ? 'h-36' : 'h-48', user.gradient)}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.85),transparent_28%),radial-gradient(circle_at_80%_74%,rgba(255,255,255,0.44),transparent_26%)]" />
           <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-white/70 px-2.5 py-1 text-[11px] font-black text-theme-main-dark shadow-lg shadow-theme-main/10 backdrop-blur">
@@ -132,7 +134,7 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
               {liked ? '送信済み' : '話してみたい'}
             </Button>
           )}
-          <Link className="flex-1" to={`/profile/${user.id}`}>
+          <Link className="flex-1" state={profileDetailState} to={`/profile/${user.id}`}>
             <Button className="min-h-10 w-full px-3 text-xs">詳細を見る</Button>
           </Link>
         </div>
