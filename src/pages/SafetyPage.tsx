@@ -1,4 +1,5 @@
 import { Flag, HandHeart, MessagesSquare, ShieldCheck, UserX, UsersRound } from 'lucide-react';
+import { Fragment } from 'react';
 import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
 
@@ -35,21 +36,32 @@ const guides = [
   },
 ];
 
+function renderSentenceBreaks(text: string) {
+  const sentences = text.split('。').filter(Boolean).map((sentence) => `${sentence}。`);
+
+  return sentences.map((sentence, index) => (
+    <Fragment key={sentence}>
+      {index > 0 ? <br /> : null}
+      {sentence}
+    </Fragment>
+  ));
+}
+
 export function SafetyPage() {
   return (
     <PageShell description="ConnectBloomを安心して使うためのルールとヒントをまとめています。" eyebrow="Safety" title="安心ガイド">
-      <div className="space-y-3 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+      <div className="space-y-2.5 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
         {guides.map((guide) => {
           const Icon = guide.icon;
 
           return (
-            <Card className="flex gap-4" key={guide.title}>
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-theme-accent-soft text-theme-main-dark">
-                <Icon size={22} />
+            <Card className="flex gap-3 px-3 py-3" key={guide.title}>
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark">
+                <Icon size={18} />
               </span>
-              <span>
-                <span className="block font-black">{guide.title}</span>
-                <span className="mt-1 block text-sm leading-6 text-theme-muted">{guide.body}</span>
+              <span className="min-w-0">
+                <span className="block text-sm font-black leading-5">{guide.title}</span>
+                <span className="mt-0.5 block text-[13px] leading-5 text-theme-muted">{renderSentenceBreaks(guide.body)}</span>
               </span>
             </Card>
           );
