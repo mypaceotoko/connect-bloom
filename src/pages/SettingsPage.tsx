@@ -111,7 +111,7 @@ export function SettingsPage() {
           <h2 className="text-lg font-black text-theme-text">ガイド・規約</h2>
           <p className="mt-1 text-xs leading-5 text-theme-muted">使い方と大切なルールを確認できます。</p>
         </div>
-        <SettingsLink body="確認してほしい流れとフィードバック方法をまとめています。" icon={<ClipboardCheck size={18} />} onClick={() => navigate('/test-guide')} title="テスターガイド" />
+        <SettingsLink body="確認してほしい流れと、フィードバックの送り方をまとめています。" icon={<ClipboardCheck size={18} />} onClick={() => navigate('/test-guide')} title="テスターガイド" />
         <SettingsLink body="ConnectBloomを使うための基本ルールです。" icon={<FileText size={18} />} onClick={() => navigate('/terms')} title="利用規約" />
         <SettingsLink body="扱う情報と使い方について確認できます。" icon={<LockKeyhole size={18} />} onClick={() => navigate('/privacy')} title="プライバシーポリシー" />
       </section>
