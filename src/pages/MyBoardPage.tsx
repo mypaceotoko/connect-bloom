@@ -9,6 +9,7 @@ import { mockActivityPosts } from '../data/mockActivityPosts';
 import { useAuth } from '../hooks/useAuth';
 import { archiveActivityPost, closeActivityPost, deleteActivityPost, getActivityPostInterestsForOwner, getMyActivityPosts, reopenActivityPost } from '../lib/activityBoardApi';
 import { formatConversationFailureMessage, getActivityInterestConversationPath } from '../lib/matchApi';
+import { getSafeErrorLog, getShortErrorMessage } from '../lib/errorMessage';
 import type { ActivityPostInterestWithProfile, ActivityPostStatus, ActivityPostWithStats } from '../types/activityBoard';
 
 function formatDate(value: string | null) {
@@ -67,9 +68,9 @@ export function MyBoardPage() {
         setAcceptedInterestsByPostId(Object.fromEntries(acceptedEntries));
       } catch (caughtError) {
         if (!mounted) return;
-        console.warn('[ConnectBloom] my activity posts fetch failed', { success: false });
+        console.warn('[ConnectBloom] my activity posts fetch failed', getSafeErrorLog(caughtError, 'my_activity_posts_fetch_failed'));
         setPosts([]);
-        setError(caughtError instanceof Error ? `自分の募集一覧の取得に失敗しました: ${caughtError.message}` : '自分の募集一覧の取得に失敗しました');
+        setError(getShortErrorMessage(caughtError, '自分の募集一覧の取得に失敗しました。時間を置いてもう一度お試しください。'));
       } finally {
         if (mounted) setLoading(false);
       }
@@ -114,7 +115,7 @@ export function MyBoardPage() {
       navigate(result.path);
     } catch (caughtError) {
       const message = caughtError instanceof Error ? caughtError.message : 'unknown';
-      console.error('[ConnectBloom] messages navigation failed', { phase: 'navigation_failed', message: caughtError });
+      console.error('[ConnectBloom] messages navigation failed', getSafeErrorLog(caughtError, 'navigation_failed'));
       setError(formatConversationFailureMessage('navigation_failed', message));
     } finally {
       setOpeningInterestId(null);
@@ -133,7 +134,7 @@ export function MyBoardPage() {
       applyPostStatus(postId, updated.status, updated.closed_at);
       setNotice('募集を締め切りました。');
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? `募集の締切に失敗しました: ${caughtError.message}` : '募集の締切に失敗しました');
+      setError(getShortErrorMessage(caughtError, '募集の締切に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setUpdatingPostId(null);
     }
@@ -151,7 +152,7 @@ export function MyBoardPage() {
       applyPostStatus(postId, updated.status, updated.closed_at);
       setNotice('募集を再開しました。');
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? `募集の再開に失敗しました: ${caughtError.message}` : '募集の再開に失敗しました');
+      setError(getShortErrorMessage(caughtError, '募集の再開に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setUpdatingPostId(null);
     }
@@ -178,7 +179,7 @@ export function MyBoardPage() {
         setNotice('募集を削除しました。');
       }
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? `募集の削除に失敗しました: ${caughtError.message}` : '募集の削除に失敗しました');
+      setError(getShortErrorMessage(caughtError, '募集の削除に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setUpdatingPostId(null);
     }

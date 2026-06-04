@@ -1,7 +1,8 @@
 import type { AppNotification, NotificationCreateInput, NotificationType } from '../types/notification';
+import { getSafeErrorLog } from './errorMessage';
 import { supabase } from './supabase';
 
-export const notificationSetupMessage = '通知機能の準備がまだ完了していない可能性があります。Supabaseに 022_notifications.sql を適用してください。';
+export const notificationSetupMessage = '通知機能の準備がまだ完了していない可能性があります。';
 
 type NotificationRow = {
   id: string;
@@ -70,7 +71,7 @@ function truncate(value: string, maxLength: number) {
   return trimmed.length > maxLength ? trimmed.slice(0, maxLength) : trimmed;
 }
 
-export function getNotificationErrorMessage(error: unknown, fallback = '通知の取得に失敗しました。') {
+export function getNotificationErrorMessage(error: unknown, fallback = '通知の取得に失敗しました。時間を置いてもう一度お試しください。') {
   if (error instanceof Error && /ログイン状態/.test(error.message)) return 'ログイン状態を確認できませんでした。';
 
   const errorLike = error as { code?: string; message?: string } | null;
@@ -124,11 +125,7 @@ export async function safeGetUnreadNotificationCount(): Promise<number> {
   try {
     return await getUnreadNotificationCount();
   } catch (caughtError) {
-    console.warn('[ConnectBloom] notification unread count fetch failed', {
-      success: false,
-      errorMessage: caughtError instanceof Error ? caughtError.message : undefined,
-      code: (caughtError as { code?: string } | null)?.code,
-    });
+    console.warn('[ConnectBloom] notification unread count fetch failed', getSafeErrorLog(caughtError, 'unread_count_fetch_failed'));
     return 0;
   }
 }
@@ -176,8 +173,7 @@ function warnNotificationCreation(type: NotificationType, targetUserId: string |
     type,
     targetUserExists: Boolean(targetUserId),
     success,
-    errorMessage: error instanceof Error ? error.message : undefined,
-    code: (error as { code?: string } | null)?.code,
+    ...getSafeErrorLog(error, 'notification_creation_failed'),
   });
 }
 

@@ -1,6 +1,7 @@
 import type { DirectConversationResult, Match, MatchCreateResult, MatchStatus, MatchWithProfile } from '../types/match';
 import { attachPrimaryPhotoUrls, getPrimaryProfilePhotos } from './profilePhotoApi';
 import { profileRowToUserProfile, type ProfileRow } from './profileApi';
+import { getErrorDebugInfo, getSafeErrorLog, getShortErrorMessage } from './errorMessage';
 import { requireSupabaseClient } from './supabase';
 
 type MatchRow = {
@@ -202,25 +203,20 @@ export function formatSupabaseDebugError(error: unknown) {
   ].join(' / ');
 }
 
-export function formatConversationFailureMessage(phase: string, message: string, debugError?: string) {
-  const safeMessage = message || 'unknown';
-  const friendlyMessage = /ブロック/.test(safeMessage)
+export function formatConversationFailureMessage(_phase: string, message: string, debugError?: string) {
+  void debugError;
+  return /ブロック/.test(message || '')
     ? 'ブロック中のため会話を開始できません。'
     : '会話の作成に失敗しました。時間を置いてもう一度お試しください。';
-  const details = [`phase=${phase}`, `message=${safeMessage}`];
-  if (debugError) details.push(debugError);
-  return `${friendlyMessage}（詳細: ${details.join(' / ')}）`;
+}
+
+export function formatConversationFailureDebugInfo(phase: string, debugError?: string) {
+  return [getErrorDebugInfo({ phase }), debugError].filter(Boolean).join(' / ');
 }
 
 function logDmSupabaseError(phase: string, error: unknown) {
   const details = getSupabaseErrorDetails(error);
-  console.error('[DM] supabase error', {
-    phase,
-    message: details.message,
-    details: details.details,
-    hint: details.hint,
-    code: details.code,
-  });
+  console.error('[DM] supabase error', getSafeErrorLog(details, phase));
 }
 
 function mapDirectConversationError(error: unknown, fallback: string) {
@@ -232,8 +228,7 @@ function mapDirectConversationError(error: unknown, fallback: string) {
     return message ? fallback : fallback;
   })();
 
-  const debugError = formatSupabaseDebugError(error);
-  return debugError ? `${friendlyMessage}（詳細: ${debugError}）` : friendlyMessage;
+  return getShortErrorMessage(error, friendlyMessage);
 }
 
 function isMissingRpcError(error: { code?: string; message?: string }) {

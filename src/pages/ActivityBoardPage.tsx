@@ -7,6 +7,7 @@ import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
 import { activityPostCategories, mockActivityPosts } from '../data/mockActivityPosts';
 import { useAuth } from '../hooks/useAuth';
+import { getShortErrorMessage } from '../lib/errorMessage';
 import { getActivityPosts } from '../lib/activityBoardApi';
 import type { ActivityPostWithAuthor } from '../types/activityBoard';
 
@@ -50,7 +51,7 @@ export function ActivityBoardPage() {
       } catch (caughtError) {
         if (!mounted) return;
         setPosts([]);
-        setNotice(caughtError instanceof Error ? `募集の取得に失敗しました: ${caughtError.message}` : '募集の取得に失敗しました。');
+        setNotice(getShortErrorMessage(caughtError, '募集情報の取得に失敗しました。時間を置いてもう一度お試しください。'));
       } finally {
         if (mounted) setLoading(false);
       }
