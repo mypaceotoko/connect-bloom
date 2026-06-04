@@ -62,14 +62,16 @@ export function MatchesPage() {
   }, [useSupabaseMatches, user]);
 
   return (
-    <PageShell description={useSupabaseMatches ? 'Supabase matches テーブルから、相互の「話してみたい」でつながったご縁を表示します。' : '相互の「話してみたい」でつながったご縁を表示し、会話デモへ進めます。'} eyebrow="Matches" title="コネクト一覧">
+    <PageShell description={<>お互いの「話してみたい」が重なったご縁を表示します。<br />会話へ進む相手を確認できます。</>} eyebrow="Matches" title="コネクト一覧">
       <Card className="space-y-2.5 bg-theme-accent-soft/45 shadow-sm">
         <div className="flex items-center justify-between gap-2">
-          <p className="text-sm font-black text-theme-text">{useSupabaseMatches ? 'Supabase保存中' : 'ローカルデモ'}</p>
+          <p className="text-sm font-black text-theme-text">コネクトした人</p>
           <Badge>{loading ? '取得中' : <><Sparkles size={12} />ご縁</>}</Badge>
         </div>
         <p className="text-xs font-bold leading-5 text-theme-muted">
-          コネクトは軽いスワイプの結果ではなく、お互いの「話してみたい」が重なってご縁がつながった状態として扱います。
+          お互いの「話してみたい」が重なって、ご縁がつながった状態です。
+          <br />
+          気になる人とは、ここから会話を始められます。
         </p>
       </Card>
 
@@ -93,31 +95,33 @@ export function MatchesPage() {
 function EmptyMatches() {
   return (
     <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">
-      まだコネクトはありません。届いた「話してみたい」の相手に話してみたいを送ると「ご縁がつながりました」の控えめな演出が表示されます。
+      まだコネクトはありません。
+      <br />
+      届いた「話してみたい」の相手に話してみたいを送ると「ご縁がつながりました」の控えめな演出が表示されます。
     </p>
   );
 }
 
 function MatchRow({ createdAt, messagePath, user }: { createdAt?: string; messagePath?: string; user: UserProfile }) {
   return (
-    <div className="rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5">
+    <div className="rounded-[1.05rem] bg-theme-accent-soft/45 p-2.5">
       <div className="flex items-center gap-2.5">
-        <ProfileAvatar className="size-11 rounded-xl" fallbackClassName="text-xl font-black" user={user} />
+        <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="text-lg font-black" user={user} />
         <span className="min-w-0 flex-1">
-          <span className="block font-black">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
-          <span className="block text-xs leading-5 text-theme-muted">{user.location}・{user.datingTemperature}</span>
-          {createdAt ? <span className="block text-[11px] font-bold text-theme-muted">{new Date(createdAt).toLocaleDateString('ja-JP')}にご縁がつながりました</span> : <span className="block text-[11px] font-bold text-theme-muted">紹介のご縁からコネクトしました</span>}
+          <span className="block text-sm font-black leading-5">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
+          <span className="block text-xs leading-4 text-theme-muted">{user.location}・{user.datingTemperature}</span>
+          {createdAt ? <span className="block text-[11px] font-bold leading-4 text-theme-muted">{new Date(createdAt).toLocaleDateString('ja-JP')}にご縁がつながりました</span> : <span className="block text-[11px] font-bold leading-4 text-theme-muted">紹介のご縁からコネクトしました</span>}
         </span>
         <Badge className="bg-theme-main text-white"><Sparkles size={12} />ご縁</Badge>
       </div>
 
-      <div className="mt-2 flex flex-wrap gap-1.5">
+      <div className="mt-1.5 flex flex-wrap gap-1.5">
         {user.interests.slice(0, 3).map((interest) => <Badge className="bg-theme-background/80" key={interest}>{interest}</Badge>)}
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-2 rounded-xl bg-theme-background/70 px-2.5 py-2">
-        <span className="flex items-center gap-1 text-xs font-bold text-theme-muted"><HeartHandshake size={14} />まずはゆっくり会話へ</span>
-        {messagePath ? <Link to={messagePath}><Button className="min-h-10 px-3 py-2"><MessageCircle size={16} />ゆっくり会話へ</Button></Link> : <Button className="min-h-10 px-3 py-2" disabled><MessageCircle size={16} />ゆっくり会話へ</Button>}
+      <div className="mt-1.5 flex items-center justify-between gap-2 rounded-xl bg-theme-background/70 px-2.5 py-1.5">
+        <span className="flex min-w-0 items-center gap-1 text-xs font-bold text-theme-muted"><HeartHandshake size={14} />まずはゆっくり話したい</span>
+        {messagePath ? <Link to={messagePath}><Button className="min-h-9 whitespace-nowrap px-3 py-1.5 text-xs"><MessageCircle size={15} />会話する</Button></Link> : <Button className="min-h-9 whitespace-nowrap px-3 py-1.5 text-xs" disabled><MessageCircle size={15} />会話する</Button>}
       </div>
     </div>
   );
