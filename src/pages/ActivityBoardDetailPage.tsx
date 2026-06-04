@@ -18,6 +18,7 @@ import {
   getMyInterestedPostIds,
 } from '../lib/activityBoardApi';
 import { formatConversationFailureMessage, getActivityInterestConversationPath } from '../lib/matchApi';
+import { getSafeErrorLog, getShortErrorMessage } from '../lib/errorMessage';
 import { notifyActivityInterestAccepted, notifyActivityInterestReceived } from '../lib/notificationApi';
 import { getChatRoomById } from '../lib/chatRoomApi';
 import type { ActivityInterestStatus, ActivityPostInterestWithProfile, ActivityPostMode, ActivityPostWithAuthor } from '../types/activityBoard';
@@ -136,8 +137,8 @@ export function ActivityBoardDetailPage() {
             setInterests(nextInterests);
           } catch (caughtError) {
             if (!mounted) return;
-            console.warn('[ConnectBloom] activity interest owner list failed', { success: false });
-            setInterestError(caughtError instanceof Error ? `参加希望者一覧の取得に失敗しました: ${caughtError.message}` : '参加希望者一覧の取得に失敗しました');
+            console.warn('[ConnectBloom] activity interest owner list failed', getSafeErrorLog(caughtError, 'activity_interest_owner_list_failed'));
+            setInterestError(getShortErrorMessage(caughtError, '参加希望者一覧の取得に失敗しました。時間を置いてもう一度お試しください。'));
           } finally {
             if (mounted) setInterestsLoading(false);
           }
@@ -145,7 +146,7 @@ export function ActivityBoardDetailPage() {
       } catch (caughtError) {
         if (!mounted) return;
         setPost(null);
-        setNotice(caughtError instanceof Error ? `募集の取得に失敗しました: ${caughtError.message}` : '募集の取得に失敗しました。');
+        setNotice(getShortErrorMessage(caughtError, '募集情報の取得に失敗しました。時間を置いてもう一度お試しください。'));
       } finally {
         if (mounted) setLoading(false);
       }
@@ -179,7 +180,7 @@ export function ActivityBoardDetailPage() {
       } else {
         await expressInterest(post.id);
         void notifyActivityInterestReceived(post.id, post.title, post.created_by, getNotificationDisplayName(user)).catch((caughtError) => {
-          console.warn('[ConnectBloom] notification creation failed', { type: 'activity_interest_received', error: caughtError });
+          console.warn('[ConnectBloom] notification creation failed', { type: 'activity_interest_received', ...getSafeErrorLog(caughtError, 'notification_creation_failed') });
         });
         setInterested(true);
         setPost({ ...post, interest_count: post.interest_count + 1 });
@@ -187,7 +188,7 @@ export function ActivityBoardDetailPage() {
       }
     } catch (caughtError) {
       const fallback = interested ? '参加希望の取り消しに失敗しました' : '参加したいの保存に失敗しました';
-      setNotice(caughtError instanceof Error ? `${fallback}: ${caughtError.message}` : fallback);
+      setNotice(getShortErrorMessage(caughtError, `${fallback}。時間を置いてもう一度お試しください。`));
     } finally {
       setSaving(false);
     }
@@ -202,7 +203,7 @@ export function ActivityBoardDetailPage() {
         : await declineActivityPostInterest(interestId);
       if (status === 'accepted' && post) {
         void notifyActivityInterestAccepted(post.id, post.title, updatedInterest.user_id).catch((caughtError) => {
-          console.warn('[ConnectBloom] notification creation failed', { type: 'activity_interest_accepted', error: caughtError });
+          console.warn('[ConnectBloom] notification creation failed', { type: 'activity_interest_accepted', ...getSafeErrorLog(caughtError, 'notification_creation_failed') });
         });
       }
       setInterests((current) => current.map((interest) => (
@@ -210,7 +211,7 @@ export function ActivityBoardDetailPage() {
       )));
     } catch (caughtError) {
       const fallback = status === 'accepted' ? '承認に失敗しました' : '見送りに失敗しました';
-      setInterestError(caughtError instanceof Error ? `${fallback}: ${caughtError.message}` : fallback);
+      setInterestError(getShortErrorMessage(caughtError, `${fallback}。時間を置いてもう一度お試しください。`));
     } finally {
       setUpdatingInterestId(null);
     }
@@ -244,7 +245,7 @@ export function ActivityBoardDetailPage() {
       navigate(result.path);
     } catch (caughtError) {
       const message = caughtError instanceof Error ? caughtError.message : 'unknown';
-      console.error('[ConnectBloom] messages navigation failed', { phase: 'navigation_failed', message: caughtError });
+      console.error('[ConnectBloom] messages navigation failed', getSafeErrorLog(caughtError, 'navigation_failed'));
       setInterestError(formatConversationFailureMessage('navigation_failed', message));
     } finally {
       setOpeningConversationId(null);

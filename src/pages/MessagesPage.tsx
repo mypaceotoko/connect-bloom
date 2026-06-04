@@ -11,6 +11,7 @@ import { mockUsers } from '../data/mockUsers';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
 import { getActivityPostById } from '../lib/activityBoardApi';
+import { getSafeErrorLog, getShortErrorMessage } from '../lib/errorMessage';
 import { blockUser as blockSupabaseUser, hasSafetyBlockBetween } from '../lib/blockApi';
 import { formatConversationFailureMessage } from '../lib/matchApi';
 import { getMessageMatchById, getMessagesByMatchId, sendMessage as sendSupabaseMessage } from '../lib/messageApi';
@@ -92,7 +93,7 @@ export function MessagesPage() {
       } catch (caughtError) {
         if (!mounted) return;
         const message = caughtError instanceof Error ? caughtError.message : 'unknown';
-        console.error('[ConnectBloom] messages fetch failed', { phase: 'messages_load_failed', error: caughtError });
+        console.error('[ConnectBloom] messages fetch failed', getSafeErrorLog(caughtError, 'messages_load_failed'));
         setMessageMatch(null);
         setBlockedConversation(false);
         setSupabaseMessages([]);
@@ -128,7 +129,7 @@ export function MessagesPage() {
         const activityPost = await getActivityPostById(activityPostId);
         if (mounted) setActivityContextTitle(activityPost?.title ?? '');
       } catch (caughtError) {
-        console.warn('[ConnectBloom] activity context load failed', { phase: 'messages_load_failed', error: caughtError });
+        console.warn('[ConnectBloom] activity context load failed', getSafeErrorLog(caughtError, 'activity_context_load_failed'));
         if (mounted) setActivityContextTitle('');
       }
     }
@@ -188,12 +189,12 @@ export function MessagesPage() {
       setSupabaseMessages((currentMessages) => [...currentMessages, result.message as Message]);
       if (messageMatch?.otherUserId) {
         void notifyDirectMessageReceived(activeMatchId, messageMatch.otherUserId, getNotificationDisplayName(authUser)).catch((caughtError) => {
-          console.warn('[ConnectBloom] notification creation failed', { type: 'direct_message_received', error: caughtError });
+          console.warn('[ConnectBloom] notification creation failed', { type: 'direct_message_received', ...getSafeErrorLog(caughtError, 'notification_creation_failed') });
         });
       }
       setDraft('');
     } catch (caughtError) {
-      setSendError(caughtError instanceof Error ? `会話の送信に失敗しました: ${caughtError.message}` : '通信に失敗しました。少し時間を置いてもう一度お試しください。');
+      setSendError(getShortErrorMessage(caughtError, '会話の送信に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setSending(false);
     }
@@ -220,7 +221,7 @@ export function MessagesPage() {
       setNotice('ブロックしました。一覧や今日のつながりから非表示になります。');
       navigate('/matches', { replace: true });
     } catch (caughtError) {
-      setSendError(caughtError instanceof Error ? `ブロックに失敗しました: ${caughtError.message}` : 'ブロックに失敗しました。通信に失敗しました。少し時間を置いてもう一度お試しください。');
+      setSendError(getShortErrorMessage(caughtError, 'ブロックに失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setSavingSafety(false);
     }
@@ -253,7 +254,7 @@ export function MessagesPage() {
       }
       setNotice('通報を受け付けました。安心して使える場を守るため、運営が確認します。');
     } catch (caughtError) {
-      setSendError(caughtError instanceof Error ? `通報に失敗しました: ${caughtError.message}` : '通報に失敗しました。通信に失敗しました。少し時間を置いてもう一度お試しください。');
+      setSendError(getShortErrorMessage(caughtError, '通報に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setSavingSafety(false);
     }

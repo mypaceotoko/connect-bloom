@@ -8,6 +8,7 @@ import { PageShell } from '../components/PageShell';
 import { useAuth } from '../hooks/useAuth';
 import { cancelActivityPostInterest, getMyInterestedPosts } from '../lib/activityBoardApi';
 import { formatConversationFailureMessage, getActivityInterestConversationPath } from '../lib/matchApi';
+import { getSafeErrorLog, getShortErrorMessage } from '../lib/errorMessage';
 import type { ActivityInterestStatus, MyInterestedActivityPost } from '../types/activityBoard';
 
 function formatDate(value: string | null) {
@@ -68,7 +69,7 @@ export function MyInterestsPage() {
         if (!mounted) return;
         console.warn('[ConnectBloom] my interested posts fetch failed', { success: false });
         setInterests([]);
-        setError(caughtError instanceof Error ? `参加希望した募集の取得に失敗しました: ${caughtError.message}` : '参加希望した募集の取得に失敗しました');
+        setError(getShortErrorMessage(caughtError, '参加希望した募集の取得に失敗しました。時間を置いてもう一度お試しください。'));
       } finally {
         if (mounted) setLoading(false);
       }
@@ -107,7 +108,7 @@ export function MyInterestsPage() {
       navigate(result.path);
     } catch (caughtError) {
       const message = caughtError instanceof Error ? caughtError.message : 'unknown';
-      console.error('[ConnectBloom] messages navigation failed', { phase: 'navigation_failed', message: caughtError });
+      console.error('[ConnectBloom] messages navigation failed', getSafeErrorLog(caughtError, 'navigation_failed'));
       setError(formatConversationFailureMessage('navigation_failed', message));
     } finally {
       setOpeningInterestId(null);
@@ -128,7 +129,7 @@ export function MyInterestsPage() {
       )));
       setNotice('参加希望を取り消しました。');
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? `参加希望の取り消しに失敗しました: ${caughtError.message}` : '参加希望の取り消しに失敗しました');
+      setError(getShortErrorMessage(caughtError, '参加希望の取り消しに失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setCancellingPostId(null);
     }

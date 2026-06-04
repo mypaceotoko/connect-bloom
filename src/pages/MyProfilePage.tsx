@@ -8,6 +8,7 @@ import { useTheme } from '../context/ThemeProvider';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
 import { ProfileAvatar } from '../components/ProfileAvatar';
+import { getShortErrorMessage } from '../lib/errorMessage';
 import { getMyPrimaryProfilePhoto, uploadProfilePhoto } from '../lib/profilePhotoApi';
 import { getMyProfile, profileRowToCurrentUser, updateMyProfile } from '../lib/profileApi';
 import { DEFAULT_DATING_TEMPERATURE } from '../types/user';
@@ -57,7 +58,7 @@ export function MyProfilePage() {
         });
       } catch (caughtError) {
         if (!mounted) return;
-        setNotice(caughtError instanceof Error ? `Supabaseプロフィールの取得に失敗しました: ${caughtError.message}` : 'Supabaseプロフィールの取得に失敗しました。');
+        setNotice(getShortErrorMessage(caughtError, 'プロフィールの取得に失敗しました。時間を置いてもう一度お試しください。'));
       }
     }
 
@@ -119,7 +120,7 @@ export function MyProfilePage() {
       setSelectedPhotoPreview('');
       setPhotoNotice('プロフィール画像を保存しました');
     } catch (caughtError) {
-      setPhotoNotice(caughtError instanceof Error ? `画像の保存に失敗しました: ${caughtError.message}` : 'アップロードに失敗しました。少し時間を置いてもう一度お試しください');
+      setPhotoNotice(getShortErrorMessage(caughtError, '画像の保存に失敗しました。別の画像でお試しください。'));
     } finally {
       setUploadingPhoto(false);
     }
@@ -166,7 +167,7 @@ export function MyProfilePage() {
       saveCurrentUserProfile({ ...nextProfile, photoUrl: photoUrl || currentUser.photoUrl });
       setNotice(isSupabaseMode && isAuthenticated ? '編集内容をSupabase profilesとlocalStorageに保存しました。' : '編集内容をlocalStorageに保存しました。');
     } catch (caughtError) {
-      setNotice(caughtError instanceof Error ? `保存に失敗しました: ${caughtError.message}` : '保存に失敗しました。時間をおいて再度お試しください。');
+      setNotice(getShortErrorMessage(caughtError, '保存に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setSaving(false);
     }

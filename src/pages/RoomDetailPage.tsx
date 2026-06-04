@@ -7,6 +7,7 @@ import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
 import { demoChatRooms, demoRoomMessages, roomTags } from '../data/mockChatRooms';
 import { useAuth } from '../hooks/useAuth';
+import { getShortErrorMessage } from '../lib/errorMessage';
 import { deleteChatRoomMessage, getChatRoomBySlug, getChatRoomMessages, sendChatRoomMessage } from '../lib/chatRoomApi';
 import type { ChatRoom, ChatRoomMessageWithProfile } from '../types/chatRoom';
 
@@ -58,7 +59,7 @@ export function RoomDetailPage() {
         if (mounted) {
           setRoom(demoRoom);
           setMessages(demoRoomMessages[roomId] ?? []);
-          setNotice(caughtError instanceof Error ? `ルームの読み込みに失敗しました。デモ表示に切り替えました: ${caughtError.message}` : 'ルームの読み込みに失敗しました。デモ表示に切り替えました。');
+          setNotice(getShortErrorMessage(caughtError, 'ルームの読み込みに失敗しました。デモ表示に切り替えました。'));
         }
       } finally {
         if (mounted) setLoading(false);
@@ -91,7 +92,7 @@ export function RoomDetailPage() {
       setMessages((currentMessages) => [...currentMessages, sentMessage]);
       setMessageBody('');
     } catch (caughtError) {
-      setNotice(caughtError instanceof Error ? `送信に失敗しました: ${caughtError.message}` : '送信に失敗しました。');
+      setNotice(getShortErrorMessage(caughtError, '送信に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setSending(false);
     }
@@ -103,7 +104,7 @@ export function RoomDetailPage() {
       await deleteChatRoomMessage(messageId);
       setMessages((currentMessages) => currentMessages.filter((message) => message.id !== messageId));
     } catch (caughtError) {
-      setNotice(caughtError instanceof Error ? `削除に失敗しました: ${caughtError.message}` : '削除に失敗しました。');
+      setNotice(getShortErrorMessage(caughtError, '削除に失敗しました。時間を置いてもう一度お試しください。'));
     }
   }
 

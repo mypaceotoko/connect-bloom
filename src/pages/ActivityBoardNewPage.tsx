@@ -9,6 +9,7 @@ import { PageShell } from '../components/PageShell';
 import { activityPostCategories } from '../data/mockActivityPosts';
 import { demoChatRooms } from '../data/mockChatRooms';
 import { useAuth } from '../hooks/useAuth';
+import { getShortErrorMessage } from '../lib/errorMessage';
 import { createActivityPost } from '../lib/activityBoardApi';
 import type { ActivityPostEditFormState } from '../types/activityBoard';
 
@@ -59,7 +60,7 @@ export function ActivityBoardNewPage() {
       });
       navigate(`/board/${post.id}`);
     } catch (caughtError) {
-      setNotice(caughtError instanceof Error ? `募集の保存に失敗しました: ${caughtError.message}` : '募集の保存に失敗しました。');
+      setNotice(getShortErrorMessage(caughtError, '募集の保存に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setSaving(false);
     }

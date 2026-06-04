@@ -8,6 +8,7 @@ import { Card } from '../components/Card';
 import { PageShell } from '../components/PageShell';
 import { activityPostCategories } from '../data/mockActivityPosts';
 import { useAuth } from '../hooks/useAuth';
+import { getShortErrorMessage } from '../lib/errorMessage';
 import { canEditActivityPost, getActivityPostById, updateActivityPost } from '../lib/activityBoardApi';
 import type { ActivityPostEditFormState, ActivityPostMode, ActivityPostStatus } from '../types/activityBoard';
 
@@ -96,7 +97,7 @@ export function ActivityBoardEditPage() {
       } catch (caughtError) {
         if (!mounted) return;
         console.warn('[ConnectBloom] activity post edit fetch failed', { success: false });
-        setError(caughtError instanceof Error ? `募集内容の取得に失敗しました: ${caughtError.message}` : '募集内容の取得に失敗しました');
+        setError(getShortErrorMessage(caughtError, '募集内容の取得に失敗しました。時間を置いてもう一度お試しください。'));
       } finally {
         if (mounted) setLoading(false);
       }
@@ -160,7 +161,7 @@ export function ActivityBoardEditPage() {
       });
       navigate(`/board/${postId}`, { state: { message: '募集内容を保存しました' } });
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? `募集内容の保存に失敗しました: ${caughtError.message}` : '募集内容の保存に失敗しました');
+      setError(getShortErrorMessage(caughtError, '募集内容の保存に失敗しました。時間を置いてもう一度お試しください。'));
     } finally {
       setSaving(false);
     }
