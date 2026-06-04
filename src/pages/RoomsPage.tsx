@@ -1,4 +1,4 @@
-import { ArrowRight, Coffee, Lightbulb, MessageCircle, Sparkles, UsersRound } from 'lucide-react';
+import { ArrowRight, Sparkles, UsersRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from '../components/Badge';
@@ -8,32 +8,12 @@ import { PageShell } from '../components/PageShell';
 import { demoChatRooms, roomTags } from '../data/mockChatRooms';
 import { useAuth } from '../hooks/useAuth';
 import { getChatRooms } from '../lib/chatRoomApi';
+import { getRoomVisual } from '../lib/roomVisual';
 import type { ChatRoomWithStats } from '../types/chatRoom';
 
 function formatLatest(value: string | null) {
   if (!value) return 'まだ投稿はありません';
   return `最新 ${new Intl.DateTimeFormat('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(value))}`;
-}
-
-function getRoomVisual(room: ChatRoomWithStats) {
-  if (room.slug === 'creative') {
-    return {
-      Icon: Lightbulb,
-      className: 'from-theme-yellow/85 via-theme-cyan/30 to-theme-sky/35 text-theme-main-dark shadow-theme-yellow/20',
-    };
-  }
-
-  if (room.slug === 'casual') {
-    return {
-      Icon: Coffee,
-      className: 'from-amber-100 via-theme-yellow/35 to-theme-cyan/25 text-amber-700 shadow-amber-100/40',
-    };
-  }
-
-  return {
-    Icon: MessageCircle,
-    className: 'from-theme-yellow/80 via-theme-sky/25 to-theme-cyan/30 text-theme-main-dark shadow-theme-sky/15',
-  };
 }
 
 function getRoomShortDescription(room: ChatRoomWithStats) {
