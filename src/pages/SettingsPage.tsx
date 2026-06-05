@@ -195,7 +195,7 @@ function LanguageSettingCard({ currentLanguage, onChange, t }: { currentLanguage
   const languages: AppLanguage[] = ['ja', 'en'];
 
   return (
-    <Card className="space-y-3 border-theme-main/15 bg-theme-card/86 py-3 shadow-sm">
+    <Card className="space-y-2.5 border-theme-main/15 bg-theme-card/86 py-3 shadow-sm">
       <div className="flex items-start gap-2.5">
         <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-theme-main/10 text-theme-main-dark"><Languages size={18} /></span>
         <span className="min-w-0 flex-1">
@@ -206,19 +206,23 @@ function LanguageSettingCard({ currentLanguage, onChange, t }: { currentLanguage
           </span>
         </span>
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="inline-flex w-fit rounded-full bg-white/70 p-1 ring-1 ring-theme-sky/25 shadow-sm">
         {languages.map((language) => {
           const selected = language === currentLanguage;
           return (
-            <Button
+            <button
               aria-pressed={selected}
-              className={selected ? 'min-h-10 bg-theme-main text-white hover:bg-theme-main' : 'min-h-10 bg-theme-card/90'}
+              className={`inline-flex min-h-9 items-center justify-center rounded-full px-4 text-sm font-black transition active:scale-[0.98] ${
+                selected
+                  ? 'bg-gradient-to-r from-theme-yellow/90 via-theme-cyan/60 to-theme-sky/75 text-slate-900 shadow-sm ring-1 ring-white/70'
+                  : 'bg-white/60 text-slate-500 hover:bg-white hover:text-theme-main-dark'
+              }`}
               key={language}
               onClick={() => onChange(language)}
-              variant={selected ? 'primary' : 'secondary'}
+              type="button"
             >
               {t(language === 'ja' ? 'settings.language.ja' : 'settings.language.en')}
-            </Button>
+            </button>
           );
         })}
       </div>
