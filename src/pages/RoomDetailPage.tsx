@@ -9,7 +9,7 @@ import { demoChatRooms, demoRoomMessages, roomTags } from '../data/mockChatRooms
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../hooks/useLanguage';
-import { adminDeleteChatRoomMessage, deleteChatRoomMessage, getChatRoomByIdentifier, getChatRoomMessages, isChatRoomMessageUuid, sendChatRoomMessage } from '../lib/chatRoomApi';
+import { AdminDeleteRoomMessageError, adminDeleteChatRoomMessage, deleteChatRoomMessage, getChatRoomByIdentifier, getChatRoomMessages, isChatRoomMessageUuid, sendChatRoomMessage } from '../lib/chatRoomApi';
 import { isDemoModeEnabled } from '../lib/demoSession';
 import { getSafeErrorLog, getShortErrorMessage } from '../lib/errorMessage';
 import { getRoomVisual } from '../lib/roomVisual';
@@ -212,7 +212,7 @@ export function RoomDetailPage() {
           messageReturnedAfterRefetch,
           refetchedCount: reloadedMessages.length,
         });
-        if (messageReturnedAfterRefetch) throw new Error('削除に失敗しました。');
+        if (messageReturnedAfterRefetch) throw new AdminDeleteRoomMessageError('unknown');
         setMessages(reloadedMessages);
         return;
       }
@@ -221,7 +221,9 @@ export function RoomDetailPage() {
       setMessages((currentMessages) => currentMessages.filter((message) => message.id !== messageId));
     } catch (caughtError) {
       console.warn('[ConnectBloom] room message delete failed', getSafeErrorLog(caughtError, 'room_message_delete_failed'));
-      setNotice(getShortErrorMessage(caughtError, '削除に失敗しました。'));
+      setNotice(caughtError instanceof AdminDeleteRoomMessageError
+        ? caughtError.message
+        : getShortErrorMessage(caughtError, '削除に失敗しました。'));
     }
   }
 
