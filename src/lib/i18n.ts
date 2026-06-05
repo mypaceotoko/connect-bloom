@@ -365,6 +365,7 @@ export const messages = {
     'profile.connectionStyle': 'つながり方のスタンス',
     'profile.activities': '活動ジャンル / 興味タグ',
     'profile.introductionShared': '紹介経由 / 共通点',
+    'profile.talkTopics': '話してみたいテーマ',
     'profile.couldNotLoad': 'プロフィールを確認できませんでした',
     'profile.today': '今日のつながり',
 
@@ -852,6 +853,7 @@ export const messages = {
     'profile.connectionStyle': 'Connection style',
     'profile.activities': 'Activities / Interests',
     'profile.introductionShared': 'Introduction / Shared interests',
+    'profile.talkTopics': 'Topics to talk about',
     'profile.couldNotLoad': 'Could not load this profile',
     'profile.today': 'Today’s Connections',
 

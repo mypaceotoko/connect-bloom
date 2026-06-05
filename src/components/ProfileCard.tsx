@@ -1,4 +1,4 @@
-import { Heart, Leaf, MapPin, MessageCircleHeart, Sparkles, Sprout, Tags, UserRoundCheck } from 'lucide-react';
+import { Heart, Leaf, MapPin, MessageCircle, Sparkles, Sprout, Tags, UserRoundCheck } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppState } from '../hooks/useAppState';
@@ -119,7 +119,7 @@ export function ProfileCard({ user, compact = false, liked: likedOverride, match
 
         <div className="grid gap-1.5 rounded-[1rem] border border-theme-main/10 bg-theme-background/70 p-2.5 text-[12px] leading-5">
           <div>
-            <p className="flex items-center gap-1 font-black text-theme-text"><MessageCircleHeart size={14} />{t('profileCard.connectionStyle')}</p>
+            <p className="flex items-center gap-1 font-black text-theme-text"><MessageCircle size={14} />{t('profileCard.connectionStyle')}</p>
             <p className="mt-0.5 text-theme-muted">{user.datingTemperature}</p>
           </div>
           <div className="rounded-xl bg-theme-accent-soft/75 px-2.5 py-1 text-[11px] font-bold text-theme-text">
