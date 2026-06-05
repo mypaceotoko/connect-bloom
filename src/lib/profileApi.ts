@@ -1,8 +1,10 @@
 import type { User } from '@supabase/supabase-js';
+import { normalizeDatingTemperature } from '../constants/datingTemperature';
 import { DEFAULT_DATING_TEMPERATURE, type CurrentUserProfile, type ThemeId, type UserProfile } from '../types/user';
 import { getSafeErrorLog } from './errorMessage';
 import { requireSupabaseClient } from './supabase';
 import { assertNotDemoMode } from './demoSession';
+import { toProfileTopic } from './profileDisplay';
 
 export type ProfileRow = {
   id: string;
@@ -284,8 +286,8 @@ export function profileRowToUserProfile(profile: ProfileRow, primaryPhotoUrl?: s
     occupation: profile.occupation || '自然体のプロフィール',
     bio: profile.bio || 'プロフィールを準備中です。ゆっくりご縁を育てていきたいです。',
     interests: profile.interests?.length ? profile.interests : ['紹介経由'],
-    datingTemperature: profile.dating_temperature || DEFAULT_DATING_TEMPERATURE,
-    relationshipGoal: profile.relationship_goal || '自然体で長く付き合える関係',
+    datingTemperature: normalizeDatingTemperature(profile.dating_temperature),
+    relationshipGoal: toProfileTopic(profile.relationship_goal),
     introducedBy: profile.invited_by ? '紹介者' : 'ConnectBloom',
     photoUrl: primaryPhotoUrl,
     avatarUrl: primaryPhotoUrl,

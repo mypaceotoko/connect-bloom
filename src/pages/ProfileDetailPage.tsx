@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Ban, Flag, Heart, Leaf, Loader2, MapPin, MessageCircleHeart, MessageCircle, ShieldCheck, Sparkles, UserRoundCheck } from 'lucide-react';
+import { Ban, Flag, Heart, Leaf, Loader2, MapPin, MessageCircle, ShieldCheck, Sparkles, UserRoundCheck } from 'lucide-react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Badge } from '../components/Badge';
@@ -19,6 +19,7 @@ import { getPublicProfileById, profileRowToUserProfile } from '../lib/profileApi
 import { reportUser as reportSupabaseUser } from '../lib/reportApi';
 import type { UserProfile } from '../types/user';
 import { isDemoModeEnabled } from '../lib/demoSession';
+import { toProfileTopic } from '../lib/profileDisplay';
 
 const reportReasonOptions = ['不適切なプロフィール', '迷惑行為', 'なりすまし', '不安を感じた', 'その他'];
 
@@ -230,9 +231,9 @@ export function ProfileDetailPage() {
             <div className="flex flex-wrap gap-1.5">{profileUser.interests.map((interest) => <Badge className="bg-theme-accent-soft/80" key={interest}>{interest}</Badge>)}</div>
           </div>
 
-          <InfoBlock icon={<MessageCircleHeart size={17} />} title={t('profile.connectionStyle')} body={profileUser.datingTemperature} />
+          <InfoBlock icon={<MessageCircle size={17} />} title={t('profile.connectionStyle')} body={profileUser.datingTemperature} />
           <InfoBlock icon={<UserRoundCheck size={17} />} title={t('profile.introductionShared')} body={`${profileUser.introducedBy}からの紹介。共通点: ${profileUser.interests.join('、')}`} />
-          <InfoBlock icon={<Heart size={17} />} title="一緒にやりたいこと" body={profileUser.relationshipGoal} />
+          <InfoBlock icon={<MessageCircle size={17} />} title={t('profile.talkTopics')} body={toProfileTopic(profileUser.relationshipGoal)} />
 
           <div className="sticky bottom-24 z-10 space-y-2 rounded-[1.25rem] border border-white/60 bg-theme-card/88 p-2.5 shadow-2xl shadow-theme-main/15 backdrop-blur">
             <Button className={`w-full ${liked ? 'bg-gradient-to-r from-theme-cyan to-theme-main text-white shadow-theme-main/25 hover:saturate-125' : 'bg-theme-accent-soft text-theme-text'}`} onClick={() => { void handleLike(); }} variant="secondary">
