@@ -390,7 +390,7 @@ export function OnboardingPage() {
             <span className="font-bold">{t('onboarding.temperature.label')}</span>
             <p className="text-[13px] font-semibold leading-6 text-theme-muted sm:text-xs sm:leading-5">{t('onboarding.temperature.body')}</p>
             <p className="text-[13px] font-bold leading-6 text-theme-main-dark sm:text-xs sm:leading-5">{t('onboarding.temperature.editLater')}</p>
-            <select className="theme-input min-h-11 w-full rounded-xl border px-3.5 text-[15px] font-semibold text-theme-text outline-none transition focus:border-theme-cyan focus:ring-4 focus:ring-theme-cyan/15 sm:text-sm" onChange={(event) => updateField('datingTemperature', event.target.value)} value={form.datingTemperature}>
+            <select className="theme-input min-h-[52px] w-full rounded-xl border px-4 py-3 text-[16px] font-bold leading-6 text-theme-text outline-none transition focus:border-theme-cyan focus:ring-4 focus:ring-theme-cyan/15" onChange={(event) => updateField('datingTemperature', event.target.value)} value={form.datingTemperature}>
               {DATING_TEMPERATURE_OPTIONS.map((datingTemperature) => (
                 <option key={datingTemperature} value={datingTemperature}>{datingTemperature}</option>
               ))}
