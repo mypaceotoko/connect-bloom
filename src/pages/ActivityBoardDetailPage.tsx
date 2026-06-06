@@ -26,6 +26,7 @@ import {
 import { formatConversationFailureMessage, getActivityInterestConversationPath } from '../lib/matchApi';
 import { isDemoModeEnabled } from '../lib/demoSession';
 import { getSafeErrorLog, getShortErrorMessage } from '../lib/errorMessage';
+import { requireSupabaseClient } from '../lib/supabase';
 import { notifyActivityInterestAccepted, notifyActivityInterestReceived } from '../lib/notificationApi';
 import { getChatRoomById } from '../lib/chatRoomApi';
 import type { ActivityInterestStatus, ActivityPostInterestWithProfile, ActivityPostMode, ActivityPostWithAuthor } from '../types/activityBoard';
@@ -95,7 +96,7 @@ export function ActivityBoardDetailPage() {
   const [openingConversationId, setOpeningConversationId] = useState<string | null>(null);
   const useSupabaseBoard = isSupabaseMode && isAuthenticated && !isDemoModeEnabled();
   const isOwnPost = Boolean(user?.id && post?.created_by === user.id);
-  const canUseFounderPostModeration = Boolean(isFounder && useSupabaseBoard && post);
+  const canUseFounderPostModeration = Boolean((isFounder || isAdmin) && useSupabaseBoard && post);
   const canOwnerWithdrawPost = Boolean(isOwnPost && !post?.moderation_locked && post?.status === 'open');
 
   useEffect(() => {
@@ -192,11 +193,41 @@ export function ActivityBoardDetailPage() {
 
     setSaving(true);
     try {
-      const updatedPost = willRestore ? await restoreActivityPostForAdmin(post.id) : await archiveActivityPostForAdmin(post.id);
-      setPost((current) => (current ? { ...current, ...updatedPost } : current));
+      if (willRestore) {
+        const updatedPost = await restoreActivityPostForAdmin(post.id);
+        setPost((current) => (current ? { ...current, ...updatedPost } : current));
+      } else {
+        const result = await archiveActivityPostForAdmin(post.id);
+        setPost((current) => (current ? { ...current, status: result.status, moderation_locked: result.moderation_locked } : current));
+      }
       setNotice(willRestore ? '募集を戻しました。' : '募集を非表示にしました。');
     } catch (caughtError) {
-      setInterestError(getShortErrorMessage(caughtError, willRestore ? '募集を戻せませんでした。' : '募集を非表示にできませんでした。'));
+      let publicIsAdminAuthUid: boolean | null = null;
+      if (!willRestore) {
+        try {
+          const { data, error } = await requireSupabaseClient().rpc('is_admin', { user_id: user?.id });
+          publicIsAdminAuthUid = error ? null : Boolean(data);
+          if (error) console.warn('[ConnectBloom] admin archive is_admin diagnostic failed', getSafeErrorLog(error, 'admin_archive_is_admin_diagnostic_failed'));
+        } catch (diagnosticError) {
+          console.warn('[ConnectBloom] admin archive is_admin diagnostic failed', getSafeErrorLog(diagnosticError, 'admin_archive_is_admin_diagnostic_failed'));
+        }
+        console.warn('[ConnectBloom] admin activity post archive failed', {
+          action: 'admin_archive_activity_post',
+          currentUserId: user?.id ?? null,
+          currentUserEmail: user?.email ?? null,
+          postId: post.id,
+          postOwnerId: post.created_by,
+          isFounder,
+          isAdmin,
+          publicIsAdminAuthUid,
+          statusBefore: post.status,
+          moderationLockedBefore: Boolean(post.moderation_locked),
+          rpcName: 'admin_archive_activity_post',
+          rpcPayloadKeys: ['p_post_id'],
+          ...getSafeErrorLog(caughtError, 'admin_archive_activity_post'),
+        });
+      }
+      setInterestError(getShortErrorMessage(caughtError, willRestore ? '募集を戻せませんでした。' : '募集の非表示に失敗しました'));
     } finally {
       setSaving(false);
     }
