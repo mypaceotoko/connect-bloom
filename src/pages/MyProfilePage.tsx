@@ -269,12 +269,12 @@ export function MyProfilePage() {
           <span className="block text-xs font-medium leading-5 text-theme-muted">共通の興味から話し始めやすいように、今話してみたいテーマを書いておきましょう。</span>
           <span className="block text-right text-[11px] font-bold text-theme-muted">{form.talkTopics.length}/160</span>
         </label>
-        <label className="block space-y-2 text-[15px] font-semibold text-theme-text sm:text-sm">
-          <span className="block text-sm font-black text-theme-text">つながり方のスタンス</span>
-          <span className="font-bold">今の気持ちに近いもの</span>
-          <p className="text-[13px] font-semibold leading-6 text-theme-muted sm:text-xs sm:leading-5">どんなきっかけでつながりたいかに近いものを1つ選んでください。</p>
-          <p className="text-[13px] font-bold leading-6 text-theme-main-dark sm:text-xs sm:leading-5">迷ったら“まずはゆっくり話したい”のままで大丈夫です。あとからマイプロフィールで変更できます。</p>
-          <select className="theme-input min-h-11 w-full rounded-xl border px-3.5 text-[15px] font-semibold text-theme-text outline-none transition focus:border-theme-cyan focus:ring-4 focus:ring-theme-cyan/15 sm:text-sm" onChange={(event) => setForm((current) => ({ ...current, datingTemperature: normalizeDatingTemperature(event.target.value) }))} value={form.datingTemperature}>
+        <label className="mt-1 block space-y-2.5 text-[15px] font-semibold text-theme-text">
+          <span className="block text-[19px] font-extrabold leading-7 text-theme-text">つながり方のスタンス</span>
+          <span className="block text-[15px] font-extrabold leading-6">今の気持ちに近いもの</span>
+          <p className="text-[13px] font-semibold leading-6 text-theme-muted">どんなきっかけでつながりたいかに近いものを1つ選んでください。</p>
+          <p className="text-[13px] font-bold leading-6 text-theme-main-dark">迷ったら“まずはゆっくり話したい”のままで大丈夫です。あとからマイプロフィールで変更できます。</p>
+          <select className="theme-input min-h-[52px] w-full rounded-xl border px-4 py-3 text-[16px] font-bold leading-6 text-theme-text outline-none transition focus:border-theme-cyan focus:ring-4 focus:ring-theme-cyan/15" onChange={(event) => setForm((current) => ({ ...current, datingTemperature: normalizeDatingTemperature(event.target.value) }))} value={form.datingTemperature}>
             {DATING_TEMPERATURE_OPTIONS.map((datingTemperature) => (
               <option key={datingTemperature} value={datingTemperature}>{datingTemperature}</option>
             ))}
