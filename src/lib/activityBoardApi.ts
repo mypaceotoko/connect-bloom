@@ -32,10 +32,14 @@ type InterestCountRpcRow = {
   interest_count: number;
 };
 
-type ActivityPostWithdrawalResult = {
+export type ActivityPostWithdrawalResult = {
   success: boolean;
   post_id: string;
   status: ActivityPost['status'];
+};
+
+export type AdminArchiveActivityPostResult = ActivityPostWithdrawalResult & {
+  moderation_locked: boolean;
 };
 
 const legacyActivityPostColumns = [
@@ -702,15 +706,17 @@ export async function archiveActivityPost(postId: string): Promise<ActivityPostW
   return withdrawActivityPost(postId);
 }
 
-export async function archiveActivityPostForAdmin(postId: string): Promise<ActivityPost> {
+export async function archiveActivityPostForAdmin(postId: string): Promise<AdminArchiveActivityPostResult> {
   assertNotDemoMode('管理者募集非表示');
+  const rpcName = 'admin_archive_activity_post';
+  const rpcPayload = { p_post_id: postId };
   const { data, error } = await requireSupabaseClient()
-    .rpc('admin_archive_activity_post', { p_post_id: postId })
-    .single<ActivityPost>();
+    .rpc(rpcName, rpcPayload)
+    .single<AdminArchiveActivityPostResult>();
 
   if (error) throw error;
-  if (!data) throw new Error('募集の非表示に失敗しました');
-  console.info('[ConnectBloom] admin activity post archived', { success: true });
+  if (!data?.success) throw new Error('募集の非表示に失敗しました');
+  console.info('[ConnectBloom] admin activity post archived', { success: true, action: rpcName, postId, status: data.status, moderationLocked: data.moderation_locked });
   return data;
 }
 
