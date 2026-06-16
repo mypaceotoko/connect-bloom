@@ -71,7 +71,7 @@ export function MatchesPage() {
     <PageShell description={<>お互いの「話してみたい」が重なったご縁を表示します。<br />会話へ進む相手を確認できます。</>} eyebrow="Matches" title="コネクト一覧">
       <Card className="space-y-2.5 bg-theme-accent-soft/45 shadow-sm">
         <div className="flex items-center justify-between gap-2">
-          <p className="text-sm font-black text-theme-text">コネクトした人</p>
+          <p className="text-sm font-bold text-theme-text">コネクトした人</p>
           <Badge>{loading ? '取得中' : <><Sparkles size={12} />ご縁</>}</Badge>
         </div>
         <p className="text-xs font-bold leading-5 text-theme-muted">
@@ -129,9 +129,9 @@ function MatchRow({ createdAt, messagePath, user }: { createdAt?: string; messag
   return (
     <div className="rounded-[1.05rem] bg-theme-accent-soft/45 p-2.5">
       <div className="flex items-center gap-2.5">
-        <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="text-lg font-black" user={user} />
+        <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="text-lg font-bold" user={user} />
         <span className="min-w-0 flex-1">
-          <span className="block text-sm font-black leading-5">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
+          <span className="block text-sm font-bold leading-5">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
           <span className="block text-xs leading-4 text-theme-muted">{user.location}・{user.datingTemperature}</span>
           {createdAt ? <span className="block text-[11px] font-bold leading-4 text-theme-muted">{new Date(createdAt).toLocaleDateString('ja-JP')}にご縁がつながりました</span> : <span className="block text-[11px] font-bold leading-4 text-theme-muted">紹介のご縁からコネクトしました</span>}
         </span>

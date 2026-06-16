@@ -342,14 +342,14 @@ export function OnboardingPage() {
     <PageShell description={t('onboarding.description')} eyebrow={t('onboarding.eyebrow')} title={t('onboarding.title')}>
       <Card className="flower-gradient border-0 p-1">
         <div className="rounded-[1.25rem] bg-theme-card/78 p-3.5 backdrop-blur">
-          <div className="flex items-center gap-1.5 text-sm font-black text-theme-main-dark"><Flower2 size={18} />{t('onboarding.heroTitle')}</div>
+          <div className="flex items-center gap-1.5 text-sm font-bold text-theme-main-dark"><Flower2 size={18} />{t('onboarding.heroTitle')}</div>
           <p className="mt-2 text-[13px] leading-6 text-theme-muted">{t('onboarding.heroBody1')}</p>
           <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t('onboarding.heroBody2')}</p>
           <div className="mt-3 grid grid-cols-4 gap-2">
             {steps.map((step, index) => (
               <div className="rounded-xl bg-theme-card/80 p-2.5 text-center" key={step}>
-                <span className="mx-auto flex size-6 items-center justify-center rounded-full bg-theme-main text-xs font-black text-white">{index + 1}</span>
-                <p className="mt-1.5 text-[10.5px] font-black text-theme-text">{step}</p>
+                <span className="mx-auto flex size-6 items-center justify-center rounded-full bg-theme-main text-xs font-bold text-white">{index + 1}</span>
+                <p className="mt-1.5 text-[10.5px] font-bold text-theme-text">{step}</p>
               </div>
             ))}
           </div>
@@ -403,7 +403,7 @@ export function OnboardingPage() {
         <Card className="space-y-4">
           <SectionTitle icon={<Tags size={18} />} label="Step 3" title={t('onboarding.interests.title')} />
           <div className="space-y-2.5">
-            <p className="flex items-center gap-1.5 text-sm font-black"><Tags size={16} />{t('onboarding.interests.title')}</p>
+            <p className="flex items-center gap-1.5 text-sm font-bold"><Tags size={16} />{t('onboarding.interests.title')}</p>
             <p className="text-xs leading-5 text-theme-muted">{t('onboarding.interests.body')}</p>
             <div className="flex flex-wrap gap-1.5">
               {tags.map((tag) => {
@@ -462,8 +462,8 @@ function SectionTitle({ icon, label, title }: { icon: ReactNode; label: string; 
     <div className="flex items-center gap-3">
       <span className="flex size-9 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark">{icon}</span>
       <div>
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">{label}</p>
-        <h2 className="font-black text-theme-text">{title}</h2>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-theme-main-dark">{label}</p>
+        <h2 className="font-bold text-theme-text">{title}</h2>
       </div>
     </div>
   );

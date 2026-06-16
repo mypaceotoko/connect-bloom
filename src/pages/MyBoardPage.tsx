@@ -257,9 +257,9 @@ export function MyBoardPage() {
       {loading ? <Card className="text-sm font-bold text-theme-muted">自分の募集を読み込んでいます...</Card> : null}
       {!loading && posts.length === 0 ? (
         <Card className="space-y-2 text-center">
-          <p className="text-base font-black text-theme-text">まだ自分の募集はありません</p>
+          <p className="text-base font-bold text-theme-text">まだ自分の募集はありません</p>
           <p className="text-sm leading-6 text-theme-muted">一緒にやりたいことを投稿すると、ここで参加希望を管理できます。</p>
-          <Link className="inline-flex text-sm font-black text-theme-main-dark" to="/board/new">募集を作成する</Link>
+          <Link className="inline-flex text-sm font-bold text-theme-main-dark" to="/board/new">募集を作成する</Link>
         </Card>
       ) : null}
 
@@ -269,7 +269,7 @@ export function MyBoardPage() {
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <Badge>{post.category}</Badge>
-                <h2 className="mt-2 text-lg font-black leading-tight text-theme-text">{post.title}</h2>
+                <h2 className="mt-2 text-lg font-bold leading-tight text-theme-text">{post.title}</h2>
               </div>
               <Badge className="bg-theme-card shadow-sm">{getStatusLabel(post.status, t)}</Badge>
             </div>
@@ -282,7 +282,7 @@ export function MyBoardPage() {
             <div className="flex flex-wrap gap-1.5">{post.tags.map((item) => <Badge key={item}>#{item}</Badge>)}</div>
             {acceptedInterestsByPostId[post.id]?.length ? (
               <div className="rounded-2xl border border-cyan-100 bg-cyan-50/45 p-3">
-                <p className="text-xs font-black text-cyan-700">{t('board.accepted')}</p>
+                <p className="text-xs font-bold text-cyan-700">{t('board.accepted')}</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {acceptedInterestsByPostId[post.id].map((interest) => (
                     <Button className="!min-h-9 !rounded-full border-theme-sky/25 bg-gradient-to-r from-theme-yellow/65 to-theme-sky/35 !px-3 !py-1.5 !text-xs text-theme-main-dark shadow-sm shadow-theme-sky/10" disabled={openingInterestId === interest.id} key={interest.id} onClick={() => void handleOpenConversation(post.id, interest)} variant="secondary"><MessageSquareText size={15} />{openingInterestId === interest.id ? '会話を準備中…' : language === 'en' ? t('myBoard.message') : `${interest.profile?.name ?? '参加者'}${t('myBoard.message')}`}</Button>
@@ -303,8 +303,8 @@ export function MyBoardPage() {
               {post.status !== 'archived' && !post.moderation_locked ? (
                 <>
                   <div className="grid gap-2 sm:grid-cols-2">
-                    <Link className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl border border-theme-sky/30 bg-gradient-to-r from-theme-yellow/85 to-theme-sky/55 px-3 py-2 text-[13px] font-black text-theme-main-dark shadow-sm shadow-theme-sky/15" to={`/board/${post.id}`}><UsersRound size={16} />{t('myBoard.manage')}</Link>
-                    <Link className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl bg-theme-accent-soft px-3 py-2 text-[13px] font-black text-theme-text" to={`/board/${post.id}/edit`}><Pencil size={16} />{t('myBoard.edit')}</Link>
+                    <Link className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl border border-theme-sky/30 bg-gradient-to-r from-theme-yellow/85 to-theme-sky/55 px-3 py-2 text-[13px] font-bold text-theme-main-dark shadow-sm shadow-theme-sky/15" to={`/board/${post.id}`}><UsersRound size={16} />{t('myBoard.manage')}</Link>
+                    <Link className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl bg-theme-accent-soft px-3 py-2 text-[13px] font-bold text-theme-text" to={`/board/${post.id}/edit`}><Pencil size={16} />{t('myBoard.edit')}</Link>
                   </div>
                   <div className="grid gap-2 text-xs sm:grid-cols-3">
                     <Button className="min-h-9 px-3 py-1.5 text-xs" disabled={!useSupabaseBoard || updatingPostId === post.id || post.status !== 'open'} onClick={() => void handleClose(post.id)} variant="secondary"><XCircle size={15} />{t('myBoard.close')}</Button>

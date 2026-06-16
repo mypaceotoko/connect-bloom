@@ -68,8 +68,8 @@ export function AuthCallbackPage() {
     <section className="flex min-h-screen items-center px-4 py-8">
       <div className="mx-auto w-full max-w-md">
         <Card className="space-y-4 text-center">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-theme-main-dark">Auth Callback</p>
-          <h1 className="text-xl font-black">Googleログインを確認しています</h1>
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-theme-main-dark">Auth Callback</p>
+          <h1 className="text-xl font-bold">Googleログインを確認しています</h1>
           <p className="text-sm leading-6 text-theme-muted">プロフィール状態を確認し、次の画面へ移動します。</p>
           {error ? (
             <div className="space-y-3 rounded-[1.15rem] bg-red-50 p-3 text-sm font-bold text-red-600">

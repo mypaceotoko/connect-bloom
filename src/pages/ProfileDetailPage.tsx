@@ -218,7 +218,7 @@ export function ProfileDetailPage() {
         <Card className="flex items-center gap-2 text-sm font-bold text-theme-muted">
           {loading ? <><Loader2 className="animate-spin" size={16} />プロフィールを読み込んでいます。</> : t('profile.couldNotLoad')}
         </Card>
-        {!loading ? <Link className="inline-flex items-center gap-1 text-sm font-black text-theme-main-dark" to="/discover">人を探すへ戻る</Link> : null}
+        {!loading ? <Link className="inline-flex items-center gap-1 text-sm font-bold text-theme-main-dark" to="/discover">人を探すへ戻る</Link> : null}
       </PageShell>
     );
   }
@@ -232,30 +232,29 @@ export function ProfileDetailPage() {
           <Badge className="absolute left-4 top-4 border border-white/70 bg-white/75 backdrop-blur"><Sparkles size={13} />{t('profile.today')}</Badge>
           <div className="absolute bottom-4 left-4 right-4 rounded-[1.45rem] bg-theme-card/78 p-3.5 shadow-xl shadow-theme-main/10 backdrop-blur">
             <div className="flex items-end gap-3">
-              <ProfileAvatar className="size-20 shrink-0 rounded-[1.45rem] border border-white/80 shadow-lg" fallbackClassName="bg-white/70 text-2xl font-black" user={profileUser} />
+              <ProfileAvatar className="size-20 shrink-0 rounded-[1.45rem] border border-white/80 shadow-lg" fallbackClassName="bg-white/70 text-2xl font-bold" user={profileUser} />
               <div className="min-w-0 pb-1">
-                <h1 className="text-2xl font-black leading-none text-theme-text">{profileUser.name} <span className="text-sm text-theme-muted">{profileUser.age}</span></h1>
-                <p className="mt-1.5 flex items-center gap-1 text-[13px] font-bold text-theme-muted"><MapPin size={14} />{profileUser.location}</p>
-                <p className="mt-1 flex items-center gap-1 text-[13px] font-bold text-theme-main-dark"><Leaf size={14} />{profileUser.occupation}</p>
+                <h1 className="text-2xl font-bold leading-none text-theme-text">{profileUser.name} <span className="text-base font-normal text-theme-muted">{profileUser.age}</span></h1>
+                <p className="mt-1.5 flex items-center gap-1 text-[13px] text-theme-muted"><MapPin size={14} />{profileUser.location}</p>
+                <p className="mt-1 flex items-center gap-1 text-[13px] font-medium text-theme-main-dark"><Leaf size={14} />{profileUser.occupation}</p>
               </div>
             </div>
           </div>
         </div>
 
         <div className="space-y-4 p-4">
-          {notice ? <div className="rounded-[1.15rem] border border-theme-accent/30 bg-theme-accent-soft/80 p-3 text-center text-sm font-black text-theme-text">{notice}</div> : null}
-          {errorNotice ? <div className="rounded-[1.15rem] bg-red-50 p-3 text-center text-sm font-black text-red-600">{errorNotice}</div> : null}
+          {notice ? <div className="rounded-[1.15rem] border border-theme-accent/30 bg-theme-accent-soft/80 p-3 text-center text-sm font-bold text-theme-text">{notice}</div> : null}
+          {errorNotice ? <div className="rounded-[1.15rem] bg-red-50 p-3 text-center text-sm font-bold text-red-600">{errorNotice}</div> : null}
 
           <div className="flex flex-wrap gap-1.5">
             <Badge><UserRoundCheck size={13} />{profileUser.introducedBy} からの紹介</Badge>
-            <Badge className="bg-theme-background"><ShieldCheck size={13} />安心して進める</Badge>
             {matched ? <Badge className="bg-theme-main text-white">コネクト済み</Badge> : null}
           </div>
 
-          <div className="space-y-2"><p className="text-sm font-black">{t('profile.about')}</p><p className="rounded-[1.15rem] bg-theme-background/70 p-3.5 text-[13px] leading-6 text-theme-text">{profileUser.bio}</p></div>
+          <div className="space-y-2"><p className="text-base font-semibold">{t('profile.about')}</p><p className="rounded-[1.15rem] bg-theme-background/70 p-4 text-[15px] leading-7 text-theme-text">{profileUser.bio}</p></div>
 
           <div className="space-y-2">
-            <p className="text-sm font-black">{t('profile.activities')}</p>
+            <p className="text-base font-semibold">{t('profile.activities')}</p>
             <div className="flex flex-wrap gap-1.5">{profileUser.interests.map((interest) => <Badge className="bg-theme-accent-soft/80" key={interest}>{interest}</Badge>)}</div>
           </div>
 
@@ -268,8 +267,8 @@ export function ProfileDetailPage() {
               <div className="flex items-start gap-2">
                 <ShieldCheck className="mt-0.5 shrink-0 text-theme-main" size={17} />
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-black text-theme-text">管理者メッセージ</p>
-                  <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">運営者として、このユーザーへ直接メッセージを送れます。</p>
+                  <p className="text-sm font-semibold text-theme-text">管理者メッセージ</p>
+                  <p className="mt-1 text-[13px] leading-6 text-theme-muted">運営者として直接メッセージを送れます。</p>
                 </div>
               </div>
               <Button className="w-full" disabled={startingAdminMessage} onClick={() => { void handleAdminMessage(); }} type="button" variant="secondary">
@@ -279,17 +278,16 @@ export function ProfileDetailPage() {
             </Card>
           ) : null}
 
-          <div className="sticky bottom-24 z-10 space-y-2 rounded-[1.25rem] border border-white/60 bg-theme-card/88 p-2.5 shadow-2xl shadow-theme-main/15 backdrop-blur">
-            <Button className={`w-full ${liked ? 'bg-gradient-to-r from-theme-cyan to-theme-main text-white shadow-theme-main/25 hover:saturate-125' : 'bg-theme-accent-soft text-theme-text'}`} onClick={() => { void handleLike(); }} variant="secondary">
+          <div className="sticky bottom-24 z-10 space-y-2 rounded-[1.25rem] border border-theme-border bg-theme-card/92 p-2.5 shadow-[0_12px_32px_rgba(16,42,67,0.12)] backdrop-blur">
+            <Button className={`w-full ${liked ? 'bg-gradient-to-r from-theme-cyan to-theme-main text-white hover:saturate-110' : ''}`} onClick={() => { void handleLike(); }} variant={liked ? 'secondary' : 'primary'}>
               <Heart fill={liked ? 'currentColor' : 'none'} size={16} />{liked ? t('profile.sent') : t('profile.like')}
             </Button>
-            {matched ? <Link to={`/messages/${useSupabaseProfile ? supabaseMatchId : profileUser.id}`}><Button className="w-full"><MessageCircle size={16} />会話へ</Button></Link> : null}
-            <p className="text-center text-xs font-bold text-theme-muted">{useSupabaseProfile ? '送信状態を保存しています。' : 'デモ状態で動作しています。'}</p>
+            {matched ? <Link to={`/messages/${useSupabaseProfile ? supabaseMatchId : profileUser.id}`}><Button className="w-full" variant="secondary"><MessageCircle size={16} />会話へ</Button></Link> : null}
           </div>
 
-          <Card className="space-y-2.5 bg-theme-background/65 p-3.5 shadow-none">
-            <div className="flex items-center gap-2 text-[13px] font-black text-theme-text"><ShieldCheck size={15} />安心のための操作</div>
-            <p className="text-xs leading-5 text-theme-muted">ブロック・通報は、ご縁を安心して育てるための安全装置です。相手には通知されません。</p>
+          <Card className="space-y-2.5 bg-theme-background/65 p-4 shadow-none">
+            <div className="flex items-center gap-2 text-sm font-semibold text-theme-text"><ShieldCheck size={15} />安心のための操作</div>
+            <p className="text-[13px] leading-6 text-theme-muted">ブロック・通報は相手に通知されません。</p>
             <div className="grid grid-cols-2 gap-2">
               <Button disabled={savingSafety} onClick={() => { void handleBlock(); }} variant="ghost"><Ban size={15} />ブロック</Button>
               <Button disabled={savingSafety} onClick={() => { void handleReport(); }} variant="danger"><Flag size={15} />{reported ? '通報済み' : '通報'}</Button>
@@ -303,9 +301,9 @@ export function ProfileDetailPage() {
 
 function InfoBlock({ icon, title, body }: { icon: ReactNode; title: string; body: string }) {
   return (
-    <div className="rounded-[1.15rem] border border-theme-main/10 bg-theme-accent-soft/65 p-3.5">
-      <p className="flex items-center gap-1.5 text-sm font-black text-theme-text">{icon}{title}</p>
-      <p className="mt-1.5 text-[13px] leading-5 text-theme-muted">{body}</p>
+    <div className="rounded-[1.15rem] border border-theme-border bg-theme-accent-soft/55 p-4">
+      <p className="flex items-center gap-1.5 text-sm font-semibold text-theme-text">{icon}{title}</p>
+      <p className="mt-1.5 text-[15px] leading-6 text-theme-muted">{body}</p>
     </div>
   );
 }

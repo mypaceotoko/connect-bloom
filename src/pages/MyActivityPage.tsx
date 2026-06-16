@@ -117,7 +117,7 @@ export function MyActivityPage() {
             <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-theme-main text-white"><Sparkles size={20} /></span>
             <div>
               <Badge className="bg-theme-main text-white">通知センター</Badge>
-              <h2 className="mt-2 text-xl font-black tracking-[-0.03em] text-theme-text">最近の動き</h2>
+              <h2 className="mt-2 text-xl font-bold tracking-[-0.03em] text-theme-text">最近の動き</h2>
               <p className="mt-1 text-[13px] leading-6 text-theme-muted">通知・募集・参加希望・会話導線を、スマホで迷わず確認できる場所です。</p>
             </div>
           </div>
@@ -126,7 +126,7 @@ export function MyActivityPage() {
 
       {!canUseSupabaseActivity ? (
         <Card className="space-y-3 border-theme-main/10 bg-theme-card/84 shadow-sm">
-          <p className="text-sm font-black text-theme-text">ログインするとマイアクティビティを確認できます</p>
+          <p className="text-sm font-bold text-theme-text">ログインするとマイアクティビティを確認できます</p>
           <p className="text-xs leading-5 text-theme-muted">ログイン前は、デモ表示として件数0で表示します。</p>
           <Button className="w-full" onClick={() => navigate('/login')} variant="secondary">ログインへ</Button>
         </Card>
@@ -136,11 +136,11 @@ export function MyActivityPage() {
       {loading ? <Card className="flex items-center gap-2 text-sm font-bold text-theme-muted"><Loader2 className="animate-spin text-theme-main" size={18} />マイアクティビティを読み込んでいます。</Card> : null}
 
       <section className="space-y-3">
-        <h2 className="px-1 text-sm font-black text-theme-main-dark">通知</h2>
+        <h2 className="px-1 text-sm font-bold text-theme-main-dark">通知</h2>
         <Card className="space-y-3 border-theme-main/15 bg-cyan-50/70 shadow-sm">
           <div className="flex items-center justify-between gap-3">
-            <span className="flex items-center gap-2 text-sm font-black text-theme-text"><Bell size={18} />未読通知</span>
-            <span className="rounded-full bg-theme-main px-3 py-1 text-xs font-black text-white">{summary.unreadCount}件</span>
+            <span className="flex items-center gap-2 text-sm font-bold text-theme-text"><Bell size={18} />未読通知</span>
+            <span className="rounded-full bg-theme-main px-3 py-1 text-xs font-bold text-white">{summary.unreadCount}件</span>
           </div>
           {summary.latestNotifications.length === 0 ? (
             <p className="rounded-2xl bg-theme-card/72 p-3 text-xs leading-5 text-theme-muted">まだ通知はありません。参加希望やメッセージが届くと、ここに表示されます。</p>
@@ -148,8 +148,8 @@ export function MyActivityPage() {
             <div className="space-y-2">
               {summary.latestNotifications.map((notification) => (
                 <button className="w-full rounded-2xl bg-theme-card/80 p-3 text-left transition active:scale-[0.99]" key={notification.id} onClick={() => navigate(notification.linkPath ?? '/notifications')} type="button">
-                  <span className="flex items-center gap-2 text-[11px] font-black text-theme-main-dark"><Badge>{getTypeLabel(notification.type)}</Badge>{formatDate(notification.createdAt)}</span>
-                  <span className="mt-1 block text-sm font-black text-theme-text">{notification.title}</span>
+                  <span className="flex items-center gap-2 text-[11px] font-bold text-theme-main-dark"><Badge>{getTypeLabel(notification.type)}</Badge>{formatDate(notification.createdAt)}</span>
+                  <span className="mt-1 block text-sm font-bold text-theme-text">{notification.title}</span>
                 </button>
               ))}
             </div>
@@ -174,10 +174,10 @@ function SummaryCard({ body, buttonLabel, icon, path, title, value }: { body: st
       <div className="flex items-start gap-2.5">
         <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-theme-accent-soft text-theme-main-dark">{icon}</span>
         <span className="min-w-0 flex-1">
-          <span className="block text-sm font-black text-theme-text">{title}</span>
+          <span className="block text-sm font-bold text-theme-text">{title}</span>
           <span className="mt-1 block text-xs leading-5 text-theme-muted">{body}</span>
         </span>
-        <span className="rounded-full bg-theme-yellow/70 px-2.5 py-1 text-xs font-black text-theme-main-dark">{value}</span>
+        <span className="rounded-full bg-theme-yellow/70 px-2.5 py-1 text-xs font-bold text-theme-main-dark">{value}</span>
       </div>
       <Link to={path}><Button className="w-full" variant="secondary">{buttonLabel}</Button></Link>
     </Card>

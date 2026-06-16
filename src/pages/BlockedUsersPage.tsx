@@ -139,7 +139,7 @@ export function BlockedUsersPage() {
               <ShieldCheck size={20} />
             </span>
             <div className="min-w-0 space-y-1">
-              <p className="text-sm font-black text-theme-text">安心のためのブロック管理</p>
+              <p className="text-sm font-bold text-theme-text">安心のためのブロック管理</p>
               <p className="text-xs leading-5 text-theme-muted">
                 ブロック中の相手を確認し、落ち着いて解除できます。解除後は、再読み込みや画面遷移のあとに一覧へ戻る可能性があります。
               </p>
@@ -149,7 +149,7 @@ export function BlockedUsersPage() {
       </Card>
 
       {!useSupabaseBlocks ? (
-        <div className="rounded-full border border-theme-main/15 bg-theme-card/80 px-3 py-1.5 text-center text-[11px] font-black text-theme-main-dark shadow-sm">
+        <div className="rounded-full border border-theme-main/15 bg-theme-card/80 px-3 py-1.5 text-center text-[11px] font-bold text-theme-main-dark shadow-sm">
           デモ表示 / ログイン前
         </div>
       ) : null}
@@ -167,7 +167,7 @@ export function BlockedUsersPage() {
             <HeartHandshake size={22} />
           </span>
           <div className="space-y-1">
-            <p className="text-sm font-black text-theme-text">現在ブロック中のユーザーはいません。</p>
+            <p className="text-sm font-bold text-theme-text">現在ブロック中のユーザーはいません。</p>
             <p className="text-xs leading-5 text-theme-muted">安心して使えるよう、必要なときだけブロック機能をご利用ください。</p>
           </div>
         </Card>
@@ -205,14 +205,14 @@ function BlockedUserCard({
   return (
     <Card className="space-y-3 border-white/40 bg-theme-card/88 py-3 shadow-sm">
       <div className="flex items-start gap-3">
-        {profile ? <ProfileAvatar className="size-14 shrink-0 rounded-2xl shadow-inner" fallbackClassName="text-xl font-black" user={profile} /> : (
+        {profile ? <ProfileAvatar className="size-14 shrink-0 rounded-2xl shadow-inner" fallbackClassName="text-xl font-bold" user={profile} /> : (
           <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-100 via-cyan-50 to-yellow-100 text-theme-main-dark shadow-inner">
             <UserRoundX size={24} />
           </div>
         )}
         <div className="min-w-0 flex-1 space-y-2">
           <div className="min-w-0">
-            <p className="truncate text-base font-black text-theme-text">{displayName}</p>
+            <p className="truncate text-base font-bold text-theme-text">{displayName}</p>
             <p className="mt-0.5 text-xs font-bold text-theme-muted">{profileSummary}</p>
           </div>
           <div className="flex flex-wrap gap-1.5">

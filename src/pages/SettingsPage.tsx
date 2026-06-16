@@ -107,7 +107,7 @@ export function SettingsPage() {
   return (
     <PageShell description={t('settings.description')} eyebrow="Settings" title={t('settings.title')}>
       {!isSupabaseMode || !isAuthenticated ? (
-        <div className="rounded-full border border-theme-main/15 bg-theme-card/80 px-3 py-1.5 text-center text-[11px] font-black text-theme-main-dark shadow-sm">
+        <div className="rounded-full border border-theme-main/15 bg-theme-card/80 px-3 py-1.5 text-center text-[11px] font-semibold text-theme-main-dark">
           {t('settings.demo')}
         </div>
       ) : null}
@@ -120,9 +120,9 @@ export function SettingsPage() {
 
       <section className="space-y-3">
         <div className="px-1">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('settings.basic.eyebrow')}</p>
-          <h2 className="text-lg font-black text-theme-text">{t('settings.basic.title')}</h2>
-          <p className="mt-1 text-xs leading-5 text-theme-muted">{t('settings.basic.description')}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('settings.basic.eyebrow')}</p>
+          <h2 className="text-lg font-bold text-theme-text">{t('settings.basic.title')}</h2>
+          <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t('settings.basic.description')}</p>
         </div>
         <SettingsLink body={t('settings.profile.body')} icon={<UserRound size={18} />} onClick={() => navigateFromSettings('/my-profile')} title={t('settings.profile.title')} />
         <SettingsLink body={t('settings.theme.body')} icon={<Palette size={18} />} onClick={() => navigateFromSettings('/settings/theme')} title={t('settings.theme.title')} />
@@ -131,9 +131,9 @@ export function SettingsPage() {
 
       <section className="space-y-3">
         <div className="px-1">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('settings.activity.eyebrow')}</p>
-          <h2 className="text-lg font-black text-theme-text">{t('settings.activity.title')}</h2>
-          <p className="mt-1 text-xs leading-5 text-theme-muted">{t('settings.activity.description')}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('settings.activity.eyebrow')}</p>
+          <h2 className="text-lg font-bold text-theme-text">{t('settings.activity.title')}</h2>
+          <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t('settings.activity.description')}</p>
         </div>
         <SettingsLink badge={unreadNotificationCount > 0 ? t('settings.notifications.unreadBadge').replace('{count}', String(unreadNotificationCount)) : t('settings.notifications.noNotifications')} badgeVariant={unreadNotificationCount > 0 ? 'unread' : 'empty'} body={t('settings.notifications.body')} icon={<Bell size={18} />} onClick={() => navigateFromSettings('/notifications')} title={t('settings.notifications.title')} />
         <SettingsLink body={t('settings.myActivity.body')} icon={<Sparkles size={18} />} onClick={() => navigateFromSettings('/my-activity')} title={t('settings.myActivity.title')} />
@@ -145,9 +145,9 @@ export function SettingsPage() {
 
       <section className="space-y-3">
         <div className="px-1">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('settings.safetyOperations.eyebrow')}</p>
-          <h2 className="text-lg font-black text-theme-text">{t('settings.safetyOperations.title')}</h2>
-          <p className="mt-1 text-xs leading-5 text-theme-muted">{t('settings.safetyOperations.description')}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('settings.safetyOperations.eyebrow')}</p>
+          <h2 className="text-lg font-bold text-theme-text">{t('settings.safetyOperations.title')}</h2>
+          <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t('settings.safetyOperations.description')}</p>
         </div>
         <SettingsLink body={t('settings.safety.body')} icon={<ShieldCheck size={18} />} onClick={() => navigateFromSettings('/safety')} title={t('settings.safety.title')} />
         <SettingsLink body={t('settings.blockedUsers.body')} icon={<ShieldMinus size={18} />} onClick={() => navigateFromSettings('/blocked-users')} title={t('settings.blockedUsers.title')} />
@@ -157,9 +157,9 @@ export function SettingsPage() {
       {isFounder ? (
         <section className="space-y-3">
           <div className="px-1">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('settings.adminMenu.eyebrow')}</p>
-            <h2 className="text-lg font-black text-theme-text">{t('settings.adminMenu.title')}</h2>
-            <p className="mt-1 text-xs leading-5 text-theme-muted">{t('settings.adminMenu.description')}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('settings.adminMenu.eyebrow')}</p>
+            <h2 className="text-lg font-bold text-theme-text">{t('settings.adminMenu.title')}</h2>
+            <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t('settings.adminMenu.description')}</p>
           </div>
           <SettingsLink body={t('settings.inviteCodes.body')} icon={<Ticket size={18} />} onClick={() => navigateFromSettings('/admin')} title={t('settings.inviteCodes.title')} />
           <SettingsLink body={t('settings.reports.body')} icon={<Flag size={18} />} onClick={() => navigateFromSettings('/admin')} title={t('settings.reports.title')} />
@@ -168,9 +168,9 @@ export function SettingsPage() {
 
       <section className="space-y-3">
         <div className="px-1">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('settings.guide.eyebrow')}</p>
-          <h2 className="text-lg font-black text-theme-text">{t('settings.guide.title')}</h2>
-          <p className="mt-1 text-xs leading-5 text-theme-muted">{t('settings.guide.description')}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('settings.guide.eyebrow')}</p>
+          <h2 className="text-lg font-bold text-theme-text">{t('settings.guide.title')}</h2>
+          <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t('settings.guide.description')}</p>
         </div>
         <SettingsLink body={t('settings.testGuide.body')} icon={<ClipboardCheck size={18} />} onClick={() => navigateFromSettings('/test-guide')} title={t('settings.testGuide.title')} />
         <SettingsLink body={t('settings.terms.body')} icon={<FileText size={18} />} onClick={() => navigateFromSettings('/terms')} title={t('settings.terms.title')} />
@@ -179,9 +179,9 @@ export function SettingsPage() {
 
       <section className="space-y-3">
         <div className="px-1">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('settings.comingSoon.eyebrow')}</p>
-          <h2 className="text-lg font-black text-theme-text">{t('settings.comingSoon.title')}</h2>
-          <p className="mt-1 text-xs leading-5 text-theme-muted">{t('settings.comingSoon.description')}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('settings.comingSoon.eyebrow')}</p>
+          <h2 className="text-lg font-bold text-theme-text">{t('settings.comingSoon.title')}</h2>
+          <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t('settings.comingSoon.description')}</p>
         </div>
         <Placeholder icon={<UserRoundCheck size={18} />} title={t('settings.referrer.title')} body={t('settings.referrer.body')} />
         <Placeholder icon={<ShieldCheck size={18} />} title={t('settings.support.title')} body={t('settings.support.body')} />
@@ -191,8 +191,8 @@ export function SettingsPage() {
         <div className="flex gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-theme-accent-soft/60 text-theme-main-dark"><LogOut size={18} /></span>
           <span>
-            <span className="block text-sm font-black">{t('settings.logout.title')}</span>
-            <span className="mt-0.5 block text-xs leading-5 text-theme-muted">{t('settings.logout.body')}</span>
+            <span className="block text-[15px] font-semibold">{t('settings.logout.title')}</span>
+            <span className="mt-0.5 block text-[13px] leading-6 text-theme-muted">{t('settings.logout.body')}</span>
           </span>
         </div>
         <Button className="w-full bg-theme-card/90 hover:bg-theme-accent-soft/70" disabled={signingOut} onClick={handleSignOut} variant="secondary">
@@ -213,8 +213,8 @@ function LanguageSettingCard({ currentLanguage, onChange, t }: { currentLanguage
       <div className="flex items-start gap-2.5">
         <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-theme-main/10 text-theme-main-dark"><Languages size={18} /></span>
         <span className="min-w-0 flex-1">
-          <span className="block text-sm font-black text-theme-text">{t('settings.language.title')}</span>
-          <span className="mt-0.5 block text-xs leading-5 text-theme-muted">{t('settings.language.description')}</span>
+          <span className="block text-sm font-semibold text-theme-text">{t('settings.language.title')}</span>
+          <span className="mt-0.5 block text-[13px] leading-6 text-theme-muted">{t('settings.language.description')}</span>
           <span className="mt-1 block text-xs font-bold text-theme-main-dark">
             {t('settings.language.current')}: {LANGUAGE_LABELS[currentLanguage]}
           </span>
@@ -226,7 +226,7 @@ function LanguageSettingCard({ currentLanguage, onChange, t }: { currentLanguage
           return (
             <button
               aria-pressed={selected}
-              className={`inline-flex min-h-9 items-center justify-center rounded-full px-4 text-sm font-black transition active:scale-[0.98] ${
+              className={`inline-flex min-h-9 items-center justify-center rounded-full px-4 text-sm font-semibold transition active:scale-[0.98] ${
                 selected
                   ? 'bg-gradient-to-r from-theme-yellow/90 via-theme-cyan/60 to-theme-sky/75 text-slate-900 shadow-sm ring-1 ring-white/70'
                   : 'bg-white/60 text-slate-500 hover:bg-white hover:text-theme-main-dark'
@@ -251,11 +251,11 @@ function SettingsLink({ badge, badgeVariant = 'empty', body, icon, onClick, titl
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-theme-main/10 text-theme-main-dark">{icon}</span>
           <span className="min-w-0 flex-1">
-            <span className="flex flex-wrap items-center gap-2 text-sm font-black text-theme-text">
+            <span className="flex flex-wrap items-center gap-2 text-sm font-semibold text-theme-text">
               {title}
-              {badge ? <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${badgeVariant === 'unread' ? 'bg-theme-main text-white' : 'bg-theme-accent-soft text-theme-main-dark'}`}>{badge}</span> : null}
+              {badge ? <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${badgeVariant === 'unread' ? 'bg-theme-main text-white' : 'bg-theme-accent-soft text-theme-main-dark'}`}>{badge}</span> : null}
             </span>
-            <span className="mt-0.5 block text-xs leading-5 text-theme-muted">{body}</span>
+            <span className="mt-0.5 block text-[13px] leading-6 text-theme-muted">{body}</span>
           </span>
           <ArrowRight className="shrink-0 text-theme-main-dark" size={18} />
         </div>
@@ -269,8 +269,8 @@ function Placeholder({ icon, title, body }: { icon: ReactNode; title: string; bo
     <Card className="flex gap-2.5 bg-theme-card/86 py-3">
       <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark">{icon}</span>
       <span>
-        <span className="block text-sm font-black">{title}</span>
-        <span className="mt-0.5 block text-xs leading-5 text-theme-muted">{body}</span>
+        <span className="block text-sm font-semibold">{title}</span>
+        <span className="mt-0.5 block text-[13px] leading-6 text-theme-muted">{body}</span>
       </span>
     </Card>
   );

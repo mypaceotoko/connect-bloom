@@ -20,7 +20,7 @@ export function Input({ className, helperText, label, id, ...props }: InputProps
         id={inputId}
         {...props}
       />
-      {helperText ? <span className="block text-xs font-medium leading-5 text-theme-muted">{helperText}</span> : null}
+      {helperText ? <span className="block text-[13px] font-normal leading-6 text-theme-muted">{helperText}</span> : null}
     </label>
   );
 }

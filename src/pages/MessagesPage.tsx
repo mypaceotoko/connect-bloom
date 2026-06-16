@@ -266,7 +266,7 @@ export function MessagesPage() {
       <Card className="space-y-2.5 bg-theme-accent-soft/45 shadow-sm">
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0">
-            <p className="text-sm font-black text-theme-text">{useSupabaseMessages ? 'メッセージ保存中' : 'デモ表示'}</p>
+            <p className="text-sm font-bold text-theme-text">{useSupabaseMessages ? 'メッセージ保存中' : 'デモ表示'}</p>
             <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">会話は軽い連絡先交換ではなく、ご縁がつながった相手とゆっくり会話を始める場所です。</p>
           </div>
           <Badge>{loading ? '取得中' : isAdminInitiatedConversation ? '運営連絡' : <><Sparkles size={12} />ご縁</>}</Badge>
@@ -275,23 +275,23 @@ export function MessagesPage() {
 
       {isAdminInitiatedConversation ? (
         <Card className="space-y-1 border border-theme-main/15 bg-theme-accent-soft/70 shadow-sm">
-          <p className="text-sm font-black text-theme-text">運営メッセージ</p>
+          <p className="text-sm font-bold text-theme-text">運営メッセージ</p>
           <p className="text-xs font-bold leading-5 text-theme-muted">この会話は運営者からの連絡として開始されました。</p>
         </Card>
       ) : null}
 
       {activityPostId ? (
         <Card className="space-y-1 bg-cyan-50/70 shadow-sm">
-          <p className="text-sm font-black text-cyan-800">{t('messages.fromBoard')}</p>
+          <p className="text-sm font-bold text-cyan-800">{t('messages.fromBoard')}</p>
           <p className="text-xs font-bold leading-5 text-cyan-700">{activityContextTitle ? t('messages.fromPost').replace('{title}', activityContextTitle) : 'まずは日程や進め方を相談してみましょう。'}</p>
         </Card>
       ) : null}
 
       {messageMatch?.otherProfile ? (
         <Card className="flex items-center gap-3 bg-theme-background/75 shadow-sm">
-          <ProfileAvatar className="size-12 rounded-2xl" fallbackClassName="text-xl font-black" user={messageMatch.otherProfile} />
+          <ProfileAvatar className="size-12 rounded-2xl" fallbackClassName="text-xl font-bold" user={messageMatch.otherProfile} />
           <span className="min-w-0 flex-1">
-            <span className="block font-black">{messageMatch.otherProfile.name}<span className="ml-1 text-xs text-theme-muted">{messageMatch.otherProfile.age}</span></span>
+            <span className="block font-bold">{messageMatch.otherProfile.name}<span className="ml-1 text-xs text-theme-muted">{messageMatch.otherProfile.age}</span></span>
             <span className="block text-xs leading-5 text-theme-muted">{messageMatch.otherProfile.location}・{messageMatch.otherProfile.datingTemperature}</span>
           </span>
           <MessageCircle className="text-theme-main" size={19} />
@@ -317,7 +317,7 @@ export function MessagesPage() {
                 <div className={`flex ${isMine ? 'justify-end' : 'justify-start'}`} key={message.id}>
                   <div className={`max-w-[78%] rounded-[1.15rem] px-3.5 py-2.5 text-[13px] leading-5 ${isMine ? 'bg-theme-main text-white' : 'bg-theme-accent-soft text-theme-text'}`}>
                     <p className="whitespace-pre-wrap break-words">{message.body}</p>
-                    <p className={`mt-1 text-[10px] font-bold ${isMine ? 'text-white/75' : 'text-theme-muted'}`}>{new Date(message.createdAt).toLocaleString('ja-JP', { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p className={`mt-1 text-[11px] font-bold ${isMine ? 'text-white/75' : 'text-theme-muted'}`}>{new Date(message.createdAt).toLocaleString('ja-JP', { hour: '2-digit', minute: '2-digit' })}</p>
                   </div>
                 </div>
               );

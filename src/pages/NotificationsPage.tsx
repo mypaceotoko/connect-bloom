@@ -140,7 +140,7 @@ export function NotificationsPage() {
           <div>
             <div className="min-w-0">
               <Badge className="bg-theme-main text-white"><Bell size={13} />{t('notifications.title')}</Badge>
-              <h2 className="mt-2.5 text-lg font-black tracking-[-0.04em] text-theme-text sm:text-xl">{t('notifications.catch')}</h2>
+              <h2 className="mt-2.5 text-lg font-bold tracking-[-0.04em] text-theme-text sm:text-xl">{t('notifications.catch')}</h2>
               <p className="mt-2 text-[13px] leading-5 text-theme-muted">
                 {t('notifications.check')}
                 <br />
@@ -155,7 +155,7 @@ export function NotificationsPage() {
         <Card className="space-y-3 border-theme-main/10 bg-theme-card/84 text-center shadow-sm">
           <Inbox className="mx-auto text-theme-main" size={28} />
           <div>
-            <p className="text-sm font-black text-theme-text">{t('notifications.login')}</p>
+            <p className="text-sm font-bold text-theme-text">{t('notifications.login')}</p>
             <p className="mt-1 text-xs leading-5 text-theme-muted">ログインしていない場合は、通知一覧を空状態で表示します。</p>
           </div>
           <Button className="mx-auto" onClick={() => navigate('/login')} variant="secondary">ログインへ</Button>
@@ -166,7 +166,7 @@ export function NotificationsPage() {
 
 
       <div className="flex items-center justify-between rounded-full bg-theme-card/76 px-3.5 py-2.5 shadow-sm backdrop-blur">
-        <span className="flex items-center gap-1.5 text-[13px] font-black text-theme-main-dark"><MailCheck size={16} />{unreadCount === 0 ? t('notifications.unreadCount') : `${t('notifications.unread')} ${unreadCount}件`}</span>
+        <span className="flex items-center gap-1.5 text-[13px] font-bold text-theme-main-dark"><MailCheck size={16} />{unreadCount === 0 ? t('notifications.unreadCount') : `${t('notifications.unread')} ${unreadCount}件`}</span>
         <Button className="min-h-8 px-3 text-xs" disabled={!canUseSupabaseNotifications || unreadCount === 0 || updatingAll} onClick={() => void handleMarkAllRead()} variant="secondary">
           {updatingAll ? <Loader2 className="animate-spin" size={14} /> : <CheckCircle2 size={14} />}
           {t('notifications.markAllRead')}
@@ -183,7 +183,7 @@ export function NotificationsPage() {
         <Card className="space-y-3 border-dashed border-theme-main/20 bg-theme-card/76 text-center shadow-sm">
           <Sparkles className="mx-auto text-theme-main" size={30} />
           <div>
-            <p className="text-sm font-black leading-5 text-theme-text">
+            <p className="text-sm font-bold leading-5 text-theme-text">
               {t('notifications.empty')}
               <br />
               参加希望やメッセージが届くと、ここに表示されます。
@@ -207,12 +207,12 @@ export function NotificationsPage() {
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-1.5">
                     <Badge className={notification.isRead ? 'bg-theme-background/80 text-theme-muted' : 'bg-theme-main text-white'}>{getTypeLabel(notification.type, t)}</Badge>
-                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${notification.isRead ? 'bg-slate-100 text-slate-500' : 'bg-yellow-100 text-yellow-700'}`}>{notification.isRead ? t('notifications.read') : t('notifications.unread')}</span>
+                    <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${notification.isRead ? 'bg-slate-100 text-slate-500' : 'bg-yellow-100 text-yellow-700'}`}>{notification.isRead ? t('notifications.read') : t('notifications.unread')}</span>
                     <span className="text-[11px] font-bold text-theme-muted">{formatNotificationDate(notification.createdAt)}</span>
                   </span>
-                  <span className="mt-1.5 block text-sm font-black leading-5 text-theme-text">{notification.title}</span>
+                  <span className="mt-1.5 block text-sm font-bold leading-5 text-theme-text">{notification.title}</span>
                   <span className="mt-0.5 block whitespace-pre-wrap break-words text-[13px] leading-5 text-theme-muted">{notification.body}</span>
-                  {notification.linkPath ? <span className="mt-1.5 flex items-center gap-1 text-xs font-black text-theme-main-dark">{t('notifications.openRelated')} <ChevronRight size={14} /></span> : null}
+                  {notification.linkPath ? <span className="mt-1.5 flex items-center gap-1 text-xs font-bold text-theme-main-dark">{t('notifications.openRelated')} <ChevronRight size={14} /></span> : null}
                 </span>
               </div>
             </button>

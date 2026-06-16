@@ -21,7 +21,7 @@ export function SettingsThemePage() {
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-theme-main/10 text-theme-main-dark"><Palette size={18} /></span>
           <span>
-            <span className="block text-sm font-black text-theme-text">現在のテーマ: {currentTheme.name}</span>
+            <span className="block text-sm font-bold text-theme-text">現在のテーマ: {currentTheme.name}</span>
             <span className="mt-0.5 block text-xs leading-5 text-theme-muted">選択中のテーマは保存され、次回以降も反映されます。</span>
           </span>
         </div>

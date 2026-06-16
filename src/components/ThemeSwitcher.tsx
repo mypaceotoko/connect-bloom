@@ -31,7 +31,7 @@ export function ThemeSwitcher({ collapseOnSelect = true, defaultExpanded = false
           selected
           theme={currentTheme}
           trailing={(
-            <span className="flex shrink-0 items-center gap-2 rounded-full border border-theme-sky/25 bg-theme-background/70 px-2.5 py-1.5 text-[11px] font-black text-theme-main-dark">
+            <span className="flex shrink-0 items-center gap-2 rounded-full border border-theme-sky/25 bg-theme-background/70 px-2.5 py-1.5 text-[11px] font-bold text-theme-main-dark">
               変更
               <ChevronDown className={cn('transition', expanded ? 'rotate-180' : '')} size={14} />
             </span>
@@ -82,8 +82,8 @@ function ThemeCardContent({ selected, theme, trailing }: ThemeCardContentProps) 
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex flex-wrap items-center gap-2">
-          <span className="block text-[13px] font-black text-theme-text">{theme.name}</span>
-          {selected ? <span className="rounded-full bg-theme-yellow/80 px-2 py-0.5 text-[9.5px] font-black text-theme-main-dark">選択中</span> : null}
+          <span className="block text-[13px] font-bold text-theme-text">{theme.name}</span>
+          {selected ? <span className="rounded-full bg-theme-yellow/80 px-2 py-0.5 text-[11px] font-bold text-theme-main-dark">選択中</span> : null}
         </span>
         <span className="mt-0.5 block text-xs leading-5 text-theme-muted">{theme.description}</span>
         <span className="mt-2 flex gap-1.5">

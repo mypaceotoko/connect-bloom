@@ -30,7 +30,7 @@ export function BackToSettingsLink() {
 
   return (
     <button
-      className="inline-flex min-h-10 w-fit items-center gap-1.5 rounded-full border border-theme-main/15 bg-theme-card/86 px-3 py-1.5 text-sm font-black text-theme-main-dark shadow-sm transition hover:bg-theme-accent-soft/70 active:scale-[0.98]"
+      className="inline-flex min-h-10 w-fit items-center gap-1.5 rounded-full border border-theme-main/15 bg-theme-card/86 px-3 py-1.5 text-sm font-bold text-theme-main-dark shadow-sm transition hover:bg-theme-accent-soft/70 active:scale-[0.98]"
       onClick={handleClick}
       type="button"
     >

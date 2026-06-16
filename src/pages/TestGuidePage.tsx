@@ -152,8 +152,8 @@ export function TestGuidePage() {
       <div className="space-y-3">
         <Card className="space-y-3 border-theme-main/15 bg-theme-accent-soft/70 shadow-sm">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">For testers</p>
-            <h2 className="mt-1 text-lg font-black text-theme-text">{t('testGuide.beforeTesting')}</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-theme-main-dark">For testers</p>
+            <h2 className="mt-1 text-lg font-bold text-theme-text">{t('testGuide.beforeTesting')}</h2>
           </div>
           <div className="space-y-1.5 text-sm leading-6 text-theme-muted">
             {testNotes.map((sentence) => <p key={sentence}>{sentence}</p>)}
@@ -161,8 +161,8 @@ export function TestGuidePage() {
         </Card>
 
         <Card className="space-y-2 border-theme-main/15 bg-theme-card/90 shadow-sm">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">Checklist</p>
-          <h2 className="text-lg font-black text-theme-text">{t('testGuide.whatToTry')}</h2>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-theme-main-dark">Checklist</p>
+          <h2 className="text-lg font-bold text-theme-text">{t('testGuide.whatToTry')}</h2>
           <p className="text-sm leading-6 text-theme-muted">
             {t('testGuide.whatToTry.description').split('\n').map((line) => <span className="block" key={line}>{line}</span>)}
           </p>
@@ -179,8 +179,8 @@ export function TestGuidePage() {
                     <Icon size={20} />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[11px] font-black uppercase tracking-[0.16em] text-theme-main-dark">STEP {index + 1}</p>
-                    <h2 className="mt-0.5 text-base font-black leading-6 text-theme-text">{item.title}</h2>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-theme-main-dark">STEP {index + 1}</p>
+                    <h2 className="mt-0.5 text-base font-bold leading-6 text-theme-text">{item.title}</h2>
                     <p className="mt-1 text-sm leading-6 text-theme-muted">{item.body}</p>
                   </div>
                 </div>
@@ -200,8 +200,8 @@ export function TestGuidePage() {
 
         <Card className="space-y-3 border-theme-main/20 bg-theme-main/10 shadow-sm">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-theme-main-dark">Feedback</p>
-            <h2 className="mt-1 text-lg font-black text-theme-text">{t('testGuide.feedback')}</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-theme-main-dark">Feedback</p>
+            <h2 className="mt-1 text-lg font-bold text-theme-text">{t('testGuide.feedback')}</h2>
             <p className="mt-2 text-sm leading-6 text-theme-muted">
               {t('testGuide.feedback.description').split('\n').map((line) => <span className="block" key={line}>{line}</span>)}
             </p>

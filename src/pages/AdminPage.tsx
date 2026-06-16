@@ -648,28 +648,28 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
     <PageShell description={inviteOnly ? <>{t('inviteCodes.pageDescription1')}<br />{t('inviteCodes.pageDescription2')}</> : <>βテスター用の招待コード作成と、届いた通報の確認を行えます。<br />将来的に不適切な募集・ルーム発言・通報ユーザー・アカウント停止などを管理できるよう拡張する前提です。</>} eyebrow={inviteOnly ? 'Invite slots' : 'Admin'} title={inviteOnly ? t('inviteCodes.title') : '管理画面'}>
       {!inviteOnly ? adminCards.map((item) => {
         const Icon = item.icon;
-        return <Card className="space-y-2.5 p-3 shadow-sm" key={item.title}><div className="flex items-center justify-between gap-2"><span className="flex items-center gap-2.5"><span className="flex size-9 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark"><Icon size={18} /></span><span className="text-sm font-black">{item.title}</span></span><Badge>{item.count}</Badge></div><p className="whitespace-pre-line text-[13px] leading-5 text-theme-muted">{item.body}</p></Card>;
+        return <Card className="space-y-2.5 p-3 shadow-sm" key={item.title}><div className="flex items-center justify-between gap-2"><span className="flex items-center gap-2.5"><span className="flex size-9 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark"><Icon size={18} /></span><span className="text-sm font-bold">{item.title}</span></span><Badge>{item.count}</Badge></div><p className="whitespace-pre-line text-[13px] leading-5 text-theme-muted">{item.body}</p></Card>;
       }) : null}
 
       {inviteOnly ? (
         <Card className="space-y-3 border-theme-main/15 bg-gradient-to-br from-theme-accent-soft/80 to-white p-3 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('inviteCodes.slotsTitle')}</p>
-              <h2 className="mt-1 text-xl font-black text-theme-main-dark">{inviteSlotSummary}</h2>
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-theme-main-dark">{t('inviteCodes.slotsTitle')}</p>
+              <h2 className="mt-1 text-xl font-bold text-theme-main-dark">{inviteSlotSummary}</h2>
             </div>
             <Badge>{isAdmin ? t('inviteCodes.unlimitedBadge') : `${ownInviteCodeCount} / ${GENERAL_USER_INVITE_CODE_LIMIT}`}</Badge>
           </div>
           <p className="text-[13px] font-bold leading-6 text-theme-muted">{t('inviteCodes.philosophy')}</p>
-          <p className="rounded-[1.15rem] bg-white/70 p-3 text-[13px] font-black leading-5 text-theme-main-dark">{inviteLimitReached ? t('inviteCodes.usedAllSlots') : t('inviteCodes.sendToTrusted')}</p>
-          {isAdmin ? <p className="text-xs font-bold leading-5 text-theme-muted">{t('inviteCodes.founderHint')} <Link className="font-black text-theme-main-dark underline" to="/admin">/admin</Link></p> : null}
+          <p className="rounded-[1.15rem] bg-white/70 p-3 text-[13px] font-bold leading-5 text-theme-main-dark">{inviteLimitReached ? t('inviteCodes.usedAllSlots') : t('inviteCodes.sendToTrusted')}</p>
+          {isAdmin ? <p className="text-xs font-bold leading-5 text-theme-muted">{t('inviteCodes.founderHint')} <Link className="font-bold text-theme-main-dark underline" to="/admin">/admin</Link></p> : null}
         </Card>
       ) : null}
 
       <Card className="space-y-3 p-3 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-sm font-black">{inviteOnly ? t('inviteCodes.createSectionTitle') : 'βテスター用の招待コード'}</h2>
+            <h2 className="text-sm font-bold">{inviteOnly ? t('inviteCodes.createSectionTitle') : 'βテスター用の招待コード'}</h2>
             <p className="mt-1 text-[13px] leading-5 text-theme-muted">{inviteOnly ? t('inviteCodes.createSectionBody') : <>βテスターに共有する招待コードを作成・確認できます。<br />招待コードは、紹介経路を記録するために使います。</>}</p>
           </div>
           <Button aria-label="招待コード候補を生成" className="shrink-0 px-3" disabled={inviteLoading || inviteLimitReached} onClick={handleGenerateInviteCodeCandidate} title="招待コード候補を生成" type="button" variant="secondary">
@@ -689,7 +689,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
           <Input helperText={inviteOnly && !isAdmin ? t('inviteCodes.inputHelperGeneral') : 'βテスターに共有する招待コードです。英数字・ハイフン推奨で、保存時に大文字化します。'} label={t('inviteCodes.codeLabel')} name="code" onChange={(event) => updateForm('code', event.target.value.toUpperCase())} placeholder="BLOOM-2026" value={form.code} />
           {inviteOnly && !isAdmin ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-xs font-bold leading-5 text-theme-muted">{t('inviteCodes.generalLimitHint')}</p> : (<>
             <div className="rounded-[1.15rem] bg-theme-background/70 p-3">
-              <label className="flex items-center gap-2 text-sm font-black text-theme-text">
+              <label className="flex items-center gap-2 text-sm font-bold text-theme-text">
                 <input checked={form.unlimited} className="size-4 accent-theme-main" onChange={(event) => updateForm('unlimited', event.target.checked)} type="checkbox" />
                 利用人数を制限しない
               </label>
@@ -697,7 +697,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
             </div>
             <Input disabled={form.unlimited} helperText="無制限チェックをOFFにした場合のみ有効です。" label="利用上限" min={1} name="maxUses" onChange={(event) => updateForm('maxUses', event.target.value)} placeholder="10" type="number" value={form.maxUses} />
             <Input helperText="未入力なら期限なしです。" label="有効期限" name="expiresAt" onChange={(event) => updateForm('expiresAt', event.target.value)} type="datetime-local" value={form.expiresAt} />
-            <label className="flex items-center gap-2 rounded-[1.15rem] bg-theme-background/70 p-3 text-sm font-black text-theme-text">
+            <label className="flex items-center gap-2 rounded-[1.15rem] bg-theme-background/70 p-3 text-sm font-bold text-theme-text">
               <input checked={form.isActive} className="size-4 accent-theme-main" onChange={(event) => updateForm('isActive', event.target.checked)} type="checkbox" />
               有効にする
             </label>
@@ -710,14 +710,14 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
       </Card>
 
       <Card className="space-y-2 border-theme-main/15 bg-theme-accent-soft/55 p-3 shadow-sm">
-        <p className="text-[11px] font-black uppercase tracking-[0.18em] text-theme-main-dark">招待コードの扱い</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-theme-main-dark">招待コードの扱い</p>
         <p className="text-[13px] leading-5 text-theme-muted">正式参加の配布時は、作成済みの招待コードを共有してください。<br />コード入力後のGoogleログインで、紹介経路として記録されます。</p>
       </Card>
 
       <Card className="space-y-2.5 p-3 shadow-sm">
-        <h2 className="text-sm font-black">{t('inviteCodes.createdCodesTitle')}</h2>
+        <h2 className="text-sm font-bold">{t('inviteCodes.createdCodesTitle')}</h2>
         <p className="text-[13px] leading-5 text-theme-muted">{t('inviteCodes.createdCodesBody')}</p>
-        {inviteCodes.length === 0 ? <div className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted"><p className="font-black text-theme-text">{t('inviteCodes.emptyTitle')}</p><p>{t('inviteCodes.emptyBody')}</p><p>{t('inviteCodes.emptyLimit')}</p></div> : null}
+        {inviteCodes.length === 0 ? <div className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted"><p className="font-bold text-theme-text">{t('inviteCodes.emptyTitle')}</p><p>{t('inviteCodes.emptyBody')}</p><p>{t('inviteCodes.emptyLimit')}</p></div> : null}
         {inviteCodes.map((inviteCode) => {
           const isManaging = managingInviteCodeId === inviteCode.id;
           const canDelete = !inviteOnly && inviteCode.is_active && inviteCode.used_count === 0;
@@ -731,7 +731,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
           return (
             <div className={`space-y-2.5 rounded-[1.15rem] bg-theme-accent-soft/45 p-3 ${inviteCode.is_active ? '' : 'opacity-70'}`} key={inviteCode.id}>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div><p className="text-[11px] font-black uppercase tracking-[0.16em] text-theme-muted">{t('inviteCodes.codeLabel')}</p><span className="font-black text-theme-main-dark">{inviteCode.code}</span></div>
+                <div><p className="text-[11px] font-bold uppercase tracking-[0.16em] text-theme-muted">{t('inviteCodes.codeLabel')}</p><span className="font-bold text-theme-main-dark">{inviteCode.code}</span></div>
                 <div className="flex flex-wrap items-center gap-1.5">
                   <Button className="min-h-8 px-2.5 py-1 text-xs" onClick={() => void handleCopyInviteCode(inviteCode)} type="button" variant="secondary">
                     <Copy size={14} />
@@ -745,7 +745,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
                 </div>
               </div>
               {(copiedInviteCodeId === inviteCode.id || copiedInviteMessageId === inviteCode.id) ? (
-                <div className="flex flex-wrap gap-2 text-xs font-black text-theme-main-dark">
+                <div className="flex flex-wrap gap-2 text-xs font-bold text-theme-main-dark">
                   {copiedInviteCodeId === inviteCode.id ? <span className="rounded-full bg-white/70 px-2.5 py-1">{t('inviteCodes.copiedCode')}</span> : null}
                   {copiedInviteMessageId === inviteCode.id ? <span className="rounded-full bg-white/70 px-2.5 py-1">{t('inviteCodes.copiedInvitationMessage')}</span> : null}
                 </div>
@@ -777,7 +777,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
       {!inviteOnly ? <Card className="space-y-2.5 p-3 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-sm font-black">募集管理</h2>
+            <h2 className="text-sm font-bold">募集管理</h2>
             <p className="mt-1 text-[13px] leading-5 text-theme-muted">非表示にした募集を確認し、必要に応じて再表示または完全削除できます。</p>
           </div>
           <Badge>{isSupabaseMode && isAuthenticated ? `${archivedActivityPosts.length}件` : 'ログイン後'}</Badge>
@@ -796,7 +796,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
             <article className="space-y-2.5 rounded-[1.15rem] bg-theme-accent-soft/45 p-3" key={post.id}>
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-black text-theme-text">{post.title}</p>
+                  <p className="text-sm font-bold text-theme-text">{post.title}</p>
                   <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">{bodyPreview}</p>
                 </div>
                 <Badge className="bg-theme-background text-theme-main-dark">{post.status}</Badge>
@@ -825,7 +825,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
       {!inviteOnly ? <Card className="space-y-2.5 p-3 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-sm font-black">通報管理</h2>
+            <h2 className="text-sm font-bold">通報管理</h2>
             <p className="mt-1 text-[13px] leading-5 text-theme-muted">届いた通報を確認し、必要に応じて対応できます。</p>
           </div>
           <Badge>{isSupabaseMode && isAuthenticated ? '届いた通報' : 'デモ表示'}</Badge>
@@ -840,7 +840,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
         </div>
 
         {isSupabaseMode && isAuthenticated ? (
-          <label className="inline-flex w-fit items-center gap-2 rounded-full bg-theme-background/80 px-3 py-1.5 text-xs font-black text-theme-muted">
+          <label className="inline-flex w-fit items-center gap-2 rounded-full bg-theme-background/80 px-3 py-1.5 text-xs font-bold text-theme-muted">
             <input checked={includeArchivedReports} className="size-4 accent-theme-main" onChange={(event) => setIncludeArchivedReports(event.target.checked)} type="checkbox" />
             アーカイブ済みも表示
           </label>
@@ -873,10 +873,10 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex min-w-0 items-center gap-2.5">
-                        {report.reportedUser ? <ProfileAvatar className="size-10 shrink-0 rounded-xl" fallbackClassName="font-black" user={report.reportedUser} /> : null}
+                        {report.reportedUser ? <ProfileAvatar className="size-10 shrink-0 rounded-xl" fallbackClassName="font-bold" user={report.reportedUser} /> : null}
                         <div className="min-w-0 space-y-1">
                           <p className="text-xs font-bold text-theme-muted">通報された相手</p>
-                          <p className="break-all font-black text-theme-main-dark">{report.reportedUser?.name ?? report.reported_user_id}</p>
+                          <p className="break-all font-bold text-theme-main-dark">{report.reportedUser?.name ?? report.reported_user_id}</p>
                         </div>
                       </div>
                       <div className="flex shrink-0 items-center gap-1.5">
@@ -888,7 +888,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
                       <span className="break-words">理由: {report.reason}</span>
                       <span>通報日時: {formatDateTime(report.created_at)}</span>
                     </div>
-                    <span className="inline-flex items-center gap-1 self-start text-xs font-black text-theme-main-dark">
+                    <span className="inline-flex items-center gap-1 self-start text-xs font-bold text-theme-main-dark">
                       {isExpanded ? '閉じる' : '詳細を見る'}
                       <ChevronDown className={`transition ${isExpanded ? 'rotate-180' : ''}`} size={14} />
                     </span>
@@ -912,8 +912,8 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
                       </div>
 
                       <div className="rounded-[1rem] bg-white/60 p-3">
-                        <p className="text-xs font-black text-theme-text">対象へ移動</p>
-                        <div className="mt-2 flex flex-wrap gap-2 text-xs font-black">
+                        <p className="text-xs font-bold text-theme-text">対象へ移動</p>
+                        <div className="mt-2 flex flex-wrap gap-2 text-xs font-bold">
                           <Link className="rounded-full bg-theme-background px-3 py-2 text-theme-main-dark" to={`/profile/${report.reported_user_id}`}>対象ユーザーのプロフィールへ移動</Link>
                           {report.target_activity_post_id ? <Link className="rounded-full bg-theme-background px-3 py-2 text-theme-main-dark" to={`/board/${report.target_activity_post_id}`}>対象募集へ移動</Link> : <span className="rounded-full bg-theme-background/70 px-3 py-2 text-theme-muted">対象募集なし</span>}
                           {report.targetChatRoomSlug ? <Link className="rounded-full bg-theme-background px-3 py-2 text-theme-main-dark" to={`/rooms/${report.targetChatRoomSlug}`}>対象ルーム発言へ移動</Link> : <span className="rounded-full bg-theme-background/70 px-3 py-2 text-theme-muted">対象ルーム発言なし</span>}
@@ -923,9 +923,9 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
                       <div className="rounded-[1rem] bg-amber-50/70 p-3">
                         <div className="flex flex-wrap items-center justify-between gap-3">
                           <div className="space-y-1">
-                            <p className="text-sm font-black text-theme-text">ユーザー利用制限</p>
+                            <p className="text-sm font-bold text-theme-text">ユーザー利用制限</p>
                             <p className="text-xs font-bold leading-5 text-theme-muted">ログイン自体は残し、主要機能へのアクセスを制限します。</p>
-                            {isFounderTarget ? <p className="text-xs font-black text-amber-700">Founder は利用停止できません。</p> : null}
+                            {isFounderTarget ? <p className="text-xs font-bold text-amber-700">Founder は利用停止できません。</p> : null}
                           </div>
                           {!isFounderTarget ? (
                             <Button disabled={isUpdatingStatus || isSavingNote || isArchiving || isUpdatingAccount} onClick={() => { void handleToggleReportedUserStatus(report); }} type="button" variant={isReportedUserSuspended ? 'secondary' : 'danger'}>
@@ -935,7 +935,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
                         </div>
                       </div>
 
-                      <label className="grid gap-1.5 text-sm font-black text-theme-text">
+                      <label className="grid gap-1.5 text-sm font-bold text-theme-text">
                         対応状況
                         <select
                           className="min-h-11 w-full rounded-[1rem] border border-theme-sky/25 bg-white px-3 text-sm font-bold text-theme-text outline-none transition focus:border-theme-cyan focus:ring-2 focus:ring-theme-cyan/20 disabled:opacity-60"
@@ -948,7 +948,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
                       </label>
 
                       <div className="space-y-2">
-                        <label className="grid gap-1.5 text-sm font-black text-theme-text">
+                        <label className="grid gap-1.5 text-sm font-bold text-theme-text">
                           管理メモ
                           <textarea
                             className="min-h-24 w-full resize-y rounded-[1rem] border border-theme-sky/25 bg-white px-3 py-2 text-sm font-bold leading-6 text-theme-text outline-none transition placeholder:text-theme-muted/70 focus:border-theme-cyan focus:ring-2 focus:ring-theme-cyan/20 disabled:opacity-60"
@@ -986,7 +986,7 @@ export function AdminPage({ inviteOnly = false }: { inviteOnly?: boolean } = {})
             {reportedUsers.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">まだ通報はありません。プロフィールまたは会話画面の通報ボタンから反映されます。</p> : null}
             {reportedUsers.map((reportedUser) => (
               <div className="flex items-center gap-2.5 rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5" key={reportedUser.id}>
-                <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="font-black" user={reportedUser} />
+                <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="font-bold" user={reportedUser} />
                 <span className="min-w-0 flex-1"><span className="block font-bold">{reportedUser.name}</span><span className="block text-xs text-theme-muted">{reportedUser.location}</span></span>
                 <Badge className="bg-red-50 text-red-600">通報済み</Badge>
               </div>

@@ -81,7 +81,7 @@ export function PrivacyPage() {
     <PageShell description={t('privacy.description')} eyebrow="PRIVACY" title={t('privacy.title')}>
       <div className="space-y-3">
         <Card className="border-theme-main/20 bg-theme-main/10 p-3 shadow-sm">
-          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-theme-main-dark">Beta notice</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-theme-main-dark">Beta notice</p>
           <p className="mt-1.5 text-[13px] font-bold leading-5 text-theme-text">
             {t('privacy.notice').split('\n').map((line) => <span className="block" key={line}>{line}</span>)}
           </p>
@@ -103,7 +103,7 @@ export function PrivacyPage() {
                   <Icon size={18} />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-[15px] font-black leading-5 text-theme-text">{section.title}</h2>
+                  <h2 className="text-[15px] font-bold leading-5 text-theme-text">{section.title}</h2>
                   {section.body.map((paragraph) => (
                     <p className="mt-1.5 text-[13px] leading-5 text-theme-muted" key={paragraph}>{paragraph}</p>
                   ))}

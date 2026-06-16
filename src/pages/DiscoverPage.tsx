@@ -149,27 +149,22 @@ export function DiscoverPage() {
 
   return (
     <PageShell
-      description={(
-        <>
-          <span className="block">{t('discover.description1')}</span>
-          <span className="block">{t('discover.description2')}</span>
-        </>
-      )}
+      description={t('discover.description1')}
       eyebrow="Discover"
       title={t('discover.title')}
     >
-      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">{notice}</div> : null}
-      <Card className="space-y-2.5">
+      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm text-theme-text">{notice}</div> : null}
+      <Card className="space-y-3">
         {useSupabaseLikes ? (
           <div className="flex items-center justify-end gap-2">
-            <span className="text-xs font-bold text-theme-muted">{t('profileCard.sent')} {likedUserIds.length}件</span>
+            <span className="text-[13px] text-theme-muted">{t('profileCard.sent')} {likedUserIds.length}件</span>
           </div>
         ) : null}
         <Input label={t('discover.keyword')} name="search" onChange={handleKeywordChange} placeholder={t('discover.placeholder')} value={keyword} />
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-2">
           {filters.map((filter) => (
             <button
-              className="inline-flex items-center gap-1 rounded-full border border-theme-sky/30 bg-gradient-to-r from-theme-accent-soft/90 to-theme-yellow/35 px-2.5 py-1 text-[11px] font-bold text-theme-main-dark shadow-sm shadow-theme-sky/10 transition hover:saturate-110 active:scale-[0.97]"
+              className="inline-flex items-center gap-1 rounded-full border border-theme-border bg-theme-accent-soft/60 px-3 py-1.5 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft active:scale-[0.97]"
               key={filter.value}
               onClick={() => handleFilterClick(filter.value)}
               type="button"
