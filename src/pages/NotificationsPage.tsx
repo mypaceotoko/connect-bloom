@@ -152,9 +152,9 @@ export function NotificationsPage() {
           <Inbox className="mx-auto text-theme-main" size={28} />
           <div>
             <p className="text-sm font-bold text-theme-text">{t('notifications.login')}</p>
-            <p className="mt-1 text-xs leading-5 text-theme-muted">ログインしていない場合は、通知一覧を空状態で表示します。</p>
+            <p className="mt-1 text-xs leading-5 text-theme-muted">ログインすると、あなたへの反応がここに届きます。</p>
           </div>
-          <Button className="mx-auto" onClick={() => navigate('/login')} variant="secondary">ログインへ</Button>
+          <Button className="mx-auto" onClick={() => navigate('/login')} variant="secondary">ログインする</Button>
         </Card>
       ) : null}
 
@@ -182,9 +182,9 @@ export function NotificationsPage() {
             <p className="text-sm font-bold leading-5 text-theme-text">
               {t('notifications.empty')}
               <br />
-              参加希望やメッセージが届くと、ここに表示されます。
+              参加希望が届いたり、承認されたりすると、ここにお知らせします。
             </p>
-            <p className="mt-1 text-xs leading-5 text-theme-muted">新しい反応が届いたら、未読として分かりやすく表示します。</p>
+            <p className="mt-1 text-xs leading-5 text-theme-muted">新しい反応は、未読マークでお知らせします。</p>
           </div>
         </Card>
       ) : null}
