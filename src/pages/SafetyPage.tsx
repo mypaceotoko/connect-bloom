@@ -63,7 +63,7 @@ export function SafetyPage() {
                 <Icon size={18} />
               </span>
               <span className="min-w-0">
-                <span className="block text-sm font-black leading-5">{guide.title}</span>
+                <span className="block text-sm font-bold leading-5">{guide.title}</span>
                 <span className="mt-0.5 block text-[13px] leading-5 text-theme-muted">{renderSentenceBreaks(guide.body)}</span>
               </span>
             </Card>

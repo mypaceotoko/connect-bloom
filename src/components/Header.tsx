@@ -14,7 +14,7 @@ export function Header() {
           />
         </Link>
         <Link
-          className="flex shrink-0 -translate-y-1 items-center gap-1 whitespace-nowrap rounded-full border border-theme-sky/25 bg-gradient-to-r from-theme-yellow/80 via-white to-theme-sky/25 px-2.5 py-1.5 text-[11px] font-black text-theme-main-dark shadow-sm shadow-theme-sky/15 transition hover:border-theme-cyan/45 hover:shadow-md sm:px-3"
+          className="flex shrink-0 -translate-y-1 items-center gap-1 whitespace-nowrap rounded-full border border-theme-border bg-theme-accent-soft/60 px-3 py-1.5 text-xs font-semibold text-theme-main-dark transition hover:bg-theme-accent-soft sm:px-3.5"
           to="/safety"
         >
           <ShieldCheck size={14} />

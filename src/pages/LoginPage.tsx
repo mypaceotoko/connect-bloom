@@ -81,10 +81,10 @@ export function LoginPage() {
         <Card className="space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-theme-main-dark">Invite-only beta</p>
-              {!isSupabaseMode ? <span className="rounded-full bg-theme-accent-soft px-2.5 py-1 text-[10px] font-black text-theme-main-dark">{t('login.demo')}</span> : null}
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-theme-main-dark">Invite-only beta</p>
+              {!isSupabaseMode ? <span className="rounded-full bg-theme-accent-soft px-2.5 py-1 text-[11px] font-bold text-theme-main-dark">{t('login.demo')}</span> : null}
             </div>
-            <h1 className="text-xl font-black">{t('login.title')}</h1>
+            <h1 className="text-xl font-bold">{t('login.title')}</h1>
             <div className="space-y-1 text-[13px] leading-5 text-theme-muted">
               <p>{t('login.description1')}</p>
               <p>{t('login.description2')}</p>
@@ -128,7 +128,7 @@ export function LoginPage() {
             <p>{t('login.google.note2')}</p>
           </div>
           <Button className="w-full bg-white text-theme-text ring-1 ring-theme-main/15" disabled={submitting} onClick={handleGoogleLogin} variant="ghost">
-            <span className="flex size-5 items-center justify-center rounded-full bg-theme-main text-xs font-black text-white">G</span>
+            <span className="flex size-5 items-center justify-center rounded-full bg-theme-main text-xs font-bold text-white">G</span>
             {submitting ? t('login.google.submitting') : t('login.google')}
           </Button>
           <Link className="block" onClick={enableDemoMode} to="/home">

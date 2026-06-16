@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles, UsersRound } from 'lucide-react';
+import { ArrowRight, UsersRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from '../components/Badge';
@@ -101,24 +101,16 @@ export function RoomsPage() {
   }
 
   return (
-    <PageShell description={<>{t('rooms.description1')}<br />{t('rooms.description2')}</>} eyebrow="Rooms" title={t('rooms.title')}>
-      <Card className="flower-gradient border-0 p-1">
-        <div className="rounded-[1.3rem] bg-theme-card/84 p-4 backdrop-blur">
-          <Badge className="bg-theme-main text-white"><Sparkles size={13} />{t('rooms.place')}</Badge>
-          <p className="mt-2 text-sm leading-6 text-theme-muted">{t('rooms.intro')}</p>
-        </div>
-      </Card>
-
+    <PageShell description={t('rooms.description1')} eyebrow="Rooms" title={t('rooms.title')}>
       {!canUseSupabaseRooms ? (
-        <Card className="space-y-2">
+        <Card className="space-y-1.5">
           <Badge>デモ表示</Badge>
-          <p className="text-sm font-bold text-theme-text">{t('rooms.login')}</p>
-          <p className="text-sm leading-6 text-theme-muted">{t('rooms.beforeLogin')}</p>
+          <p className="mt-1 text-[15px] text-theme-text">{t('rooms.beforeLogin')}</p>
         </Card>
       ) : null}
 
-      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">{notice}</div> : null}
-      {loading ? <Card className="text-sm font-bold text-theme-muted">ルームを読み込んでいます...</Card> : null}
+      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm text-theme-text">{notice}</div> : null}
+      {loading ? <Card className="text-sm text-theme-muted">ルームを読み込んでいます...</Card> : null}
 
       <div className="grid gap-3 sm:grid-cols-2">
         {rooms.map((room) => {
@@ -132,10 +124,10 @@ export function RoomsPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h2 className="text-lg font-black leading-tight text-theme-text">{getRoomDisplayName(room)}</h2>
-                    <Badge className="bg-theme-card shadow-sm"><UsersRound size={13} />{room.message_count}件</Badge>
+                    <h2 className="text-lg font-bold leading-tight text-theme-text">{getRoomDisplayName(room)}</h2>
+                    <Badge><UsersRound size={13} />{room.message_count}件</Badge>
                   </div>
-                  <p className="mt-1 text-sm leading-6 text-theme-muted">{getRoomShortDescription(room)}</p>
+                  <p className="mt-1 text-[15px] leading-6 text-theme-muted">{getRoomShortDescription(room)}</p>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5">{(roomTags[room.slug] ?? ['公式']).slice(0, 3).map((tag) => <Badge key={tag}>#{getRoomTag(tag)}</Badge>)}</div>

@@ -171,7 +171,7 @@ export function ActivityBoardEditPage() {
 
   return (
     <PageShell description="募集内容はあとから整えられます。参加希望が届いている場合は、内容が大きく変わりすぎないように注意してください。" eyebrow="Edit Activity" title="募集を編集">
-      <Link className="inline-flex items-center gap-1 text-sm font-black text-theme-main-dark" to={`/board/${postId}`}><ArrowLeft size={16} />募集詳細へ戻る</Link>
+      <Link className="inline-flex items-center gap-1 text-sm font-bold text-theme-main-dark" to={`/board/${postId}`}><ArrowLeft size={16} />募集詳細へ戻る</Link>
 
       {!useSupabaseBoard ? (
         <Card className="space-y-2">
@@ -187,8 +187,8 @@ export function ActivityBoardEditPage() {
 
       {useSupabaseBoard && error === 'この募集を編集する権限がありません' ? (
         <Card className="space-y-3 text-center">
-          <p className="text-base font-black text-theme-text">この募集を編集する権限がありません</p>
-          <Link className="inline-flex justify-center text-sm font-black text-theme-main-dark" to={`/board/${postId}`}>募集詳細へ戻る</Link>
+          <p className="text-base font-bold text-theme-text">この募集を編集する権限がありません</p>
+          <Link className="inline-flex justify-center text-sm font-bold text-theme-main-dark" to={`/board/${postId}`}>募集詳細へ戻る</Link>
         </Card>
       ) : null}
 

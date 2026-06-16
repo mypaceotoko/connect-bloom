@@ -160,9 +160,9 @@ export function MyInterestsPage() {
       {loading ? <Card className="text-sm font-bold text-theme-muted">参加希望した募集を読み込んでいます...</Card> : null}
       {!loading && interests.length === 0 ? (
         <Card className="space-y-2 text-center">
-          <p className="text-base font-black text-theme-text">参加希望した募集はまだありません</p>
+          <p className="text-base font-bold text-theme-text">参加希望した募集はまだありません</p>
           <p className="text-sm leading-6 text-theme-muted">気になる募集があれば「参加したい」から小さく始めてみましょう。</p>
-          <Link className="inline-flex text-sm font-black text-theme-main-dark" to="/board">募集ボードを見る</Link>
+          <Link className="inline-flex text-sm font-bold text-theme-main-dark" to="/board">募集ボードを見る</Link>
         </Card>
       ) : null}
 
@@ -172,23 +172,23 @@ export function MyInterestsPage() {
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <Badge>{interest.post?.category ?? 'カテゴリ未設定'}</Badge>
-                <h2 className="mt-2 text-lg font-black leading-tight text-theme-text">{interest.post?.title ?? '募集タイトルを確認できません'}</h2>
+                <h2 className="mt-2 text-lg font-bold leading-tight text-theme-text">{interest.post?.title ?? '募集タイトルを確認できません'}</h2>
               </div>
               <Badge className={getInterestStatusClass(interest.status)}>{getInterestStatusLabel(interest.status, t)}</Badge>
             </div>
-            <div className="flex flex-wrap gap-2 text-xs font-bold text-theme-muted">
-              <span className="inline-flex items-center gap-1 rounded-full bg-theme-accent-soft/60 px-2.5 py-1"><UserRound size={14} />投稿者 {interest.post?.author?.name ?? 'ConnectBloomユーザー'}</span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-theme-accent-soft/60 px-2.5 py-1"><MapPin size={14} />{interest.post?.area || '活動エリア未設定'}</span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-theme-accent-soft/60 px-2.5 py-1"><CalendarDays size={14} />{t('board.interested')} {formatDate(interest.created_at)}</span>
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[13px] text-theme-muted">
+              <span className="inline-flex items-center gap-1"><UserRound size={14} />投稿者 {interest.post?.author?.name ?? 'ConnectBloomユーザー'}</span>
+              <span className="inline-flex items-center gap-1"><MapPin size={14} />{interest.post?.area || 'エリア未設定'}</span>
+              <span className="inline-flex items-center gap-1"><CalendarDays size={14} />{formatDate(interest.created_at)}</span>
             </div>
             <div className="flex flex-wrap gap-1.5">{interest.post?.tags.map((item) => <Badge key={item}>#{item}</Badge>)}</div>
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/60 pt-3">
               <div className="flex flex-wrap items-center gap-2">
-                <Link className="text-sm font-black text-theme-main-dark" to={`/board/${interest.post_id}`}>{t('myInterests.viewDetails')}</Link>
-                <span className={`text-xs font-bold ${interest.status === 'accepted' ? 'text-cyan-700' : 'text-theme-muted'}`}>{getInterestStatusMessage(interest.status, t)}</span>
+                <Link className="text-sm font-semibold text-theme-main-dark" to={`/board/${interest.post_id}`}>{t('myInterests.viewDetails')}</Link>
+                <span className={`text-[13px] ${interest.status === 'accepted' ? 'text-cyan-700' : 'text-theme-muted'}`}>{getInterestStatusMessage(interest.status, t)}</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {interest.status === 'accepted' ? <Button className="bg-gradient-to-r from-theme-yellow/85 to-theme-sky/55 text-theme-main-dark shadow-sm shadow-theme-sky/20" disabled={!useSupabaseBoard || openingInterestId === interest.id} onClick={() => void handleOpenConversation(interest)} variant="secondary"><MessageSquareText size={16} />{openingInterestId === interest.id ? '会話を準備中…' : t('myInterests.messageHost')}</Button> : null}
+                {interest.status === 'accepted' ? <Button disabled={!useSupabaseBoard || openingInterestId === interest.id} onClick={() => void handleOpenConversation(interest)} variant="secondary"><MessageSquareText size={16} />{openingInterestId === interest.id ? '会話を準備中…' : t('myInterests.messageHost')}</Button> : null}
                 <Button disabled={!useSupabaseBoard || cancellingPostId === interest.post_id || interest.status === 'cancelled'} onClick={() => void handleCancel(interest)} variant="secondary"><Undo2 size={16} />{t('myInterests.cancel')}</Button>
               </div>
             </div>

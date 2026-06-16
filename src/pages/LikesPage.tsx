@@ -83,7 +83,7 @@ export function LikesPage() {
     <PageShell description={useSupabaseLikes ? '送った「話してみたい」と届いた「話してみたい」を表示します。' : '送った「話してみたい」と、相手から届いているサンプル表示を確認できます。'} eyebrow="Talk" title="話してみたい">
       <Card className="space-y-2.5 bg-theme-accent-soft/45 shadow-sm">
         <div className="flex items-center justify-between gap-2">
-          <p className="text-sm font-black text-theme-text">{useSupabaseLikes ? '送信済み' : 'デモ表示'}</p>
+          <p className="text-sm font-bold text-theme-text">{useSupabaseLikes ? '送信済み' : 'デモ表示'}</p>
           {loading ? <Badge>取得中</Badge> : <Badge><Heart size={12} />送信</Badge>}
         </div>
         <p className="text-xs font-bold leading-5 text-theme-muted">
@@ -112,7 +112,7 @@ function LikeSection({ emptyText, likes, matchedUserIds, matchIdByUserId, title 
   return (
     <Card className="space-y-2.5">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="font-black">{title}</h2>
+        <h2 className="font-bold">{title}</h2>
         <span className="text-xs font-bold text-theme-muted">{likes.length}件</span>
       </div>
       {likes.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">{emptyText}</p> : null}
@@ -124,7 +124,7 @@ function LikeSection({ emptyText, likes, matchedUserIds, matchIdByUserId, title 
 function DemoLikeSection({ emptyText = '相互の「話してみたい」候補です。話してみたいを送るとコネクト演出が出ます。', matchedUserIds, title, users }: { emptyText?: string; matchedUserIds: string[]; title: string; users: UserProfile[] }) {
   return (
     <Card className="space-y-2.5">
-      <h2 className="font-black">{title}</h2>
+      <h2 className="font-bold">{title}</h2>
       {users.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">{emptyText}</p> : null}
       {users.map((user) => <LikeRow key={user.id} matched={matchedUserIds.includes(user.id)} messagePath={matchedUserIds.includes(user.id) ? `/messages/${user.id}` : undefined} user={user} />)}
     </Card>
@@ -135,7 +135,7 @@ function LikeRow({ createdAt, matched = false, messagePath, user }: { createdAt?
   return (
     <div className="rounded-[1.15rem] bg-theme-accent-soft/45 p-2.5 transition hover:bg-theme-accent-soft/70">
       <Link className="flex items-center gap-2.5" to={`/profile/${user.id}`}>
-        <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="font-black" user={user} />
+        <ProfileAvatar className="size-10 rounded-xl" fallbackClassName="font-bold" user={user} />
         <span className="min-w-0 flex-1">
           <span className="block font-bold">{user.name}<span className="ml-1 text-xs text-theme-muted">{user.age}</span></span>
           <span className="block text-xs text-theme-muted">{user.location}</span>

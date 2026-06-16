@@ -266,9 +266,9 @@ export function RoomDetailPage() {
   if (!room) {
     return (
       <PageShell description="指定されたルームは見つかりませんでした。" eyebrow="Rooms" title="ルームが見つかりません">
-        <Link className="inline-flex items-center gap-1 text-sm font-black text-theme-main-dark" to="/rooms"><ArrowLeft size={16} />{t('roomDetail.back')}</Link>
+        <Link className="inline-flex items-center gap-1 text-sm font-bold text-theme-main-dark" to="/rooms"><ArrowLeft size={16} />{t('roomDetail.back')}</Link>
         <Card className="space-y-2 text-center">
-          <p className="text-base font-black text-theme-text">このルームは利用できません</p>
+          <p className="text-base font-bold text-theme-text">このルームは利用できません</p>
           <p className="text-sm leading-6 text-theme-muted">公式ルームは「クリエイティブルーム」と「雑談ルーム」の2つです。</p>
         </Card>
       </PageShell>
@@ -280,7 +280,7 @@ export function RoomDetailPage() {
 
   return (
     <PageShell description={<SentenceLines text={roomDescription} />} eyebrow="Room" title={getRoomDisplayName(room)}>
-      <Link className="inline-flex items-center gap-1 text-sm font-black text-theme-main-dark" to="/rooms"><ArrowLeft size={16} />{t('roomDetail.back')}</Link>
+      <Link className="inline-flex items-center gap-1 text-sm font-bold text-theme-main-dark" to="/rooms"><ArrowLeft size={16} />{t('roomDetail.back')}</Link>
 
       <Card className="flower-gradient border-0 p-1">
         <div className="space-y-3 rounded-[1.3rem] bg-theme-card/84 p-4 backdrop-blur">
@@ -288,16 +288,16 @@ export function RoomDetailPage() {
             <div className={`flex size-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br shadow-sm ${roomIconClassName}`}><RoomIcon size={21} /></div>
             <div className="min-w-0 flex-1 space-y-2">
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-lg font-black text-theme-text">{getRoomDisplayName(room)}</h2>
+                <h2 className="text-lg font-bold text-theme-text">{getRoomDisplayName(room)}</h2>
                 <Badge className="bg-theme-card shadow-sm"><UsersRound size={13} />{messages.length}件</Badge>
               </div>
               <div className="flex flex-wrap gap-1.5">{(roomTags[room.slug] ?? ['公式']).map((tag) => <Badge key={tag}>#{getRoomTag(tag)}</Badge>)}</div>
             </div>
           </div>
           <p className="rounded-2xl bg-theme-accent-soft/60 px-3 py-2 text-[13px] font-bold leading-5 text-theme-main-dark">{t(getRoomConversationHintKey(room.slug))}</p>
-          <div className="flex flex-col gap-2 rounded-2xl bg-white/70 p-3 ring-1 ring-theme-sky/10 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs font-bold leading-5 text-theme-muted">{t('roomDetail.fromConversation')}</p>
-            <Button className="min-h-10 w-full px-3 py-2 text-xs sm:w-auto" onClick={handleCreateBoardPost}><ClipboardList size={15} />{t('roomDetail.createBoard')}</Button>
+          <div className="flex flex-col gap-2 rounded-2xl border border-theme-border bg-theme-card/70 p-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[13px] leading-6 text-theme-muted">{t('roomDetail.fromConversation')}</p>
+            <Button className="min-h-10 w-full px-3 sm:w-auto" variant="secondary" onClick={handleCreateBoardPost}><ClipboardList size={15} />{t('roomDetail.createBoard')}</Button>
           </div>
         </div>
       </Card>
@@ -315,13 +315,13 @@ export function RoomDetailPage() {
 
       <Card className="space-y-3">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="text-base font-black text-theme-text">{t('roomDetail.messages')}</h2>
+          <h2 className="text-base font-bold text-theme-text">{t('roomDetail.messages')}</h2>
           <Badge className="bg-theme-card shadow-sm">{messages.length}件</Badge>
         </div>
 
         {!loading && messages.length === 0 ? (
           <div className="rounded-[1.15rem] bg-theme-accent-soft/55 p-3 text-center">
-            <p className="text-[13px] font-black text-theme-text">{t('roomDetail.noMessages')}</p>
+            <p className="text-[13px] font-bold text-theme-text">{t('roomDetail.noMessages')}</p>
             <p className="mt-1 text-xs leading-5 text-theme-muted">{t('roomDetail.boardHint')}</p>
           </div>
         ) : null}
@@ -330,15 +330,15 @@ export function RoomDetailPage() {
           {messages.map((message) => {
             const isOwnMessage = user?.id === message.sender_id;
             return (
-              <div className="rounded-[1rem] bg-white/80 px-3 py-2 shadow-sm ring-1 ring-theme-sky/10" key={message.id}>
+              <div className="rounded-[1rem] border border-theme-border bg-theme-card/80 px-3 py-2.5" key={message.id}>
                 <div className="mb-1 flex items-start justify-between gap-2">
                   <div>
-                    <p className="text-sm font-black text-theme-text">{message.profile?.name ?? 'ConnectBloomユーザー'}</p>
-                    <p className="text-[11px] font-bold text-theme-muted">{formatDateTime(message.created_at)}</p>
+                    <p className="text-sm font-semibold text-theme-text">{message.profile?.name ?? 'ConnectBloomユーザー'}</p>
+                    <p className="text-[11px] text-theme-muted">{formatDateTime(message.created_at)}</p>
                   </div>
                   <div className="flex gap-1">
                     <button className="inline-flex size-7 items-center justify-center rounded-full bg-transparent text-theme-muted/65 transition hover:bg-theme-accent-soft" title={t('roomDetail.report')} type="button"><ShieldAlert size={14} /></button>
-                    {isOwnMessage || isFounder || isAdmin ? <button className="inline-flex min-h-7 items-center justify-center gap-1 rounded-full bg-transparent px-2 text-[11px] font-black text-theme-muted/65 transition hover:bg-rose-50 hover:text-rose-600" title={isOwnMessage ? t('roomDetail.delete') : '管理者削除'} type="button" onClick={() => handleDelete(message.id)}><Trash2 size={14} />{!isOwnMessage && (isFounder || isAdmin) ? '管理者削除' : null}</button> : null}
+                    {isOwnMessage || isFounder || isAdmin ? <button className="inline-flex min-h-7 items-center justify-center gap-1 rounded-full bg-transparent px-2 text-[11px] font-bold text-theme-muted/65 transition hover:bg-rose-50 hover:text-rose-600" title={isOwnMessage ? t('roomDetail.delete') : '管理者削除'} type="button" onClick={() => handleDelete(message.id)}><Trash2 size={14} />{!isOwnMessage && (isFounder || isAdmin) ? '管理者削除' : null}</button> : null}
                   </div>
                 </div>
                 <p className="whitespace-pre-wrap text-sm leading-5 text-theme-text">{message.body}</p>

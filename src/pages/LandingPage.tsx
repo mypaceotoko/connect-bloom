@@ -63,10 +63,10 @@ type LandingSectionProps = {
 
 function LandingSection({ eyebrow, title, description, children }: LandingSectionProps) {
   return (
-    <section className="landing-section-panel scroll-mt-8 space-y-4 rounded-[1.65rem] border border-white/70 p-4 shadow-lg shadow-theme-sky/10 backdrop-blur sm:p-5">
+    <section className="landing-section-panel scroll-mt-8 space-y-5 rounded-[1.65rem] border border-theme-border p-5 shadow-[0_8px_24px_rgba(16,42,67,0.05)] sm:p-6">
       <div className="space-y-2">
-        {eyebrow && <p className="inline-flex rounded-full bg-white/72 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-theme-main-dark ring-1 ring-theme-sky/15">{eyebrow}</p>}
-        <h2 className="text-2xl font-black tracking-[-0.04em] text-theme-text sm:text-3xl">{title}</h2>
+        {eyebrow && <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme-main">{eyebrow}</p>}
+        <h2 className="text-2xl font-bold tracking-[-0.02em] text-theme-text sm:text-3xl">{title}</h2>
         {description && <p className="text-[15px] leading-7 text-theme-muted">{description}</p>}
       </div>
       {children}
@@ -99,10 +99,8 @@ export function LandingPage() {
 
   return (
     <main className="landing-page relative min-h-screen overflow-x-hidden px-4 pb-[calc(env(safe-area-inset-bottom)+4rem)] pt-4 text-theme-text sm:px-6 sm:pt-5">
-      <div className="pointer-events-none absolute -left-28 top-20 size-80 rounded-full bg-theme-yellow/55 blur-3xl" />
-      <div className="pointer-events-none absolute -right-28 top-0 size-96 rounded-full bg-theme-sky/35 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-1/3 left-1/2 size-[28rem] -translate-x-1/2 rounded-full bg-theme-cyan/20 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-12 right-[-7rem] size-80 rounded-full bg-theme-yellow/25 blur-3xl" />
+      <div className="pointer-events-none absolute -left-28 top-24 size-80 rounded-full bg-theme-yellow/25 blur-3xl" />
+      <div className="pointer-events-none absolute -right-28 top-4 size-96 rounded-full bg-theme-sky/20 blur-3xl" />
 
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-8 sm:gap-10">
         <section className="grid min-h-[calc(100vh-2rem)] content-center gap-4 py-2 sm:gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)] lg:items-center">
@@ -113,7 +111,7 @@ export function LandingPage() {
                 imageClassName="max-h-[5.9rem] w-full bg-transparent drop-shadow-none sm:max-h-[6.8rem]"
                 variant="default"
               />
-              <span className="shrink-0 rounded-full bg-gradient-to-r from-theme-yellow/85 via-white to-theme-sky/45 px-2.5 py-1 text-[9px] font-black text-theme-main-dark shadow-sm shadow-theme-sky/15 ring-1 ring-theme-sky/25 sm:px-3.5 sm:py-1.5 sm:text-[11px]">
+              <span className="shrink-0 rounded-full border border-theme-border bg-theme-accent-soft/70 px-3 py-1 text-[11px] font-semibold text-theme-main-dark sm:px-3.5 sm:py-1.5">
                 {t('landing.inviteOnly')}
               </span>
             </header>
@@ -123,15 +121,15 @@ export function LandingPage() {
                 <Flower2 size={26} />
               </div>
               <div className="space-y-4 rounded-[1.55rem] bg-white/84 p-4 pt-6 backdrop-blur-md sm:p-6 sm:pt-8">
-                <div className="inline-flex max-w-full items-center gap-2 rounded-full bg-gradient-to-r from-white/88 via-theme-yellow/24 to-theme-sky/20 px-3 py-1 text-[11px] font-black text-theme-main-dark ring-1 ring-theme-sky/15">
+                <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-theme-border bg-white/80 px-3 py-1 text-xs font-semibold text-theme-main-dark">
                   <Sparkles size={14} />
                   <span className="truncate">{t('landing.heroLabel')}</span>
                 </div>
                 <div className="space-y-3">
-                  <h1 className="break-words text-[2.55rem] font-black leading-[1.06] tracking-[-0.06em] text-theme-text sm:text-6xl">
+                  <h1 className="break-words text-[2.55rem] font-bold leading-[1.06] tracking-[-0.04em] text-theme-text sm:text-6xl">
                     {t('landing.title').split('\n').map((line) => <span className="block" key={line}>{line}</span>)}
                   </h1>
-                  <p className="text-base font-black leading-7 text-theme-main-dark sm:text-lg">{t('landing.subtitle')}</p>
+                  <p className="text-lg font-semibold leading-7 text-theme-main-dark">{t('landing.subtitle')}</p>
                   <p className="text-[15px] leading-7 text-theme-text sm:text-base">{t('landing.body')}</p>
                 </div>
                 <CtaButtons />
@@ -139,12 +137,12 @@ export function LandingPage() {
             </div>
           </div>
 
-          <Card className="landing-preview-card grid gap-3 bg-white/82 p-4 backdrop-blur lg:p-5">
-            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-theme-main-dark">{t('landing.heroPreview.eyebrow')}</p>
+          <Card className="landing-preview-card grid gap-3 bg-white/90 p-5 backdrop-blur">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('landing.heroPreview.eyebrow')}</p>
             {heroPreviewCards.map((item) => (
-              <div className="rounded-2xl border border-white/70 bg-gradient-to-br from-white/86 via-theme-accent-soft/55 to-theme-yellow/18 p-3 shadow-sm shadow-theme-sky/8" key={item.titleKey}>
-                <p className="font-black text-theme-text">{t(item.titleKey)}</p>
-                <p className="mt-1 text-[13px] leading-5 text-theme-muted">{t(item.bodyKey)}</p>
+              <div className="rounded-2xl border border-theme-border bg-theme-accent-soft/40 p-3.5" key={item.titleKey}>
+                <p className="text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</p>
+                <p className="mt-1 text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</p>
               </div>
             ))}
           </Card>
@@ -155,12 +153,12 @@ export function LandingPage() {
             {aboutCards.map((item) => {
               const Icon = item.icon;
               return (
-                <Card className="landing-card-pop bg-white/86" key={item.titleKey}>
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-theme-yellow/75 via-theme-accent-soft to-theme-sky/35 text-theme-main-dark shadow-sm shadow-theme-sky/15">
+                <Card className="landing-card-pop bg-white/90" key={item.titleKey}>
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark">
                     <Icon size={18} />
                   </span>
-                  <h3 className="mt-3 font-black text-theme-text">{t(item.titleKey)}</h3>
-                  <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t(item.bodyKey)}</p>
+                  <h3 className="mt-3 text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</h3>
+                  <p className="mt-1 text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</p>
                 </Card>
               );
             })}
@@ -172,13 +170,13 @@ export function LandingPage() {
             {featureCards.map((item) => {
               const Icon = item.icon;
               return (
-                <Card className="landing-card-pop flex gap-3 bg-white/86" key={item.titleKey}>
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-theme-yellow/75 via-theme-accent-soft to-theme-cyan/35 text-theme-main-dark shadow-sm shadow-theme-cyan/15">
+                <Card className="landing-card-pop flex gap-3 bg-white/90" key={item.titleKey}>
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-theme-accent-soft text-theme-main-dark">
                     <Icon size={19} />
                   </span>
                   <span>
-                    <span className="block font-black text-theme-text">{t(item.titleKey)}</span>
-                    <span className="mt-1 block text-[13px] leading-6 text-theme-muted">{t(item.bodyKey)}</span>
+                    <span className="block text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</span>
+                    <span className="mt-1 block text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</span>
                   </span>
                 </Card>
               );
@@ -187,11 +185,11 @@ export function LandingPage() {
         </LandingSection>
 
         <LandingSection description={t('landing.fit.description')} eyebrow="FOR YOU" title={t('landing.fit.title')}>
-          <Card className="bg-white/86">
-            <div className="grid gap-2 sm:grid-cols-2">
+          <Card className="bg-white/90">
+            <div className="grid gap-2.5 sm:grid-cols-2">
               {fitKeys.map((key) => (
-                <div className="flex gap-2 rounded-2xl border border-white/70 bg-gradient-to-br from-white/82 via-theme-accent-soft/55 to-theme-yellow/20 p-3 text-[13px] font-bold leading-5 text-theme-text" key={key}>
-                  <CheckCircle2 className="mt-0.5 shrink-0 text-theme-main-dark" size={17} />
+                <div className="flex gap-2 text-[15px] leading-6 text-theme-text" key={key}>
+                  <CheckCircle2 className="mt-0.5 shrink-0 text-theme-main" size={18} />
                   <span>{t(key)}</span>
                 </div>
               ))}
@@ -200,14 +198,14 @@ export function LandingPage() {
         </LandingSection>
 
         <LandingSection description={t('landing.inviteReason.description')} eyebrow="INVITE" title={t('landing.inviteReason.title')}>
-          <Card className="grid gap-3 bg-white/86 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
-            <span className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-theme-yellow/80 via-theme-accent-soft to-theme-sky/35 text-theme-main-dark shadow-sm shadow-theme-sky/15">
+          <Card className="grid gap-3 bg-white/90 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
+            <span className="flex size-12 items-center justify-center rounded-2xl bg-theme-accent-soft text-theme-main-dark">
               <Ticket size={22} />
             </span>
-            <div className="space-y-2 text-[14px] leading-7 text-theme-muted">
+            <div className="space-y-2 text-[15px] leading-7 text-theme-muted">
               <p>{t('landing.inviteReason.body1')}</p>
               <p>{t('landing.inviteReason.body2')}</p>
-              <p className="font-bold text-theme-text">{t('landing.inviteReason.body3')}</p>
+              <p className="font-semibold text-theme-text">{t('landing.inviteReason.body3')}</p>
             </div>
           </Card>
         </LandingSection>
@@ -217,34 +215,34 @@ export function LandingPage() {
             {safetyCards.map((item) => {
               const Icon = item.icon;
               return (
-                <Card className="landing-card-pop bg-white/86" key={item.titleKey}>
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-theme-yellow/75 via-theme-accent-soft to-theme-sky/35 text-theme-main-dark shadow-sm shadow-theme-sky/15">
+                <Card className="landing-card-pop bg-white/90" key={item.titleKey}>
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark">
                     <Icon size={18} />
                   </span>
-                  <h3 className="mt-3 font-black text-theme-text">{t(item.titleKey)}</h3>
-                  <p className="mt-1 text-[13px] leading-6 text-theme-muted">{t(item.bodyKey)}</p>
+                  <h3 className="mt-3 text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</h3>
+                  <p className="mt-1 text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</p>
                 </Card>
               );
             })}
           </div>
           <div className="flex flex-wrap gap-2">
-            <Link className="rounded-full bg-white/88 px-4 py-2 text-[13px] font-black text-theme-main-dark shadow-sm shadow-theme-sky/10 ring-1 ring-theme-sky/20" to="/safety">{t('landing.safety.linkGuide')}</Link>
-            <Link className="rounded-full bg-white/88 px-4 py-2 text-[13px] font-black text-theme-main-dark shadow-sm shadow-theme-sky/10 ring-1 ring-theme-sky/20" to="/terms">{t('landing.safety.linkTerms')}</Link>
-            <Link className="rounded-full bg-white/88 px-4 py-2 text-[13px] font-black text-theme-main-dark shadow-sm shadow-theme-sky/10 ring-1 ring-theme-sky/20" to="/privacy">{t('landing.safety.linkPrivacy')}</Link>
+            <Link className="rounded-full border border-theme-border bg-white px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft/60" to="/safety">{t('landing.safety.linkGuide')}</Link>
+            <Link className="rounded-full border border-theme-border bg-white px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft/60" to="/terms">{t('landing.safety.linkTerms')}</Link>
+            <Link className="rounded-full border border-theme-border bg-white px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft/60" to="/privacy">{t('landing.safety.linkPrivacy')}</Link>
           </div>
         </LandingSection>
 
         <LandingSection description={t('landing.beta.description')} eyebrow="BETA" title={t('landing.beta.title')}>
-          <Card className="bg-white/86">
-            <p className="text-[14px] leading-7 text-theme-muted">{t('landing.beta.body')}</p>
-            <Link className="mt-4 inline-flex rounded-full bg-gradient-to-r from-theme-yellow/75 via-theme-accent-soft to-theme-sky/35 px-4 py-2 text-[13px] font-black text-theme-main-dark shadow-sm shadow-theme-sky/15" to="/test-guide">{t('landing.beta.link')}</Link>
+          <Card className="bg-white/90">
+            <p className="text-[15px] leading-7 text-theme-muted">{t('landing.beta.body')}</p>
+            <Link className="mt-4 inline-flex rounded-full border border-theme-border bg-theme-accent-soft/60 px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft" to="/test-guide">{t('landing.beta.link')}</Link>
           </Card>
         </LandingSection>
 
         <section className="flower-gradient soft-shadow mb-2 overflow-hidden rounded-[1.8rem] p-1">
-          <div className="rounded-[1.55rem] bg-white/84 p-5 text-center backdrop-blur-md sm:p-8">
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-theme-main-dark">ConnectBloom</p>
-            <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-theme-text sm:text-4xl">{t('landing.final.title')}</h2>
+          <div className="rounded-[1.55rem] bg-white/88 p-6 text-center backdrop-blur-md sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme-main">ConnectBloom</p>
+            <h2 className="mt-2 text-2xl font-bold tracking-[-0.02em] text-theme-text sm:text-4xl">{t('landing.final.title')}</h2>
             <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-7 text-theme-muted">{t('landing.final.body')}</p>
             <div className="mx-auto mt-5 max-w-xl">
               <CtaButtons />

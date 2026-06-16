@@ -47,7 +47,7 @@ function SuspendedAccountMessage({ onSignOut }: { onSignOut: () => Promise<void>
             <ShieldCheck size={24} />
           </span>
           <div className="space-y-2">
-            <h2 className="text-lg font-black text-theme-text">{t('account.suspended.title')}</h2>
+            <h2 className="text-lg font-bold text-theme-text">{t('account.suspended.title')}</h2>
             <p className="text-sm font-bold leading-6 text-theme-muted">
               {t('account.suspended.body')}
             </p>
@@ -79,7 +79,7 @@ function InviteRequiredMessage({ detail }: { detail?: string }) {
               <HeartHandshake size={22} />
             </span>
             <div className="space-y-2">
-              <h2 className="text-lg font-black text-theme-text">{t('officialMember.inviteRequired.title')}</h2>
+              <h2 className="text-lg font-bold text-theme-text">{t('officialMember.inviteRequired.title')}</h2>
               <p className="text-sm font-bold leading-6 text-theme-muted">
                 {t('officialMember.inviteRequired.body')}
               </p>

@@ -234,18 +234,18 @@ export function MyProfilePage() {
         {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">{notice}</div> : null}
         {!isSupabaseMode || !isAuthenticated ? <Badge className="w-fit">デモ表示</Badge> : null}
         <div className="flower-gradient rounded-[1.15rem] p-3">
-          <div className="rounded-[1rem] bg-white/66 p-3 shadow-sm backdrop-blur">
+          <div className="rounded-[1rem] bg-theme-card/80 p-3 shadow-sm backdrop-blur">
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center">
-              <ProfileAvatar className="size-24 rounded-[1.65rem] border border-white/80 shadow-xl" fallbackClassName="text-3xl font-black" user={{ name: form.name || '自分', gradient: 'from-sky-100 via-cyan-50 to-yellow-100', photoUrl: selectedPhotoPreview || photoUrl }} />
+              <ProfileAvatar className="size-24 rounded-[1.65rem] border border-white/80 shadow-xl" fallbackClassName="text-3xl font-bold" user={{ name: form.name || '自分', gradient: 'from-sky-100 via-cyan-50 to-yellow-100', photoUrl: selectedPhotoPreview || photoUrl }} />
               <div className="min-w-0 flex-1 space-y-2 text-center sm:text-left">
                 <div>
-                  <p className="text-sm font-black text-theme-text">プロフィール画像</p>
-                  <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">安心して雰囲気が伝わる、上品で自然な1枚を登録できます。</p>
+                  <p className="text-sm font-semibold text-theme-text">プロフィール画像</p>
+                  <p className="mt-1 text-[13px] leading-6 text-theme-muted">雰囲気が伝わる自然な1枚を。</p>
                 </div>
                 {!isSupabaseMode || !isAuthenticated ? <Badge className="w-fit">ログイン後に利用できます</Badge> : null}
                 {photoNotice ? <p className="rounded-xl bg-theme-accent-soft/70 px-3 py-2 text-xs font-bold text-theme-text">{photoNotice}</p> : null}
                 <div className="flex flex-col gap-2 sm:flex-row">
-                  <label className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-full border border-theme-sky/30 bg-theme-card px-4 py-2 text-sm font-black text-theme-main-dark shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <label className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-full border border-theme-sky/30 bg-theme-card px-4 py-2 text-sm font-bold text-theme-main-dark shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
                     画像を選ぶ
                     <input accept="image/jpeg,image/png,image/webp" className="sr-only" disabled={!isSupabaseMode || !isAuthenticated || uploadingPhoto} onChange={(event) => handlePhotoSelect(event.target.files?.[0] ?? null)} type="file" />
                   </label>
@@ -280,14 +280,14 @@ export function MyProfilePage() {
             ))}
           </select>
         </label>
-        <Input helperText="興味のあることを読点やカンマで入力できます。候補タグをタップして追加もできます。" label="活動ジャンル / 興味タグ（読点区切り）" name="myInterests" onChange={(event) => setForm((current) => ({ ...current, interestsText: event.target.value }))} placeholder="AI、ブログ、音声配信、ゲーム制作、作業仲間" value={form.interestsText} />
-        <div className="flex flex-wrap gap-1">
+        <Input helperText="読点やカンマで区切って入力。候補タグのタップでも追加できます。" label="活動ジャンル / 興味タグ（読点区切り）" name="myInterests" onChange={(event) => setForm((current) => ({ ...current, interestsText: event.target.value }))} placeholder="AI、ブログ、音声配信、ゲーム制作、作業仲間" value={form.interestsText} />
+        <div className="flex flex-wrap gap-1.5">
           {suggestedInterestTags.map((tag) => {
             const selected = selectedInterests.includes(tag);
             return (
               <button
                 aria-label={`${tag}を活動ジャンル / 興味タグに追加`}
-                className={`min-h-7 rounded-full px-2.5 py-0.5 text-[11px] font-bold leading-5 transition hover:-translate-y-0.5 active:scale-[0.97] ${selected ? 'bg-gradient-to-r from-theme-yellow/85 to-theme-sky/45 text-theme-main-dark ring-1 ring-theme-sky/30' : 'bg-theme-card text-theme-text ring-1 ring-theme-sky/20 hover:bg-theme-accent-soft/70'}`}
+                className={`min-h-8 rounded-full px-3 py-1 text-[13px] font-medium leading-5 transition active:scale-[0.97] ${selected ? 'bg-theme-main-dark text-theme-card' : 'border border-theme-border bg-theme-card text-theme-text hover:bg-theme-accent-soft/70'}`}
                 key={tag}
                 onClick={() => handleSuggestedInterestClick(tag)}
                 type="button"

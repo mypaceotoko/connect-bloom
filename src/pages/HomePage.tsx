@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Bell, CalendarHeart, CheckCircle2, ClipboardList, Compass, DoorOpen, Flower2, HeartHandshake, ShieldCheck, Sparkles, UsersRound } from 'lucide-react';
+import { Bell, CalendarHeart, CheckCircle2, ClipboardList, Compass, DoorOpen, Sparkles } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
@@ -171,59 +171,48 @@ export function HomePage() {
       {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">{notice}</div> : null}
 
       {unreadNotificationCount > 0 ? (
-        <Card className="flex items-center gap-3 border-theme-main/15 bg-cyan-50/80 py-3 shadow-sm">
+        <Card className="flex items-center gap-3 border-theme-main/15 bg-cyan-50/70 py-4">
           <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-theme-main text-white"><Bell size={18} /></span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-black text-theme-text">未読通知があります</span>
-            <span className="block text-xs leading-5 text-theme-muted">参加希望・承認・DMの新着 {unreadNotificationCount}件を確認できます。</span>
+            <span className="block text-[15px] font-semibold text-theme-text">新着の通知</span>
+            <span className="block text-sm leading-6 text-theme-muted">参加希望・承認・DM {unreadNotificationCount}件</span>
           </span>
-          <Link to="/notifications"><Button className="min-h-9 px-3 text-xs" variant="secondary">通知を見る</Button></Link>
+          <Link to="/notifications"><Button className="px-3" variant="secondary">見る</Button></Link>
         </Card>
       ) : null}
 
       <Card className="flower-gradient relative overflow-hidden border-0 p-1">
         <div className="absolute -right-8 -top-8 size-28 rounded-full bg-white/30" />
         <div className="absolute -bottom-10 left-8 size-24 rounded-full bg-theme-accent-soft/50 blur-2xl" />
-        <div className="home-next-panel relative space-y-3 rounded-[1.25rem] bg-theme-card/78 p-4 backdrop-blur">
-          <div className="flex flex-wrap gap-2">
-            <Badge className="bg-theme-main text-white"><Sparkles size={13} />{t('home.next.badge')}</Badge>
-            <Badge className="home-next-badge bg-theme-card/80"><ShieldCheck size={13} />紹介制コネクトSNS</Badge>
-          </div>
+        <div className="home-next-panel relative space-y-4 rounded-[1.25rem] bg-theme-card/82 p-5 backdrop-blur">
           <div>
-            <h2 className="text-[1.25rem] font-black leading-tight tracking-[-0.03em]">{t('home.next.title')}</h2>
-            <p className="mt-2 text-[13px] leading-6 text-theme-muted">
-              <span className="block">{t('home.next.description1')}</span>
-              <span className="block">{t('home.next.description2')}</span>
-            </p>
+            <Badge className="bg-theme-main text-white"><Sparkles size={13} />{t('home.next.badge')}</Badge>
+            <h2 className="mt-3 text-xl font-bold leading-tight">{t('home.next.title')}</h2>
+            <p className="mt-1.5 text-[15px] leading-7 text-theme-muted">{t('home.next.description1')}</p>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <Link to="/discover"><Button className="min-h-10 w-full px-3 text-sm"><Compass size={16} />{t('home.findPeople')}</Button></Link>
-            <Link to="/board"><Button className="min-h-10 w-full px-3 text-sm"><ClipboardList size={16} />{t('home.exploreBoards')}</Button></Link>
-            <Link to="/rooms"><Button className="min-h-10 w-full px-3 text-sm" variant="secondary"><DoorOpen size={16} />{t('home.joinRooms')}</Button></Link>
-            <Link to="/my-activity"><Button className="min-h-10 w-full px-3 text-sm" variant="secondary"><Sparkles size={16} />{t('home.checkActivity')}</Button></Link>
-          </div>
-          <div className="grid grid-cols-3 gap-1.5 text-center text-[11px] font-bold text-theme-muted">
-            <span className="home-static-chip cursor-default select-none rounded-lg border border-theme-border/45 bg-theme-background/45 px-2 py-1.5"><Flower2 className="mx-auto mb-0.5 text-theme-main/80" size={16} />{t('home.natural')}</span>
-            <span className="home-static-chip cursor-default select-none rounded-lg border border-theme-border/45 bg-theme-background/45 px-2 py-1.5"><HeartHandshake className="mx-auto mb-0.5 text-theme-main/80" size={16} />{t('home.conversation')}</span>
-            <span className="home-static-chip cursor-default select-none rounded-lg border border-theme-border/45 bg-theme-background/45 px-2 py-1.5"><UsersRound className="mx-auto mb-0.5 text-theme-main/80" size={16} />{t('home.introduction')}</span>
+            <Link to="/discover"><Button className="w-full px-3"><Compass size={16} />{t('home.findPeople')}</Button></Link>
+            <Link to="/board"><Button className="w-full px-3" variant="secondary"><ClipboardList size={16} />{t('home.exploreBoards')}</Button></Link>
+            <Link to="/rooms"><Button className="w-full px-3" variant="secondary"><DoorOpen size={16} />{t('home.joinRooms')}</Button></Link>
+            <Link to="/my-activity"><Button className="w-full px-3" variant="secondary"><Sparkles size={16} />{t('home.checkActivity')}</Button></Link>
           </div>
         </div>
       </Card>
 
-      <Card className="flex flex-col gap-2 border-theme-main/15 bg-theme-card/86 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+      <Card className="flex flex-col gap-3 border-theme-main/15 bg-theme-card/86 sm:flex-row sm:items-center sm:justify-between">
         <span className="min-w-0">
-          <span className="block text-sm font-black text-theme-text">{t('home.beta.title')}</span>
-          <span className="mt-1 block text-xs leading-5 text-theme-muted">{t('home.beta.body')}</span>
+          <span className="block text-[15px] font-semibold text-theme-text">{t('home.beta.title')}</span>
+          <span className="mt-1 block text-sm leading-6 text-theme-muted">{t('home.beta.body')}</span>
         </span>
-        <Link className="shrink-0" to="/test-guide"><Button className="min-h-9 w-full px-3 text-xs sm:w-auto" variant="secondary">{t('home.beta.guide')}</Button></Link>
+        <Link className="shrink-0" to="/test-guide"><Button className="w-full px-3 sm:w-auto" variant="secondary">{t('home.beta.guide')}</Button></Link>
       </Card>
 
-      <div className="home-today-summary flex items-center justify-between rounded-full border border-theme-border/45 bg-theme-card/84 px-3.5 py-2.5 shadow-sm backdrop-blur">
-        <span className="flex items-center gap-1.5 text-[13px] font-black text-theme-main-dark">
+      <div className="home-today-summary flex items-center justify-between rounded-full border border-theme-border bg-theme-card/84 px-4 py-2.5 backdrop-blur">
+        <span className="flex items-center gap-1.5 text-sm font-semibold text-theme-main-dark">
           <CalendarHeart size={16} />
           今日の紹介 {todaysUsers.length}人
         </span>
-        <span className="text-xs font-bold text-theme-muted">{loadingLikes ? '話してみたい取得中' : '毎朝 7:00 更新'}</span>
+        <span className="text-[13px] text-theme-muted">{loadingLikes ? '更新中' : '毎朝 7:00 更新'}</span>
       </div>
 
       <div className="space-y-4">

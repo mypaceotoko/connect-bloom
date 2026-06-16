@@ -70,7 +70,7 @@ export function ActivityBoardNewPage() {
 
   return (
     <PageShell description="一緒にやりたいこと、話したいテーマ、探している仲間を投稿できます。" eyebrow="New Activity" title="募集を作成">
-      <Link className="inline-flex items-center gap-1 text-sm font-black text-theme-main-dark" to="/board"><ArrowLeft size={16} />募集ボードへ戻る</Link>
+      <Link className="inline-flex items-center gap-1 text-sm font-bold text-theme-main-dark" to="/board"><ArrowLeft size={16} />募集ボードへ戻る</Link>
 
       {!canCreate ? (
         <Card className="space-y-2">
