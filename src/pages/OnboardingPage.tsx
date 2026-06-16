@@ -404,11 +404,11 @@ export function OnboardingPage() {
           <SectionTitle icon={<Tags size={18} />} label="Step 3" title={t('onboarding.interests.title')} />
           <div className="space-y-2.5">
             <p className="flex items-center gap-1.5 text-sm font-bold"><Tags size={16} />{t('onboarding.interests.title')}</p>
-            <p className="text-xs leading-5 text-theme-muted">{t('onboarding.interests.body')}</p>
-            <div className="flex flex-wrap gap-1.5">
+            <p className="text-[13px] leading-6 text-theme-muted">{t('onboarding.interests.body')}</p>
+            <div className="flex flex-wrap gap-2">
               {tags.map((tag) => {
                 const selected = form.interests.includes(tag);
-                return <button className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${selected ? 'bg-gradient-to-r from-theme-yellow/85 to-theme-sky/45 text-theme-main-dark ring-1 ring-theme-sky/30' : 'bg-theme-background/80 text-theme-text ring-1 ring-theme-sky/15'}`} key={tag} onClick={() => toggleTag(tag)} type="button">{tag}</button>;
+                return <button className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition ${selected ? 'bg-theme-main-dark text-theme-card' : 'border border-theme-border bg-theme-card text-theme-text hover:bg-theme-accent-soft/70'}`} key={tag} onClick={() => toggleTag(tag)} type="button">{tag}</button>;
               })}
             </div>
           </div>

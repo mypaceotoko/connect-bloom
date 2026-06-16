@@ -221,6 +221,10 @@ a {
   box-shadow: 0 20px 50px color-mix(in srgb, var(--color-main) 13%, transparent);
 }
 
+[data-theme='night'] .btn-primary {
+  color: #07162d;
+}
+
 [data-theme='night'] .home-next-panel {
   border: 1px solid rgb(116 212 255 / 0.24);
   background: linear-gradient(145deg, rgb(13 36 66 / 0.96), rgb(8 27 51 / 0.94));

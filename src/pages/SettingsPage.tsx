@@ -220,7 +220,7 @@ function LanguageSettingCard({ currentLanguage, onChange, t }: { currentLanguage
           </span>
         </span>
       </div>
-      <div className="inline-flex w-fit rounded-full bg-white/70 p-1 ring-1 ring-theme-sky/25 shadow-sm">
+      <div className="inline-flex w-fit rounded-full border border-theme-border bg-theme-background/70 p-1">
         {languages.map((language) => {
           const selected = language === currentLanguage;
           return (
@@ -228,8 +228,8 @@ function LanguageSettingCard({ currentLanguage, onChange, t }: { currentLanguage
               aria-pressed={selected}
               className={`inline-flex min-h-9 items-center justify-center rounded-full px-4 text-sm font-semibold transition active:scale-[0.98] ${
                 selected
-                  ? 'bg-gradient-to-r from-theme-yellow/90 via-theme-cyan/60 to-theme-sky/75 text-slate-900 shadow-sm ring-1 ring-white/70'
-                  : 'bg-white/60 text-slate-500 hover:bg-white hover:text-theme-main-dark'
+                  ? 'bg-theme-main-dark text-theme-card'
+                  : 'text-theme-muted hover:text-theme-main-dark'
               }`}
               key={language}
               onClick={() => onChange(language)}

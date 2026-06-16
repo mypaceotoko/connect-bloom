@@ -140,12 +140,8 @@ export function NotificationsPage() {
           <div>
             <div className="min-w-0">
               <Badge className="bg-theme-main text-white"><Bell size={13} />{t('notifications.title')}</Badge>
-              <h2 className="mt-2.5 text-lg font-bold tracking-[-0.04em] text-theme-text sm:text-xl">{t('notifications.catch')}</h2>
-              <p className="mt-2 text-[13px] leading-5 text-theme-muted">
-                {t('notifications.check')}
-                <br />
-                {t('notifications.keepTrack')}
-              </p>
+              <h2 className="mt-2.5 text-lg font-bold tracking-[-0.02em] text-theme-text sm:text-xl">{t('notifications.catch')}</h2>
+              <p className="mt-2 text-[15px] leading-6 text-theme-muted">{t('notifications.check')}</p>
             </div>
           </div>
         </div>

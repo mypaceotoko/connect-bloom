@@ -9,7 +9,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'bg-gradient-to-r from-theme-yellow/80 via-theme-cyan/60 to-theme-sky/75 text-theme-main-dark shadow-sm shadow-theme-sky/20 hover:saturate-105',
+  primary: 'btn-primary bg-gradient-to-r from-theme-yellow/80 via-theme-cyan/60 to-theme-sky/75 text-theme-main-dark shadow-sm shadow-theme-sky/20 hover:saturate-105',
   secondary: 'border border-theme-border bg-theme-card text-theme-main-dark hover:bg-theme-accent-soft/70',
   ghost: 'bg-transparent text-theme-main-dark hover:bg-theme-accent-soft/70',
   danger: 'bg-red-50 text-red-600 hover:bg-red-100',

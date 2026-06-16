@@ -3,7 +3,7 @@ import type { AppLanguage } from './language';
 export const messages = {
   ja: {
     'settings.title': '設定',
-    'settings.description': '通知・活動管理・テーマをまとめて確認できます。',
+    'settings.description': '通知・活動・テーマの設定。',
     'settings.demo': 'デモ表示',
     'settings.basic.eyebrow': 'BASIC SETTINGS',
     'settings.basic.title': '基本設定',
@@ -466,7 +466,7 @@ export const messages = {
     'notifications.pageTitle': '通知',
     'notifications.description': 'あなたへの反応や、進行中のつながりを確認できます。',
     'notifications.catch': 'つながりの反応を、やさしくキャッチ。',
-    'notifications.check': '参加希望・承認・DMの通知を確認できます。',
+    'notifications.check': '参加希望・承認・DMの新着。',
     'notifications.keepTrack': '大切な反応を見逃さないための場所です。',
     'notifications.unread': '未読',
     'notifications.read': '既読',
@@ -494,7 +494,7 @@ export const messages = {
   },
   en: {
     'settings.title': 'Settings',
-    'settings.description': 'Review notifications, activity, theme, and basic preferences.',
+    'settings.description': 'Notifications, activity, and theme.',
     'settings.demo': 'Demo view',
     'settings.basic.eyebrow': 'BASIC SETTINGS',
     'settings.basic.title': 'Basic settings',
@@ -958,7 +958,7 @@ export const messages = {
     'notifications.pageTitle': 'Notifications',
     'notifications.description': 'Check reactions and ongoing connections.',
     'notifications.catch': 'Gently catch new reactions.',
-    'notifications.check': 'Check notifications for interests, approvals, and DMs.',
+    'notifications.check': 'New interests, approvals, and DMs.',
     'notifications.keepTrack': 'This is where you can keep track of important updates.',
     'notifications.unread': 'Unread',
     'notifications.read': 'Read',

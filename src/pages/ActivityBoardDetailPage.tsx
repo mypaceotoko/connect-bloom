@@ -495,7 +495,7 @@ export function ActivityBoardDetailPage() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="space-y-1">
                     <Badge className="bg-white text-amber-700"><ShieldAlert size={14} />管理者操作</Badge>
-                    <p className="text-xs font-bold leading-5 text-theme-muted">不適切な募集を削除せずに非表示化し、必要に応じて戻せます。</p>
+                    <p className="text-[13px] leading-6 text-theme-muted">削除せずに非表示化し、必要なら戻せます。</p>
                   </div>
                   <Button disabled={saving} onClick={() => { void handleFounderTogglePostVisibility(); }} type="button" variant={post.status === 'archived' ? 'secondary' : 'danger'}>
                     {post.status === 'archived' ? '募集を戻す' : '募集を非表示にする'}
@@ -505,8 +505,8 @@ export function ActivityBoardDetailPage() {
             ) : null}
             {canOwnerManageOpenPost ? (
               <div className="grid gap-2 sm:grid-cols-2">
-                <a className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-theme-sky/30 bg-gradient-to-r from-theme-yellow/85 to-theme-sky/55 px-4 py-2 text-[13px] font-bold text-theme-main-dark shadow-sm shadow-theme-sky/15" href="#activity-participants"><UsersRound size={16} />参加者を管理</a>
-                <Link className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-theme-main px-4 py-2 text-[13px] font-bold text-white" to={`/board/${post.id}/edit`}><Pencil size={16} />募集内容を編集</Link>
+                <a className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-theme-border bg-theme-card px-4 py-2.5 text-sm font-semibold text-theme-main-dark transition hover:bg-theme-accent-soft/70" href="#activity-participants"><UsersRound size={16} />参加者を管理</a>
+                <Link className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-theme-main-dark px-4 py-2.5 text-sm font-semibold text-theme-card transition hover:opacity-95" to={`/board/${post.id}/edit`}><Pencil size={16} />募集内容を編集</Link>
               </div>
             ) : null}
             {canOwnerWithdrawPost ? (
@@ -535,7 +535,7 @@ export function ActivityBoardDetailPage() {
                 </div>
                 {myInterest?.status === 'accepted' ? (
                   <div className="grid gap-2 sm:grid-cols-2">
-                    <Button className="bg-gradient-to-r from-theme-yellow/85 to-theme-sky/55 text-theme-main-dark shadow-sm shadow-theme-sky/20" disabled={saving || !useSupabaseBoard} onClick={() => void handleOpenMyConversation()} variant="secondary">
+                    <Button disabled={saving || !useSupabaseBoard} onClick={() => void handleOpenMyConversation()} variant="secondary">
                       <MessageSquareText size={16} />{t('board.detail.messageHost')}
                     </Button>
                     <Button disabled={saving || !useSupabaseBoard} onClick={handleInterest} variant="secondary">
@@ -549,23 +549,21 @@ export function ActivityBoardDetailPage() {
                 )}
               </div>
             ) : null}
-            {!useSupabaseBoard ? <p className="text-xs font-bold text-theme-muted">Supabaseログイン時に{t('board.detail.interestedPeople')}を管理できます。</p> : null}
-            {canOwnerManageOpenPost ? <p className="rounded-xl bg-theme-accent-soft/60 p-3 text-xs font-bold leading-6 text-theme-muted">承認済みになると、参加者と1対1の会話を始められます。</p> : null}
+            {!useSupabaseBoard ? <p className="text-[13px] text-theme-muted">ログインすると参加者を管理できます。</p> : null}
           </Card>
 
           {canOwnerManageOpenPost ? (
             <Card className="space-y-4" id="activity-participants">
               <div className="space-y-2">
                 <h2 className="flex items-center gap-1.5 text-lg font-bold text-theme-text"><UsersRound size={18} />{t('board.detail.interestedPeople')}</h2>
-                <p className="text-sm leading-6 text-theme-muted">この募集に興味を持っている人を確認し、{t('board.detail.accept')} / {t('board.detail.pass')}できます。</p>
-                <p className="rounded-xl bg-theme-accent-soft/60 p-3 text-xs font-bold leading-6 text-theme-muted">承認済みになると、参加者と1対1の会話を始められます。まずは日程や進め方を相談してみましょう。</p>
+                <p className="text-sm leading-6 text-theme-muted">承認すると、参加者と1対1で会話できます。</p>
               </div>
               {interestError ? <div className="rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700">{interestError}</div> : null}
               {interestsLoading ? <p className="text-sm font-bold text-theme-muted">{t('board.detail.interestedPeople')}を読み込んでいます...</p> : null}
               {!interestsLoading && interests.length === 0 ? <p className="text-sm font-bold text-theme-muted">まだ{t('board.detail.interestedPeople')}はいません。</p> : null}
               <div className="space-y-3">
                 {interests.map((interest) => (
-                  <div className="rounded-2xl border border-white/70 bg-white/55 p-4 shadow-sm" key={interest.id}>
+                  <div className="rounded-2xl border border-theme-border bg-theme-card/60 p-4" key={interest.id}>
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="flex items-start gap-3">
                         <div className={`size-12 shrink-0 rounded-2xl bg-gradient-to-br ${interest.profile?.gradient ?? 'from-cyan-100 to-sky-100'}`} />
@@ -594,7 +592,7 @@ export function ActivityBoardDetailPage() {
                         {interest.status === 'accepted' ? (
                           <>
                             <span className="inline-flex min-h-11 items-center rounded-xl bg-cyan-50 px-4 py-2 text-[13px] font-bold text-cyan-700">{t('board.accepted')}</span>
-                            <Button className="!min-h-9 !rounded-full border-theme-sky/25 bg-gradient-to-r from-theme-yellow/65 to-theme-sky/35 !px-3 !py-1.5 !text-xs text-theme-main-dark shadow-sm shadow-theme-sky/10" disabled={openingConversationId === interest.id} onClick={() => void handleOpenConversation(interest)} variant="secondary"><MessageSquareText size={15} />{openingConversationId === interest.id ? '会話を準備中…' : language === 'en' ? t('board.detail.message') : `${interest.profile?.name ?? '参加者'}さんと会話`}</Button>
+                            <Button className="!min-h-9 !rounded-full !px-3 !py-1.5 !text-[13px]" disabled={openingConversationId === interest.id} onClick={() => void handleOpenConversation(interest)} variant="secondary"><MessageSquareText size={15} />{openingConversationId === interest.id ? '会話を準備中…' : language === 'en' ? t('board.detail.message') : `${interest.profile?.name ?? '参加者'}さんと会話`}</Button>
                           </>
                         ) : null}
                         {interest.status === 'declined' ? <span className="inline-flex min-h-11 items-center rounded-xl bg-slate-100 px-4 py-2 text-[13px] font-bold text-slate-600">{t('board.detail.passed')}</span> : null}
