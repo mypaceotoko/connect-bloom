@@ -6,3 +6,6 @@ dist/
 *.tsbuildinfo
 .DS_Store
 .vscode/
+
+# npm lockfile (repo uses "latest" deps, not tracked)
+package-lock.json
