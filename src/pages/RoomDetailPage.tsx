@@ -294,7 +294,7 @@ export function RoomDetailPage() {
               <div className="flex flex-wrap gap-1.5">{(roomTags[room.slug] ?? ['公式']).map((tag) => <Badge key={tag}>#{getRoomTag(tag)}</Badge>)}</div>
             </div>
           </div>
-          <p className="rounded-2xl bg-theme-accent-soft/60 px-3 py-2 text-[13px] font-bold leading-5 text-theme-main-dark">{t(getRoomConversationHintKey(room.slug))}</p>
+          <p className="rounded-2xl bg-theme-accent-soft/60 px-3.5 py-2.5 text-[13px] font-medium leading-6 text-theme-main-dark">{t(getRoomConversationHintKey(room.slug))}</p>
           <div className="flex flex-col gap-2 rounded-2xl border border-theme-border bg-theme-card/70 p-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-[13px] leading-6 text-theme-muted">{t('roomDetail.fromConversation')}</p>
             <Button className="min-h-10 w-full px-3 sm:w-auto" variant="secondary" onClick={handleCreateBoardPost}><ClipboardList size={15} />{t('roomDetail.createBoard')}</Button>
@@ -305,13 +305,13 @@ export function RoomDetailPage() {
       {!canUseSupabaseRooms ? (
         <Card className="space-y-2">
           <Badge>{t('roomDetail.demoView')}</Badge>
-          <p className="text-sm font-bold text-theme-text">{t('roomDetail.login')}</p>
+          <p className="text-sm font-semibold text-theme-text">{t('roomDetail.login')}</p>
           <p className="text-sm leading-6 text-theme-muted">{t('roomDetail.demoHint')}</p>
         </Card>
       ) : null}
 
-      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm font-bold text-theme-text">{notice}</div> : null}
-      {loading ? <Card className="text-sm font-bold text-theme-muted">メッセージを読み込んでいます...</Card> : null}
+      {notice ? <div className="rounded-2xl border border-theme-border bg-theme-accent-soft/50 p-3 text-sm font-medium text-theme-text">{notice}</div> : null}
+      {loading ? <Card className="text-sm font-medium text-theme-muted">メッセージを読み込んでいます...</Card> : null}
 
       <Card className="space-y-3">
         <div className="flex items-center justify-between gap-3">
@@ -320,8 +320,8 @@ export function RoomDetailPage() {
         </div>
 
         {!loading && messages.length === 0 ? (
-          <div className="rounded-[1.15rem] bg-theme-accent-soft/55 p-3 text-center">
-            <p className="text-[13px] font-bold text-theme-text">{t('roomDetail.noMessages')}</p>
+          <div className="rounded-2xl bg-theme-accent-soft/45 p-4 text-center">
+            <p className="text-[13px] font-semibold text-theme-text">{t('roomDetail.noMessages')}</p>
             <p className="mt-1 text-xs leading-5 text-theme-muted">{t('roomDetail.boardHint')}</p>
           </div>
         ) : null}
@@ -330,9 +330,9 @@ export function RoomDetailPage() {
           {messages.map((message) => {
             const isOwnMessage = user?.id === message.sender_id;
             return (
-              <div className="rounded-[1rem] border border-theme-border bg-theme-card/80 px-3 py-2.5" key={message.id}>
-                <div className="mb-1 flex items-start justify-between gap-2">
-                  <div>
+              <div className="rounded-2xl border border-theme-border/80 bg-theme-background/60 px-3.5 py-3" key={message.id}>
+                <div className="mb-1.5 flex items-start justify-between gap-2">
+                  <div className="flex items-baseline gap-2">
                     <p className="text-sm font-semibold text-theme-text">{message.profile?.name ?? 'ConnectBloomユーザー'}</p>
                     <p className="text-[11px] text-theme-muted">{formatDateTime(message.created_at)}</p>
                   </div>
@@ -341,20 +341,20 @@ export function RoomDetailPage() {
                     {isOwnMessage || isFounder || isAdmin ? <button className="inline-flex min-h-7 items-center justify-center gap-1 rounded-full bg-transparent px-2 text-[11px] font-bold text-theme-muted/65 transition hover:bg-rose-50 hover:text-rose-600" title={isOwnMessage ? t('roomDetail.delete') : '管理者削除'} type="button" onClick={() => handleDelete(message.id)}><Trash2 size={14} />{!isOwnMessage && (isFounder || isAdmin) ? '管理者削除' : null}</button> : null}
                   </div>
                 </div>
-                <p className="whitespace-pre-wrap text-sm leading-5 text-theme-text">{message.body}</p>
+                <p className="whitespace-pre-wrap text-sm leading-6 text-theme-text">{message.body}</p>
               </div>
             );
           })}
         </div>
 
-        <form className="space-y-2 border-t border-white/60 pt-3" onSubmit={handleSubmit}>
+        <form className="space-y-2 border-t border-theme-border/80 pt-3" onSubmit={handleSubmit}>
           <label className="block space-y-2 text-sm font-semibold text-theme-text">
             <span>{t('roomDetail.sendMessage')}</span>
             <textarea className="theme-input min-h-16 w-full rounded-xl border px-3 py-2 text-sm leading-5 outline-none" maxLength={2000} placeholder={t('roomDetail.talkPlaceholder')} value={messageBody} onChange={(event) => setMessageBody(event.target.value)} />
           </label>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            {!canUseSupabaseRooms ? <p className="text-xs font-bold leading-5 text-theme-muted">{t('roomDetail.login')}</p> : null}
-            <Button className="min-h-10 w-full px-3 py-2 text-xs sm:w-auto" disabled={sending || !canUseSupabaseRooms} type="submit"><Send size={15} />{t('roomDetail.send')}</Button>
+            {!canUseSupabaseRooms ? <p className="text-xs font-medium leading-5 text-theme-muted">{t('roomDetail.login')}</p> : null}
+            <Button className="min-h-10 w-full px-4 py-2 text-[13px] sm:w-auto" disabled={sending || !canUseSupabaseRooms} type="submit"><Send size={15} />{t('roomDetail.send')}</Button>
           </div>
         </form>
       </Card>

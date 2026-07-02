@@ -7,7 +7,7 @@ export function Badge({ className, ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-full border border-theme-border bg-theme-accent-soft/70 px-2.5 py-0.5 text-xs font-semibold text-theme-main-dark [&_svg]:size-3',
+        'inline-flex items-center gap-1 rounded-full border border-theme-border/80 bg-theme-accent-soft/50 px-2.5 py-1 text-xs font-medium leading-none text-theme-main-dark [&_svg]:size-3',
         className,
       )}
       {...props}

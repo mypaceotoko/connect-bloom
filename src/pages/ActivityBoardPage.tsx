@@ -25,9 +25,9 @@ function getStatusLabel(status: string, t: (key: TranslationKey) => string) {
 }
 
 function getStatusClass(status: string) {
-  if (status === 'closed') return 'bg-slate-100 text-slate-600';
-  if (status === 'archived') return 'bg-orange-50 text-orange-700';
-  return 'bg-theme-main text-white';
+  if (status === 'closed') return 'border-transparent bg-slate-100 text-slate-500';
+  if (status === 'archived') return 'border-orange-100 bg-orange-50 text-orange-600';
+  return 'border-theme-yellow/70 bg-theme-yellow/30 font-semibold text-theme-main-dark';
 }
 
 function getModeLabel(mode: ActivityPostWithAuthor['mode']) {
@@ -90,21 +90,21 @@ export function ActivityBoardPage() {
     <PageShell description={t('board.description')} eyebrow="Activity Board" title={t('board.title')}>
       <Card className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-[15px] leading-6 text-theme-muted">{t('board.intro')}</p>
-        <Link className={`inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-theme-yellow/80 via-theme-cyan/60 to-theme-sky/75 px-4 py-2.5 text-sm font-semibold text-theme-main-dark shadow-sm shadow-theme-sky/20 transition active:scale-[0.98] ${useSupabaseBoard ? '' : 'pointer-events-none opacity-50'}`} to="/board/new">
+        <Link className={`btn-primary inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition active:scale-[0.98] ${useSupabaseBoard ? '' : 'pointer-events-none opacity-50'}`} to="/board/new">
           <Plus size={16} />{t('board.createPost')}
         </Link>
         {!useSupabaseBoard ? <p className="w-full text-[13px] text-theme-muted">ログインすると募集を投稿できます。</p> : null}
       </Card>
 
       <div className="grid gap-2 text-sm font-medium sm:grid-cols-2">
-        <Link className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-theme-border bg-theme-card px-3 py-2 text-theme-main-dark transition hover:bg-theme-accent-soft/70" to="/my-board"><UsersRound size={15} />{t('board.myPosts')}</Link>
-        <Link className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-theme-border bg-theme-card px-3 py-2 text-theme-main-dark transition hover:bg-theme-accent-soft/70" to="/my-interests"><Eye size={15} />{t('board.myInterests')}</Link>
+        <Link className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-theme-border bg-theme-card px-3 py-2 font-semibold text-theme-main-dark shadow-[0_1px_2px_rgba(16,42,67,0.04)] transition hover:border-theme-sky/50 hover:bg-theme-accent-soft/40" to="/my-board"><UsersRound className="text-theme-link" size={15} />{t('board.myPosts')}</Link>
+        <Link className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-theme-border bg-theme-card px-3 py-2 font-semibold text-theme-main-dark shadow-[0_1px_2px_rgba(16,42,67,0.04)] transition hover:border-theme-sky/50 hover:bg-theme-accent-soft/40" to="/my-interests"><Eye className="text-theme-link" size={15} />{t('board.myInterests')}</Link>
       </div>
 
-      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm text-theme-text">{notice}</div> : null}
+      {notice ? <div className="rounded-2xl border border-theme-border bg-theme-accent-soft/50 p-3 text-sm font-medium text-theme-text">{notice}</div> : null}
 
       <Card className="space-y-3">
-        <div className="flex items-center gap-1.5 text-sm font-semibold text-theme-main-dark"><Filter size={16} />フィルター</div>
+        <div className="flex items-center gap-1.5 text-sm font-semibold text-theme-main-dark"><Filter className="text-theme-link" size={16} />フィルター</div>
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="space-y-2 text-sm font-semibold text-theme-text">
             <span>活動ジャンル</span>
@@ -124,7 +124,7 @@ export function ActivityBoardPage() {
       </Card>
 
       <div className="space-y-4">
-        {loading ? <Card className="text-sm font-bold text-theme-muted">募集を読み込んでいます...</Card> : null}
+        {loading ? <Card className="text-sm font-medium text-theme-muted">募集を読み込んでいます...</Card> : null}
         {!loading && visiblePosts.length === 0 ? (
           <Card className="space-y-2 text-center">
             <p className="text-lg font-bold text-theme-text">まだ募集がありません</p>
@@ -134,9 +134,12 @@ export function ActivityBoardPage() {
         {visiblePosts.map((post) => (
           <Card className="space-y-3" key={post.id}>
             <div className="flex flex-wrap items-start justify-between gap-2">
-              <div>
-                <Badge>{post.category}</Badge>
-                <h2 className="mt-2 text-lg font-bold leading-tight text-theme-text">{post.title}</h2>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Badge>{post.category}</Badge>
+                  {post.room_id ? <Badge className="border-theme-sky/40 bg-theme-accent-soft/60 text-theme-link">{t('board.fromRoom')}</Badge> : null}
+                </div>
+                <h2 className="mt-2.5 text-lg font-bold leading-snug tracking-[-0.01em] text-theme-text">{post.title}</h2>
               </div>
               <Badge className={getStatusClass(post.status)}>{getStatusLabel(post.status, t)}</Badge>
             </div>
@@ -146,18 +149,17 @@ export function ActivityBoardPage() {
               <span className="inline-flex items-center gap-1"><UsersRound size={14} />{t('board.interested')} {post.interest_count}件</span>
               <span className="inline-flex items-center gap-1"><CalendarDays size={14} />{formatDate(post.created_at)}</span>
             </div>
-            {post.room_id ? <p className="text-[13px] text-theme-main-dark">{t('board.fromRoom')}</p> : null}
             {isOwnPost(post) ? (
-              <div className="flex flex-wrap items-center gap-2 rounded-xl bg-theme-accent-soft/60 p-3 text-[13px] font-medium text-theme-main-dark">
-                <Badge className="bg-theme-main text-white">{t('board.myPosts')}</Badge>
+              <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-theme-border bg-theme-accent-soft/45 p-3 text-[13px] font-medium text-theme-main-dark">
+                <Badge className="border-theme-yellow/70 bg-theme-yellow/30 font-semibold">{t('board.myPosts')}</Badge>
                 <span>{t('board.interested')} {post.interest_count}件</span>
-                <Link className="underline decoration-2 underline-offset-4" to={`/board/${post.id}`}>{t('board.manage')}</Link>
+                <Link className="font-semibold text-theme-link underline decoration-theme-sky/60 decoration-2 underline-offset-4" to={`/board/${post.id}`}>{t('board.manage')}</Link>
               </div>
             ) : null}
             <div className="flex flex-wrap gap-1.5">{post.tags.map((item) => <Badge key={item}>#{item}</Badge>)}</div>
             <div className="flex items-center justify-between gap-3 border-t border-theme-border pt-3">
               <span className="text-[13px] text-theme-muted">投稿者: {post.author?.name ?? 'ConnectBloomユーザー'}</span>
-              <Link className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-theme-accent-soft px-4 py-2 text-sm font-semibold text-theme-main-dark transition hover:saturate-105" to={`/board/${post.id}`}>{t('board.viewDetails')}</Link>
+              <Link className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-theme-border bg-theme-card px-4 py-2 text-sm font-semibold text-theme-main-dark transition hover:border-theme-sky/50 hover:bg-theme-accent-soft/40 active:scale-[0.98]" to={`/board/${post.id}`}>{t('board.viewDetails')}</Link>
             </div>
           </Card>
         ))}

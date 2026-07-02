@@ -63,11 +63,16 @@ type LandingSectionProps = {
 
 function LandingSection({ eyebrow, title, description, children }: LandingSectionProps) {
   return (
-    <section className="landing-section-panel scroll-mt-8 space-y-5 rounded-[1.65rem] border border-theme-border p-5 shadow-[0_8px_24px_rgba(16,42,67,0.05)] sm:p-6">
+    <section className="scroll-mt-8 space-y-5">
       <div className="space-y-2">
-        {eyebrow && <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme-main">{eyebrow}</p>}
+        {eyebrow && (
+          <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-link">
+            <span aria-hidden className="inline-block size-1.5 rounded-full bg-theme-yellow ring-1 ring-theme-main-dark/10" />
+            {eyebrow}
+          </p>
+        )}
         <h2 className="text-2xl font-bold tracking-[-0.02em] text-theme-text sm:text-3xl">{title}</h2>
-        {description && <p className="text-[15px] leading-7 text-theme-muted">{description}</p>}
+        {description && <p className="max-w-2xl text-[15px] leading-7 text-theme-muted">{description}</p>}
       </div>
       {children}
     </section>
@@ -80,13 +85,13 @@ function CtaButtons() {
   return (
     <div className="grid gap-2 sm:grid-cols-2">
       <Link className="min-w-0" to="/login">
-        <Button className="min-h-12 w-full text-sm">
+        <Button className="min-h-12 w-full text-[15px]">
           {t('landing.start')}
           <ArrowRight size={18} />
         </Button>
       </Link>
       <Link className="min-w-0" onClick={enableDemoMode} to="/home">
-        <Button className="min-h-12 w-full bg-theme-card/90 text-theme-main-dark ring-1 ring-theme-sky/20" variant="ghost">
+        <Button className="min-h-12 w-full text-[15px]" variant="secondary">
           {t('landing.demo')}
         </Button>
       </Link>
@@ -103,46 +108,55 @@ export function LandingPage() {
       <div className="pointer-events-none absolute -right-28 top-4 size-96 rounded-full bg-theme-sky/20 blur-3xl" />
 
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-8 sm:gap-10">
-        <section className="grid min-h-[calc(100vh-2rem)] content-center gap-4 py-2 sm:gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)] lg:items-center">
-          <div className="space-y-4">
-            <header className="landing-brand-header flex w-full max-w-[44rem] items-center justify-start gap-2 rounded-[2rem] border border-white/75 bg-white/82 px-2.5 py-2.5 pr-4 shadow-xl shadow-theme-sky/14 backdrop-blur-xl sm:gap-3 sm:px-3 sm:py-3 sm:pr-6">
-              <BrandLogo
-                className="isolate min-w-0 flex-[1_1_18.5rem] transform-gpu justify-start overflow-hidden rounded-[1.45rem] bg-white px-1.5 py-1 shadow-inner shadow-theme-sky/10 ring-1 ring-white/90 sm:max-w-[540px] sm:flex-[0_1_540px] sm:px-2"
-                imageClassName="max-h-[5.9rem] w-full bg-transparent drop-shadow-none sm:max-h-[6.8rem]"
-                variant="default"
-              />
-              <span className="shrink-0 rounded-full border border-theme-border bg-theme-accent-soft/70 px-3 py-1 text-[11px] font-semibold text-theme-main-dark sm:px-3.5 sm:py-1.5">
-                {t('landing.inviteOnly')}
-              </span>
-            </header>
+        <header className="flex items-center justify-between gap-3 pt-1">
+          <span className="logo-plate inline-flex min-w-0 overflow-hidden px-2 py-1">
+            <BrandLogo
+              className="min-w-0"
+              imageClassName="max-h-12 drop-shadow-none sm:max-h-14"
+              variant="default"
+            />
+          </span>
+          <span className="shrink-0 rounded-full border border-theme-border bg-theme-card/90 px-3.5 py-1.5 text-[11px] font-semibold text-theme-main-dark shadow-[var(--shadow-card)]">
+            {t('landing.inviteOnly')}
+          </span>
+        </header>
 
-            <div className="flower-gradient soft-shadow relative overflow-hidden rounded-[1.8rem] p-1">
-              <div className="absolute right-4 top-4 flex size-14 items-center justify-center rounded-full bg-white/35 text-white/90 shadow-lg shadow-theme-cyan/20 backdrop-blur">
-                <Flower2 size={26} />
-              </div>
-              <div className="space-y-4 rounded-[1.55rem] bg-white/84 p-4 pt-6 backdrop-blur-md sm:p-6 sm:pt-8">
-                <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-theme-border bg-white/80 px-3 py-1 text-xs font-semibold text-theme-main-dark">
-                  <Sparkles size={14} />
-                  <span className="truncate">{t('landing.heroLabel')}</span>
-                </div>
-                <div className="space-y-3">
-                  <h1 className="break-words text-[2.55rem] font-bold leading-[1.06] tracking-[-0.04em] text-theme-text sm:text-6xl">
-                    {t('landing.title').split('\n').map((line) => <span className="block" key={line}>{line}</span>)}
-                  </h1>
-                  <p className="text-lg font-semibold leading-7 text-theme-main-dark">{t('landing.subtitle')}</p>
-                  <p className="text-[15px] leading-7 text-theme-text sm:text-base">{t('landing.body')}</p>
-                </div>
-                <CtaButtons />
-              </div>
+        <section className="grid min-h-[calc(100dvh-9rem)] content-center gap-8 py-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)] lg:items-center">
+          <div className="space-y-6">
+            <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-theme-border bg-theme-card/80 px-3.5 py-1.5 text-xs font-semibold text-theme-main-dark backdrop-blur">
+              <Sparkles className="text-theme-link" size={14} />
+              <span className="truncate">{t('landing.heroLabel')}</span>
+            </div>
+            <div className="space-y-4">
+              <h1 className="break-words text-[2.7rem] font-bold leading-[1.14] tracking-[-0.03em] text-theme-text sm:text-6xl sm:leading-[1.12]">
+                {t('landing.title').split('\n').map((line, index, lines) => (
+                  <span className="block" key={line}>
+                    {index === lines.length - 1 ? <span className="hero-title-underline">{line}</span> : line}
+                  </span>
+                ))}
+              </h1>
+              <p className="text-lg font-semibold leading-8 text-theme-main-dark">{t('landing.subtitle')}</p>
+              <p className="max-w-xl text-[15px] leading-8 text-theme-muted sm:text-base">{t('landing.body')}</p>
+            </div>
+            <div className="max-w-xl">
+              <CtaButtons />
             </div>
           </div>
 
-          <Card className="landing-preview-card grid gap-3 bg-white/90 p-5 backdrop-blur">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-theme-main">{t('landing.heroPreview.eyebrow')}</p>
-            {heroPreviewCards.map((item) => (
-              <div className="rounded-2xl border border-theme-border bg-theme-accent-soft/40 p-3.5" key={item.titleKey}>
-                <p className="text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</p>
-                <p className="mt-1 text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</p>
+          <Card className="relative grid gap-2.5 p-5">
+            <span aria-hidden className="absolute -top-3.5 right-5 flex size-9 items-center justify-center rounded-full bg-theme-yellow text-theme-main-dark shadow-[var(--shadow-card)]">
+              <Flower2 size={18} />
+            </span>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-link">{t('landing.heroPreview.eyebrow')}</p>
+            {heroPreviewCards.map((item, index) => (
+              <div className="flex gap-3 rounded-2xl bg-theme-accent-soft/40 p-3.5" key={item.titleKey}>
+                <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-theme-card text-xs font-bold text-theme-link shadow-[0_1px_2px_rgba(16,42,67,0.08)]">
+                  {index + 1}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</span>
+                  <span className="mt-0.5 block text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</span>
+                </span>
               </div>
             ))}
           </Card>
@@ -153,9 +167,9 @@ export function LandingPage() {
             {aboutCards.map((item) => {
               const Icon = item.icon;
               return (
-                <Card className="landing-card-pop bg-white/90" key={item.titleKey}>
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark">
-                    <Icon size={18} />
+                <Card className="landing-card-pop" key={item.titleKey}>
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-theme-accent-soft/70 text-theme-link ring-1 ring-theme-border/70">
+                    <Icon size={18} strokeWidth={1.9} />
                   </span>
                   <h3 className="mt-3 text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</h3>
                   <p className="mt-1 text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</p>
@@ -170,9 +184,9 @@ export function LandingPage() {
             {featureCards.map((item) => {
               const Icon = item.icon;
               return (
-                <Card className="landing-card-pop flex gap-3 bg-white/90" key={item.titleKey}>
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-theme-accent-soft text-theme-main-dark">
-                    <Icon size={19} />
+                <Card className="landing-card-pop flex gap-3" key={item.titleKey}>
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-theme-accent-soft/70 text-theme-link ring-1 ring-theme-border/70">
+                    <Icon size={19} strokeWidth={1.9} />
                   </span>
                   <span>
                     <span className="block text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</span>
@@ -185,11 +199,11 @@ export function LandingPage() {
         </LandingSection>
 
         <LandingSection description={t('landing.fit.description')} eyebrow="FOR YOU" title={t('landing.fit.title')}>
-          <Card className="bg-white/90">
+          <Card>
             <div className="grid gap-2.5 sm:grid-cols-2">
               {fitKeys.map((key) => (
                 <div className="flex gap-2 text-[15px] leading-6 text-theme-text" key={key}>
-                  <CheckCircle2 className="mt-0.5 shrink-0 text-theme-main" size={18} />
+                  <CheckCircle2 className="mt-0.5 shrink-0 text-theme-link" size={18} />
                   <span>{t(key)}</span>
                 </div>
               ))}
@@ -198,9 +212,9 @@ export function LandingPage() {
         </LandingSection>
 
         <LandingSection description={t('landing.inviteReason.description')} eyebrow="INVITE" title={t('landing.inviteReason.title')}>
-          <Card className="grid gap-3 bg-white/90 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
-            <span className="flex size-12 items-center justify-center rounded-2xl bg-theme-accent-soft text-theme-main-dark">
-              <Ticket size={22} />
+          <Card className="grid gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
+            <span className="flex size-12 items-center justify-center rounded-2xl bg-theme-accent-soft/70 text-theme-link ring-1 ring-theme-border/70">
+              <Ticket size={22} strokeWidth={1.9} />
             </span>
             <div className="space-y-2 text-[15px] leading-7 text-theme-muted">
               <p>{t('landing.inviteReason.body1')}</p>
@@ -215,9 +229,9 @@ export function LandingPage() {
             {safetyCards.map((item) => {
               const Icon = item.icon;
               return (
-                <Card className="landing-card-pop bg-white/90" key={item.titleKey}>
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-theme-accent-soft text-theme-main-dark">
-                    <Icon size={18} />
+                <Card className="landing-card-pop" key={item.titleKey}>
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-theme-accent-soft/70 text-theme-link ring-1 ring-theme-border/70">
+                    <Icon size={18} strokeWidth={1.9} />
                   </span>
                   <h3 className="mt-3 text-[15px] font-semibold text-theme-text">{t(item.titleKey)}</h3>
                   <p className="mt-1 text-sm leading-6 text-theme-muted">{t(item.bodyKey)}</p>
@@ -226,25 +240,30 @@ export function LandingPage() {
             })}
           </div>
           <div className="flex flex-wrap gap-2">
-            <Link className="rounded-full border border-theme-border bg-white px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft/60" to="/safety">{t('landing.safety.linkGuide')}</Link>
-            <Link className="rounded-full border border-theme-border bg-white px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft/60" to="/terms">{t('landing.safety.linkTerms')}</Link>
-            <Link className="rounded-full border border-theme-border bg-white px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft/60" to="/privacy">{t('landing.safety.linkPrivacy')}</Link>
+            <Link className="rounded-full border border-theme-border bg-theme-card px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:border-theme-sky/50 hover:bg-theme-accent-soft/50" to="/safety">{t('landing.safety.linkGuide')}</Link>
+            <Link className="rounded-full border border-theme-border bg-theme-card px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:border-theme-sky/50 hover:bg-theme-accent-soft/50" to="/terms">{t('landing.safety.linkTerms')}</Link>
+            <Link className="rounded-full border border-theme-border bg-theme-card px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:border-theme-sky/50 hover:bg-theme-accent-soft/50" to="/privacy">{t('landing.safety.linkPrivacy')}</Link>
           </div>
         </LandingSection>
 
         <LandingSection description={t('landing.beta.description')} eyebrow="BETA" title={t('landing.beta.title')}>
-          <Card className="bg-white/90">
+          <Card>
             <p className="text-[15px] leading-7 text-theme-muted">{t('landing.beta.body')}</p>
             <Link className="mt-4 inline-flex rounded-full border border-theme-border bg-theme-accent-soft/60 px-4 py-2 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft" to="/test-guide">{t('landing.beta.link')}</Link>
           </Card>
         </LandingSection>
 
-        <section className="flower-gradient soft-shadow mb-2 overflow-hidden rounded-[1.8rem] p-1">
-          <div className="rounded-[1.55rem] bg-white/88 p-6 text-center backdrop-blur-md sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme-main">ConnectBloom</p>
-            <h2 className="mt-2 text-2xl font-bold tracking-[-0.02em] text-theme-text sm:text-4xl">{t('landing.final.title')}</h2>
+        <section className="relative mb-2 overflow-hidden rounded-[1.8rem] border border-theme-border bg-theme-card p-6 text-center shadow-[var(--shadow-card)] sm:p-10">
+          <div aria-hidden className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full bg-theme-yellow/20 blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-20 -right-14 size-56 rounded-full bg-theme-sky/25 blur-3xl" />
+          <div className="relative">
+            <p className="flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-link">
+              <span aria-hidden className="inline-block size-1.5 rounded-full bg-theme-yellow ring-1 ring-theme-main-dark/10" />
+              ConnectBloom
+            </p>
+            <h2 className="mt-3 text-2xl font-bold leading-snug tracking-[-0.02em] text-theme-text sm:text-4xl">{t('landing.final.title')}</h2>
             <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-7 text-theme-muted">{t('landing.final.body')}</p>
-            <div className="mx-auto mt-5 max-w-xl">
+            <div className="mx-auto mt-6 max-w-xl">
               <CtaButtons />
             </div>
           </div>
