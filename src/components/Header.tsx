@@ -4,7 +4,8 @@ import { BrandLogo } from './BrandLogo';
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-20 border-b border-theme-border/80 bg-theme-card/90 px-4 py-2 shadow-[0_8px_24px_-16px_rgba(16,42,67,0.25)] backdrop-blur-xl">
+    <header className="sticky top-0 z-20 bg-theme-card/90 px-4 py-2 shadow-[0_8px_24px_-16px_rgba(16,42,67,0.25)] backdrop-blur-xl">
+      <span aria-hidden className="brand-hairline absolute inset-x-0 bottom-0 h-[2px] opacity-80" />
       <div className="mx-auto flex max-w-md items-center justify-between gap-3">
         <Link aria-label="ホームへ戻る" className="logo-plate min-w-0 overflow-hidden px-2 py-1" to="/home">
           <BrandLogo

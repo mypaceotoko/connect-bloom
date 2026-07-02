@@ -84,8 +84,8 @@ function CtaButtons() {
 
   return (
     <div className="grid gap-2 sm:grid-cols-2">
-      <Link className="min-w-0" to="/login">
-        <Button className="min-h-12 w-full text-[15px]">
+      <Link className="brand-ring block min-w-0 rounded-full p-[2.5px] shadow-[0_10px_24px_-10px_rgba(34,175,201,0.55)]" to="/login">
+        <Button className="min-h-12 w-full text-[15px] shadow-none">
           {t('landing.start')}
           <ArrowRight size={18} />
         </Button>
@@ -104,8 +104,10 @@ export function LandingPage() {
 
   return (
     <main className="landing-page relative min-h-screen overflow-x-hidden px-4 pb-[calc(env(safe-area-inset-bottom)+4rem)] pt-4 text-theme-text sm:px-6 sm:pt-5">
-      <div className="pointer-events-none absolute -left-28 top-24 size-80 rounded-full bg-theme-yellow/25 blur-3xl" />
-      <div className="pointer-events-none absolute -right-28 top-4 size-96 rounded-full bg-theme-sky/20 blur-3xl" />
+      <div className="pointer-events-none absolute -left-28 top-24 size-80 rounded-full bg-theme-yellow/45 blur-3xl" />
+      <div className="pointer-events-none absolute -right-28 top-4 size-96 rounded-full bg-theme-sky/35 blur-3xl" />
+      <div className="pointer-events-none absolute -right-20 top-[34rem] size-72 rounded-full bg-theme-cyan/15 blur-3xl" />
+      <div className="pointer-events-none absolute -left-24 top-[70rem] size-72 rounded-full bg-theme-yellow/20 blur-3xl" />
 
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-8 sm:gap-10">
         <header className="flex items-center justify-between gap-3 pt-1">
@@ -143,14 +145,15 @@ export function LandingPage() {
             </div>
           </div>
 
-          <Card className="relative grid gap-2.5 p-5">
-            <span aria-hidden className="absolute -top-3.5 right-5 flex size-9 items-center justify-center rounded-full bg-theme-yellow text-theme-main-dark shadow-[var(--shadow-card)]">
+          <Card className="relative grid gap-2.5 overflow-hidden p-5">
+            <span aria-hidden className="brand-hairline absolute inset-x-0 top-0 h-1" />
+            <span aria-hidden className="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full bg-theme-yellow text-theme-main-dark shadow-[var(--shadow-card)]">
               <Flower2 size={18} />
             </span>
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-link">{t('landing.heroPreview.eyebrow')}</p>
             {heroPreviewCards.map((item, index) => (
               <div className="flex gap-3 rounded-2xl bg-theme-accent-soft/40 p-3.5" key={item.titleKey}>
-                <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-theme-card text-xs font-bold text-theme-link shadow-[0_1px_2px_rgba(16,42,67,0.08)]">
+                <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-theme-yellow text-xs font-bold text-theme-main-dark shadow-[0_1px_2px_rgba(16,42,67,0.12)]">
                   {index + 1}
                 </span>
                 <span className="min-w-0">
@@ -254,8 +257,10 @@ export function LandingPage() {
         </LandingSection>
 
         <section className="relative mb-2 overflow-hidden rounded-[1.8rem] border border-theme-border bg-theme-card p-6 text-center shadow-[var(--shadow-card)] sm:p-10">
-          <div aria-hidden className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full bg-theme-yellow/20 blur-3xl" />
-          <div aria-hidden className="pointer-events-none absolute -bottom-20 -right-14 size-56 rounded-full bg-theme-sky/25 blur-3xl" />
+          <span aria-hidden className="brand-hairline absolute inset-x-0 top-0 h-1" />
+          <div aria-hidden className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full bg-theme-yellow/40 blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-20 -right-14 size-56 rounded-full bg-theme-sky/40 blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-10 left-1/4 size-40 rounded-full bg-theme-cyan/15 blur-3xl" />
           <div className="relative">
             <p className="flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-link">
               <span aria-hidden className="inline-block size-1.5 rounded-full bg-theme-yellow ring-1 ring-theme-main-dark/10" />

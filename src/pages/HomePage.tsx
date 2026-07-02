@@ -182,8 +182,9 @@ export function HomePage() {
       ) : null}
 
       <Card className="relative overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute -right-12 -top-14 size-40 rounded-full bg-theme-yellow/18 blur-2xl" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-10 size-44 rounded-full bg-theme-sky/16 blur-2xl" />
+        <span aria-hidden className="brand-hairline absolute inset-x-0 top-0 h-1" />
+        <div aria-hidden className="pointer-events-none absolute -right-12 -top-14 size-40 rounded-full bg-theme-yellow/35 blur-2xl" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-10 size-44 rounded-full bg-theme-sky/30 blur-2xl" />
         <div className="relative space-y-4">
           <div>
             <Badge className="border-theme-yellow/60 bg-theme-yellow/25 text-theme-main-dark"><Sparkles size={13} />{t('home.next.badge')}</Badge>
@@ -202,7 +203,7 @@ export function HomePage() {
                 key={to}
                 to={to}
               >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-theme-accent-soft/70 text-theme-link">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-theme-yellow/50 via-theme-cyan/20 to-theme-sky/50 text-theme-main-dark">
                   <Icon size={16} strokeWidth={1.9} />
                 </span>
                 <span className="min-w-0 leading-tight">{label}</span>
