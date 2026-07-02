@@ -109,7 +109,7 @@ export function RoomsPage() {
         </Card>
       ) : null}
 
-      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm text-theme-text">{notice}</div> : null}
+      {notice ? <div className="rounded-2xl border border-theme-border bg-theme-accent-soft/50 p-3 text-sm font-medium text-theme-text">{notice}</div> : null}
       {loading ? <Card className="text-sm text-theme-muted">ルームを読み込んでいます...</Card> : null}
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -117,10 +117,10 @@ export function RoomsPage() {
           const { Icon, className } = getRoomVisual(room);
 
           return (
-            <Card className="flex h-full flex-col gap-3 p-3" key={room.slug}>
+            <Card className="flex h-full flex-col gap-3 p-4" key={room.slug}>
               <div className="flex items-start gap-3">
-                <div className={`flex size-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br shadow-sm ${className}`}>
-                  <Icon size={20} />
+                <div className={`flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br shadow-sm ${className}`}>
+                  <Icon size={20} strokeWidth={1.9} />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center justify-between gap-2">
@@ -131,7 +131,7 @@ export function RoomsPage() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5">{(roomTags[room.slug] ?? ['公式']).slice(0, 3).map((tag) => <Badge key={tag}>#{getRoomTag(tag)}</Badge>)}</div>
-              <div className="mt-auto flex items-center justify-between gap-3 border-t border-white/60 pt-3 text-xs font-bold text-theme-muted">
+              <div className="mt-auto flex items-center justify-between gap-3 border-t border-theme-border/80 pt-3 text-xs font-medium text-theme-muted">
                 <span>{formatLatest(room.latest_message_at)}</span>
                 <Link className="shrink-0" to={`/rooms/${room.slug}`}><Button className="min-h-10 px-4" type="button">{t('rooms.enter')}<ArrowRight size={15} /></Button></Link>
               </div>

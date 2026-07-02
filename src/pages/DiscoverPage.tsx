@@ -153,7 +153,7 @@ export function DiscoverPage() {
       eyebrow="Discover"
       title={t('discover.title')}
     >
-      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-sm text-theme-text">{notice}</div> : null}
+      {notice ? <div className="rounded-2xl border border-theme-border bg-theme-accent-soft/50 p-3 text-sm font-medium text-theme-text">{notice}</div> : null}
       <Card className="space-y-3">
         {useSupabaseLikes ? (
           <div className="flex items-center justify-end gap-2">
@@ -164,12 +164,12 @@ export function DiscoverPage() {
         <div className="flex flex-wrap gap-2">
           {filters.map((filter) => (
             <button
-              className="inline-flex items-center gap-1 rounded-full border border-theme-border bg-theme-accent-soft/60 px-3 py-1.5 text-[13px] font-medium text-theme-main-dark transition hover:bg-theme-accent-soft active:scale-[0.97]"
+              className="inline-flex items-center gap-1.5 rounded-full border border-theme-border bg-theme-card px-3.5 py-1.5 text-[13px] font-medium text-theme-main-dark shadow-[0_1px_2px_rgba(16,42,67,0.04)] transition hover:border-theme-sky/50 hover:bg-theme-accent-soft/40 active:scale-[0.97]"
               key={filter.value}
               onClick={() => handleFilterClick(filter.value)}
               type="button"
             >
-              <Search size={12} />
+              <Search className="text-theme-link" size={12} />
               {t(filter.labelKey)}
             </button>
           ))}

@@ -18,7 +18,7 @@ export function Layout() {
       <ScrollToTop />
       {showChrome ? <Header /> : null}
       {showDemoBadge ? (
-        <div className="pointer-events-none fixed right-3 top-[calc(env(safe-area-inset-top)+3.5rem)] z-40 rounded-full border border-theme-sky/25 bg-theme-card/85 px-2.5 py-1 text-[11px] font-bold text-theme-main-dark shadow-sm backdrop-blur">
+        <div className="pointer-events-none fixed right-3 top-[calc(env(safe-area-inset-top)+4.5rem)] z-40 rounded-full border border-theme-sky/30 bg-theme-card/90 px-2.5 py-1 text-[11px] font-semibold text-theme-main-dark shadow-[var(--shadow-card)] backdrop-blur">
           デモ閲覧
         </div>
       ) : null}

@@ -266,8 +266,8 @@ export function MessagesPage() {
       <Card className="space-y-2.5 bg-theme-accent-soft/45 shadow-sm">
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0">
-            <p className="text-sm font-bold text-theme-text">{useSupabaseMessages ? 'メッセージ保存中' : 'デモ表示'}</p>
-            <p className="mt-1 text-xs font-bold leading-5 text-theme-muted">会話は軽い連絡先交換ではなく、ご縁がつながった相手とゆっくり会話を始める場所です。</p>
+            <p className="text-sm font-semibold text-theme-text">{useSupabaseMessages ? 'メッセージ保存中' : 'デモ表示'}</p>
+            <p className="mt-1 text-xs leading-5 text-theme-muted">会話は軽い連絡先交換ではなく、ご縁がつながった相手とゆっくり会話を始める場所です。</p>
           </div>
           <Badge>{loading ? '取得中' : isAdminInitiatedConversation ? '運営連絡' : <><Sparkles size={12} />ご縁</>}</Badge>
         </div>
@@ -275,15 +275,15 @@ export function MessagesPage() {
 
       {isAdminInitiatedConversation ? (
         <Card className="space-y-1 border border-theme-main/15 bg-theme-accent-soft/70 shadow-sm">
-          <p className="text-sm font-bold text-theme-text">運営メッセージ</p>
-          <p className="text-xs font-bold leading-5 text-theme-muted">この会話は運営者からの連絡として開始されました。</p>
+          <p className="text-sm font-semibold text-theme-text">運営メッセージ</p>
+          <p className="text-xs leading-5 text-theme-muted">この会話は運営者からの連絡として開始されました。</p>
         </Card>
       ) : null}
 
       {activityPostId ? (
-        <Card className="space-y-1 bg-cyan-50/70 shadow-sm">
-          <p className="text-sm font-bold text-cyan-800">{t('messages.fromBoard')}</p>
-          <p className="text-xs font-bold leading-5 text-cyan-700">{activityContextTitle ? t('messages.fromPost').replace('{title}', activityContextTitle) : 'まずは日程や進め方を相談してみましょう。'}</p>
+        <Card className="space-y-1 border-theme-sky/40 bg-theme-accent-soft/50 shadow-sm">
+          <p className="text-sm font-semibold text-theme-text">{t('messages.fromBoard')}</p>
+          <p className="text-xs leading-5 text-theme-muted">{activityContextTitle ? t('messages.fromPost').replace('{title}', activityContextTitle) : 'まずは日程や進め方を相談してみましょう。'}</p>
         </Card>
       ) : null}
 
@@ -298,10 +298,10 @@ export function MessagesPage() {
         </Card>
       ) : null}
 
-      {notice ? <div className="rounded-[1.15rem] bg-theme-accent-soft/70 p-3 text-center text-sm font-bold text-theme-text">{notice}</div> : null}
+      {notice ? <div className="rounded-2xl border border-theme-border bg-theme-accent-soft/50 p-3 text-center text-sm font-medium text-theme-text">{notice}</div> : null}
       {fetchError ? (
         <Card className="space-y-3 bg-theme-accent-soft/55 text-center shadow-sm">
-          <p className="text-sm font-bold leading-6 text-theme-text">{fetchError}</p>
+          <p className="text-sm font-semibold leading-6 text-theme-text">{fetchError}</p>
           <Link to="/matches"><Button variant="secondary">コネクト一覧へ戻る</Button></Link>
         </Card>
       ) : null}
@@ -309,22 +309,22 @@ export function MessagesPage() {
       {!fetchError ? (
         <Card className="flex min-h-[56vh] flex-col gap-2.5 pb-[calc(1rem+env(safe-area-inset-bottom))]">
           <div className="flex-1 space-y-2.5">
-            {loading ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm font-bold text-theme-muted">会話を読み込んでいます。</p> : null}
-            {!loading && messages.length === 0 ? <p className="rounded-[1.15rem] bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">{emptyText}</p> : null}
+            {loading ? <p className="rounded-2xl bg-theme-background/70 p-3 text-sm font-medium text-theme-muted">会話を読み込んでいます。</p> : null}
+            {!loading && messages.length === 0 ? <p className="rounded-2xl bg-theme-background/70 p-3 text-sm leading-6 text-theme-muted">{emptyText}</p> : null}
             {messages.map((message) => {
               const isMine = useSupabaseMessages ? message.senderId === authUser?.id : message.senderId === 'current-user';
               return (
                 <div className={`flex ${isMine ? 'justify-end' : 'justify-start'}`} key={message.id}>
-                  <div className={`max-w-[78%] rounded-[1.15rem] px-3.5 py-2.5 text-[13px] leading-5 ${isMine ? 'bg-theme-main text-white' : 'bg-theme-accent-soft text-theme-text'}`}>
+                  <div className={`max-w-[78%] px-3.5 py-2.5 text-sm leading-6 ${isMine ? 'btn-primary rounded-[1.15rem] rounded-br-md shadow-none' : 'rounded-[1.15rem] rounded-bl-md border border-theme-border bg-theme-card text-theme-text shadow-[0_1px_2px_rgba(16,42,67,0.04)]'}`}>
                     <p className="whitespace-pre-wrap break-words">{message.body}</p>
-                    <p className={`mt-1 text-[11px] font-bold ${isMine ? 'text-white/75' : 'text-theme-muted'}`}>{new Date(message.createdAt).toLocaleString('ja-JP', { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p className={`mt-1 text-[11px] font-medium ${isMine ? 'opacity-70' : 'text-theme-muted'}`}>{new Date(message.createdAt).toLocaleString('ja-JP', { hour: '2-digit', minute: '2-digit' })}</p>
                   </div>
                 </div>
               );
             })}
           </div>
-          {blockedConversation ? <p className="rounded-xl bg-theme-accent-soft/60 px-3 py-2 text-xs font-bold text-theme-text">ブロック中または相手からブロックされているため、この会話では送信できません。</p> : null}
-          {sendError ? <p className="rounded-xl bg-theme-accent-soft/60 px-3 py-2 text-xs font-bold text-theme-text">{sendError}</p> : null}
+          {blockedConversation ? <p className="rounded-xl bg-theme-accent-soft/60 px-3 py-2 text-xs font-medium text-theme-text">ブロック中または相手からブロックされているため、この会話では送信できません。</p> : null}
+          {sendError ? <p className="rounded-xl bg-theme-accent-soft/60 px-3 py-2 text-xs font-medium text-theme-text">{sendError}</p> : null}
           <div className="flex items-end gap-2 border-t border-theme-main/10 pt-3">
             <Input className="min-h-10" disabled={sending || loading || blockedConversation} name="message" onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void handleSendMessage(); }} placeholder={t('messages.placeholder')} value={draft} />
             <Button className="min-h-10 px-4" disabled={sending || loading || blockedConversation || !draft.trim()} onClick={() => { void handleSendMessage(); }}>
