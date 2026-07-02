@@ -178,9 +178,9 @@ body {
   margin: 0;
   color: var(--color-text);
   background:
-    radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--color-highlight) 7%, transparent), transparent 20rem),
-    radial-gradient(circle at 90% 4%, color-mix(in srgb, var(--color-sky) 8%, transparent), transparent 24rem),
-    linear-gradient(180deg, var(--color-bg), color-mix(in srgb, var(--color-accent-soft) 30%, var(--color-bg) 70%));
+    radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--color-highlight) 13%, transparent), transparent 22rem),
+    radial-gradient(circle at 90% 4%, color-mix(in srgb, var(--color-sky) 12%, transparent), transparent 26rem),
+    linear-gradient(180deg, var(--color-bg), color-mix(in srgb, var(--color-accent-soft) 32%, var(--color-bg) 68%));
   font-family: var(--font-sans);
   letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
@@ -251,20 +251,26 @@ a {
 .flower-gradient {
   background:
     linear-gradient(120deg,
-      color-mix(in srgb, var(--color-highlight) 42%, var(--color-card)),
-      color-mix(in srgb, var(--color-cyan) 24%, var(--color-card)) 55%,
-      color-mix(in srgb, var(--color-sky) 44%, var(--color-card)));
+      color-mix(in srgb, var(--color-highlight) 62%, var(--color-card)),
+      color-mix(in srgb, var(--color-cyan) 34%, var(--color-card)) 52%,
+      color-mix(in srgb, var(--color-sky) 62%, var(--color-card)));
+}
+
+/* Logo-derived brand gradient (yellow → aqua → blue) for hairlines and rings. */
+.brand-hairline {
+  background: linear-gradient(90deg, #ffd930, #22cfc9 48%, #2b9ce8);
+}
+
+.brand-ring {
+  background: linear-gradient(115deg, #ffd930, #22cfc9 46%, #1e88d8);
 }
 
 .landing-page {
   background:
-    radial-gradient(circle at 8% 4%, color-mix(in srgb, var(--color-highlight) 12%, transparent), transparent 22rem),
-    radial-gradient(circle at 92% 2%, color-mix(in srgb, var(--color-sky) 13%, transparent), transparent 26rem),
+    radial-gradient(circle at 8% 3%, color-mix(in srgb, var(--color-highlight) 20%, transparent), transparent 24rem),
+    radial-gradient(circle at 92% 2%, color-mix(in srgb, var(--color-sky) 18%, transparent), transparent 28rem),
+    radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--color-cyan) 6%, transparent), transparent 30rem),
     linear-gradient(180deg, color-mix(in srgb, var(--color-bg) 92%, white), color-mix(in srgb, var(--color-accent-soft) 38%, var(--color-bg) 62%));
-}
-
-.landing-section-panel {
-  background: color-mix(in srgb, var(--color-card) 82%, var(--color-accent-soft) 18%);
 }
 
 .landing-card-pop {
@@ -285,11 +291,12 @@ a {
 
 .hero-title-underline {
   background-image: linear-gradient(90deg,
-    color-mix(in srgb, var(--color-highlight) 85%, white),
-    color-mix(in srgb, var(--color-highlight) 45%, transparent));
+    #ffd930,
+    color-mix(in srgb, var(--color-highlight) 72%, white) 70%,
+    color-mix(in srgb, var(--color-cyan) 38%, transparent));
   background-repeat: no-repeat;
-  background-size: 100% 0.5em;
-  background-position: 0 88%;
+  background-size: 100% 0.55em;
+  background-position: 0 86%;
   padding: 0 0.06em;
 }
 
@@ -298,14 +305,16 @@ a {
   box-shadow: var(--shadow-float);
 }
 
+.bottom-nav-icon-active {
+  background: linear-gradient(135deg, #ffe45c, #4fd6d1 52%, #74d4ff);
+  color: #10304f;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
+}
+
 [data-theme='night'] .hero-title-underline {
   background-image: linear-gradient(90deg,
     color-mix(in srgb, var(--color-highlight) 30%, transparent),
     color-mix(in srgb, var(--color-highlight) 12%, transparent));
-}
-
-[data-theme='night'] .landing-section-panel {
-  background: color-mix(in srgb, var(--color-card) 88%, var(--color-accent-soft) 12%);
 }
 
 [data-theme='night'] .bottom-nav-shell {

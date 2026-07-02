@@ -37,7 +37,7 @@ export function BottomNav() {
             >
               {({ isActive }) => (
                 <>
-                  <span className={cn('bottom-nav-icon flex size-6 items-center justify-center rounded-full transition', isActive && 'bottom-nav-icon-active btn-primary shadow-none')}>
+                  <span className={cn('bottom-nav-icon flex size-6 items-center justify-center rounded-full transition', isActive && 'bottom-nav-icon-active')}>
                     <Icon size={16} strokeWidth={isActive ? 2.2 : 1.9} />
                   </span>
                   {item.label}
